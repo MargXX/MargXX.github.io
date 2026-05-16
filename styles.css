@@ -389,11 +389,12 @@ section h2::after {
 }
 
 .expand-toggle {
-    margin-left: auto;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     transition: color 0.2s;
-    flex-shrink: 0;
+    white-space: nowrap;
+    font-style: italic;
+    letter-spacing: 0.02em;
 }
 
 .project-card.expandable:hover .expand-toggle,
@@ -433,15 +434,25 @@ section h2::after {
 
 .project-header {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 0.75rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .project-header h3 {
     font-size: 0.97rem;
     font-weight: 700;
     color: var(--text);
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.project-header-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .project-info p {

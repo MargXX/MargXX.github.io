@@ -89,6 +89,6 @@ document.querySelectorAll('.project-card.expandable').forEach(card => {
         if (e.target.closest('a')) return; // don't intercept link clicks
         const isExpanded = card.classList.toggle('expanded');
         const toggle = card.querySelector('.expand-toggle');
-        if (toggle) toggle.textContent = isExpanded ? '↑' : '↓';
+        if (toggle) toggle.textContent = isExpanded ? 'see less' : 'see more...';
     });
 });
