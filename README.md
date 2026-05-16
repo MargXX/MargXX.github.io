@@ -6,13 +6,21 @@ Personal portfolio site for Margeaux Corrigan — EE student at Brown University
 
 ## About
 
-Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. No frameworks. Features a typed-name animation, project cards with status badges, a timeline-style experience section, and a contact block.
+Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. No frameworks. Features a typed-name animation, expandable project cards, a timeline-style experience section, an additional skills section, an interests section, and a contact block.
 
 ## Stack
 
 - HTML / CSS / JavaScript
 - [Anonymous Pro](https://fonts.google.com/specimen/Anonymous+Pro) via Google Fonts
 - Hosted on GitHub Pages
+
+## Sections
+
+- **Projects** — cards with a one-line summary; click to expand full description, tags, and links
+- **Additional Skills** — tools and languages not already shown in project cards
+- **Experience** — IVL Lab, AdaCore, Brown Rocketry, Project Amplify
+- **Outside the Lab** — interests and hobbies
+- **Contact**
 
 ## Projects featured
 
