@@ -10,7 +10,7 @@
         const el = document.createElement('span');
         el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
 
-        const size    = 0.6 + Math.random() * 1.1;       // rem
+        const size    = 1.2 + Math.random() * 2.2;       // rem
         const dur     = 18  + Math.random() * 22;         // seconds, drift
         const spinDur = 6   + Math.random() * 10;         // seconds per full rotation
         const delay   = -(Math.random() * dur);            // stagger, pre-fill screen
@@ -82,3 +82,13 @@ const sectionObserver = new IntersectionObserver(entries => {
 }, { rootMargin: '-35% 0px -65% 0px' });
 
 sections.forEach(s => sectionObserver.observe(s));
+
+/* ── Expandable project cards ── */
+document.querySelectorAll('.project-card.expandable').forEach(card => {
+    card.addEventListener('click', e => {
+        if (e.target.closest('a')) return; // don't intercept link clicks
+        const isExpanded = card.classList.toggle('expanded');
+        const toggle = card.querySelector('.expand-toggle');
+        if (toggle) toggle.textContent = isExpanded ? '↑' : '↓';
+    });
+});

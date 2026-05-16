@@ -364,6 +364,43 @@ section h2::after {
     box-shadow: 0 8px 28px rgba(139, 108, 247, 0.10);
 }
 
+/* expandable cards */
+.project-card.expandable {
+    cursor: pointer;
+}
+
+.project-card.expandable .project-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.project-card.expandable.expanded .project-details {
+    max-height: 600px;
+    opacity: 1;
+}
+
+.project-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.expand-toggle {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.project-card.expandable:hover .expand-toggle,
+.project-card.expandable.expanded .expand-toggle {
+    color: var(--accent);
+}
+
 /* thumbnail */
 .project-thumb {
     width: 100%;
