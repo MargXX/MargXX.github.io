@@ -29,7 +29,3 @@ Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. N
 - Sensor Board — custom KiCad PCB consolidating LSM9DS1 and BMP390 on a shared I2C bus
 - Boba Machine — ESP32-driven dispenser with Wi-Fi ordering and gradient descent recipe optimization
 - Temperature-Controlled Fan — Arduino firmware with sensor, PWM fan control, and LED display
-
-## Running locally
-
-Open `index.html` directly in a browser — no build step required.
