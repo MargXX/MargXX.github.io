@@ -392,9 +392,11 @@ section h2::after {
     font-size: 0.75rem;
     color: var(--text-muted);
     transition: color 0.2s;
-    white-space: nowrap;
     font-style: italic;
     letter-spacing: 0.02em;
+    display: block;
+    text-align: right;
+    padding-top: 0.4rem;
 }
 
 .project-card.expandable:hover .expand-toggle,
@@ -776,6 +778,9 @@ footer p {
         grid-template-columns: 1fr;
         gap: 0.2rem;
     }
+
+    .timeline-content { order: 1; }
+    .timeline-date { order: 2; }
 }
 
 @media (max-width: 480px) {

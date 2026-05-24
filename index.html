@@ -62,14 +62,15 @@
                     <p class="hero-eyebrow">hi, I'm</p>
                     <h1 class="hero-name">Margeaux Corrigan</h1>
                     <p class="hero-tagline">
-                        Electrical engineering student at Brown — I build embedded systems from the register level up.
+                        Electrical engineering student at Brown. I build embedded systems from the register level up.
                     </p>
                     <p class="hero-bio">
-                        I work at the intersection of hardware and software: writing bare-metal Ada firmware for STM32
-                        microcontrollers at AdaCore, leading avionics on Brown Rocketry's IREC-accepted rocket, and
-                        joining Brown's Interactive 3D Vision &amp; Learning Lab this summer to work on multi-camera
-                        capture systems in C++. I care about code that maps cleanly to the silicon it runs on —
-                        no HAL abstractions hiding the interesting parts.
+                        I led avionics on Brown Rocketry's IREC-accepted payload as the sole avionics developer;
+                        the system flew on a live high-power launch and logged repeatable 12+ G flight data. I write
+                        bare-metal Ada firmware for STM32 microcontrollers at AdaCore, and I'm joining Brown's
+                        Interactive 3D Vision &amp; Learning Lab this summer to work on multi-camera capture systems
+                        in C++. I care about code that maps cleanly to the silicon it runs on; working from the
+                        register level means I can debug what I write all the way down to the hardware.
                     </p>
                     <p class="hero-bio">
                         Working toward a Summer 2027 internship in embedded firmware or avionics, and always happy
@@ -101,12 +102,11 @@
                                 <h3>Rocket Payload Sensor System</h3>
                                 <div class="project-header-meta">
                                     <span class="badge badge-complete">Complete</span>
-                                    <span class="expand-toggle">see more...</span>
                                 </div>
                             </div>
-                            <p class="project-short">Ada firmware for an RP2040 rocket payload — logged sensor data live under real G-loads.</p>
+                            <p class="project-short">Ada firmware for an RP2040 rocket payload; logged sensor data live under real G-loads.</p>
                             <div class="project-details">
-                                <p>Bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload; work led to AdaCore mentorship. Deployed on a live high-power launch — logged repeatable 12+ G flight data, validating the system end to end. Integrated BMP390 and LSM9DS1 over I2C at 119 Hz with register-level configuration; implemented W25Q128 SPI flash logging and debugged I2C, SPI, UART, and power sequencing issues across hardware and firmware layers.</p>
+                                <p>Bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload; work led to AdaCore mentorship. Deployed on a live high-power launch; logged repeatable 12+ G flight data, validating the system end to end. Integrated BMP390 and LSM9DS1 over I2C at 119 Hz with register-level configuration; implemented W25Q128 SPI flash logging and debugged I2C, SPI, UART, and power sequencing issues across hardware and firmware layers.</p>
                                 <p class="project-note">Note: the linked repo is the original competition build, shipped under deadline. A refined version is in progress with my AdaCore mentor.</p>
                                 <div class="project-tags">
                                     <span class="tag">RP2040</span>
@@ -116,23 +116,23 @@
                                 </div>
                                 <a href="https://github.com/Brown-Rocketry/IREC-2025-2026/tree/main/terrarium_pico" target="_blank" class="btn-secondary">View on GitHub</a>
                             </div>
+                            <span class="expand-toggle">see more...</span>
                         </div>
                     </div>
 
                     <!-- BARE-METAL DRIVER STACK IN C -->
                     <div class="project-card expandable" id="proj-drivers">
                         <div class="project-thumb">
-                            <img src="images/driver_imports.png" alt="C driver stack header imports showing HAL abstraction layer structure" class="thumb-img" onerror="this.style.display='none'">
+                            <img src="images/driver_uart_output.png" alt="UART driver output captured on serial monitor confirming hardware-verified transmission on RP2040" class="thumb-img" onerror="this.style.display='none'">
                         </div>
                         <div class="project-info">
                             <div class="project-header">
                                 <h3>Bare-Metal Driver Stack in C</h3>
                                 <div class="project-header-meta">
                                     <span class="badge badge-inprogress">In Progress</span>
-                                    <span class="expand-toggle">see more...</span>
                                 </div>
                             </div>
-                            <p class="project-short">Bare-metal C peripheral drivers for the RP2040 — GPIO, SysTick, and UART complete, I2C in progress. No HAL.</p>
+                            <p class="project-short">Bare-metal C peripheral drivers for the RP2040: GPIO, SysTick, and UART complete, I2C in progress. No HAL.</p>
                             <div class="project-details">
                                 <p>A peripheral and device driver library written directly against the RP2040 datasheet, with no vendor HAL. GPIO, SysTick-based timing, and UART drivers are complete and validated on hardware using OpenOCD and CMSIS-DAP. I2C is in active development. Planned next: SPI and device drivers for the LSM9DS1 IMU, BMP390 barometer, and W25Q128 flash for onboard logging. Register definitions are isolated from driver logic to keep the public API clean and the implementation portable to STM32 Cortex-M.</p>
                                 <div class="project-tags">
@@ -146,6 +146,7 @@
                                 </div>
                                 <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
                             </div>
+                            <span class="expand-toggle">see more...</span>
                         </div>
                     </div>
 
@@ -159,10 +160,9 @@
                                 <h3>Flight Computer</h3>
                                 <div class="project-header-meta">
                                     <span class="badge badge-planned">Planned</span>
-                                    <span class="expand-toggle">see more...</span>
                                 </div>
                             </div>
-                            <p class="project-short">A custom ARM Cortex-M flight computer to run the bare-metal driver stack — KiCad PCB consolidating IMU, barometer, GPS, and pyrotechnic output.</p>
+                            <p class="project-short">A custom ARM Cortex-M flight computer to run the bare-metal driver stack: KiCad PCB consolidating IMU, barometer, GPS, and pyrotechnic output.</p>
                             <div class="project-details">
                                 <p>Planned next step after the driver stack: a custom flight computer designed in KiCad that consolidates the rocket payload's sensor breakouts onto a unified PCB. The board will integrate an LSM9DS1 IMU, BMP390 barometer, GPS module, and onboard flash logging, with pyrotechnic output for deployment charges or e-matches. The goal is to run the bare-metal driver stack on real flight hardware I designed, making deliberate decisions about where hand-rolled drivers add value and where existing solutions are the right call. Long-term goal is integration with the IREC competition flight system.</p>
                                 <div class="project-tags">
@@ -175,6 +175,7 @@
                                 </div>
                                 <span class="btn-secondary btn-disabled">Coming to GitHub</span>
                             </div>
+                            <span class="expand-toggle">see more...</span>
                         </div>
                     </div>
 
@@ -188,21 +189,20 @@
                                 <h3>Boba Machine</h3>
                                 <div class="project-header-meta">
                                     <span class="badge badge-inprogress">In Progress</span>
-                                    <span class="expand-toggle">see more...</span>
                                 </div>
                             </div>
-                            <p class="project-short">ESP32 boba dispenser with a Wi-Fi ordering interface and a gradient descent recipe optimizer.</p>
+                            <p class="project-short">CAD · 3D Printing · Mechanical Design · Systems Integration</p>
                             <div class="project-details">
-                                <p>ESP32-driven boba dispenser: the firmware manages a servo control loop that holds each valve open precisely long enough to dispense the correct ingredient volume. Students order via a Wi-Fi web interface and rate their drink 1–5; a gradient descent optimizer runs server-side, learning from ratings to tune ingredient ratios over time.</p>
+                                <p>Collaborative build of an automated boba dispenser with Wi-Fi ordering and a learned recipe optimizer. My contribution is the mechanical side: CAD of the dispensing mechanism and chassis, 3D-printed parts, and integration of the servo-actuated valves with the overall assembly. Firmware and the gradient descent optimizer are my collaborators' work. The system takes orders from a web interface, dispenses by holding servo-controlled valves open for calibrated durations, and learns from 1–5 ratings to refine ingredient ratios over time.</p>
                                 <div class="project-tags">
-                                    <span class="tag">ESP32</span>
-                                    <span class="tag">Wi-Fi</span>
-                                    <span class="tag">Servo Motors</span>
-                                    <span class="tag">Web Interface</span>
-                                    <span class="tag">Gradient Descent</span>
+                                    <span class="tag">CAD</span>
+                                    <span class="tag">3D Printing</span>
+                                    <span class="tag">Mechanical Design</span>
+                                    <span class="tag">Systems Integration</span>
                                 </div>
                                 <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" class="btn-secondary">View on GitHub</a>
                             </div>
+                            <span class="expand-toggle">see more...</span>
                         </div>
                     </div>
 
@@ -215,21 +215,25 @@
         <section id="skills" class="skills">
             <div class="container">
                 <h2>Skills</h2>
-                <p class="section-sub">Tools and languages across the full stack — from firmware to fabrication.</p>
+                <p class="section-sub">Tools and languages across the full stack, from firmware to fabrication.</p>
 
                 <div class="skills-group">
-                    <p class="skills-label">PROGRAMMING</p>
+                    <p class="skills-label">LANGUAGES FOR EMBEDDED</p>
                     <div class="skills-chips">
                         <span class="skill-chip">C/C++</span>
                         <span class="skill-chip">Ada</span>
+                    </div>
+                </div>
+
+                <div class="skills-group">
+                    <p class="skills-label">TOOLS &amp; OTHER LANGUAGES</p>
+                    <div class="skills-chips">
                         <span class="skill-chip">Python</span>
                         <span class="skill-chip">NumPy</span>
                         <span class="skill-chip">Pandas</span>
                         <span class="skill-chip">Matplotlib</span>
                         <span class="skill-chip">MATLAB</span>
                         <span class="skill-chip">Java</span>
-                        <span class="skill-chip">OCaml</span>
-                        <span class="skill-chip">Racket</span>
                     </div>
                 </div>
 
@@ -248,14 +252,19 @@
                 </div>
 
                 <div class="skills-group">
-                    <p class="skills-label">HARDWARE</p>
+                    <p class="skills-label">CAD</p>
                     <div class="skills-chips">
                         <span class="skill-chip">Schematic design</span>
-                        <span class="skill-chip">Soldering</span>
                         <span class="skill-chip">SolidWorks</span>
                         <span class="skill-chip">Fusion 360</span>
-                        <span class="skill-chip">Onshape</span>
                         <span class="skill-chip">FEA</span>
+                    </div>
+                </div>
+
+                <div class="skills-group">
+                    <p class="skills-label">FABRICATION</p>
+                    <div class="skills-chips">
+                        <span class="skill-chip">Soldering</span>
                         <span class="skill-chip">3D printing</span>
                         <span class="skill-chip">Sheet metal fabrication</span>
                         <span class="skill-chip">CAM</span>
@@ -269,7 +278,7 @@
             <div class="container">
                 <h2>Experience</h2>
                 <p class="section-sub">
-                    A quick summary of my technical roles —
+                    A quick summary of my technical roles,
                     <a href="assets/resume.pdf" target="_blank" class="inline-link">full resume here ↓</a>
                 </p>
 
@@ -278,7 +287,7 @@
                     <div class="timeline-item">
                         <div class="timeline-date">Summer 2026</div>
                         <div class="timeline-content">
-                            <h3>IVL Lab, Brown University <span class="role">— Incoming Paid Researcher</span></h3>
+                            <h3>IVL Lab, Brown University <span class="role">— SPRINT UTRA Research Fellow</span></h3>
                             <p>Selected to investigate multi-camera capture and calibration systems using C++ and embedded hardware, advised by Prof. Srinath Sridhar. Funded by the Brown UTRA Research Award.</p>
                         </div>
                     </div>
@@ -287,23 +296,15 @@
                         <div class="timeline-date">Apr 2026 — Present</div>
                         <div class="timeline-content">
                             <h3>AdaCore <span class="role">— Technical Mentorship</span></h3>
-                            <p>Developing bare-metal Ada firmware for STM32G431 at the register level (RM0440/SVD), without HAL. Parsed ARM SVD/XML files to understand register mappings; configured STM32 GPIO peripherals directly from reference manual and validated functionality on hardware.</p>
+                            <p>Developing bare-metal Ada firmware for STM32G431 at the register level without HAL. Parsed ARM SVD files and configured GPIO peripherals directly from RM0440; validated functionality on hardware.</p>
                         </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-date">Sep 2025 — Present</div>
                         <div class="timeline-content">
-                            <h3>Brown Rocketry <span class="role">— Co-President, Avionics Team Lead</span></h3>
+                            <h3>Brown Rocketry <span class="role">— Avionics Team Lead, Co-President</span></h3>
                             <p>Contributed to Brown Rocketry's first-ever IREC acceptance as sole avionics developer on the competing payload. Designed the full electrical architecture, wiring diagrams, and power distribution; performed FEA on avionics bay components; secured annual industry sponsorship. Payload flew successfully on a live high-power launch, logging repeatable 12+ G flight data and validating the system end to end.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-date">May 2024 — Oct 2025</div>
-                        <div class="timeline-content">
-                            <h3>Persistence Labs <span class="role">— Strategy Intern</span></h3>
-                            <p>Facilitated beta testing with high school control groups, collected feedback across 10+ iterations to identify usability issues. Synthesized results into reports presented to the founder/CEO, guiding UI and product design decisions.</p>
                         </div>
                     </div>
 
@@ -311,7 +312,7 @@
                         <div class="timeline-date">May 2024 — Sep 2025</div>
                         <div class="timeline-content">
                             <h3>Project Amplify <span class="role">— Founder &amp; Director</span></h3>
-                            <p>Founded a summer AI literacy program across 3+ school districts. Designed and taught curriculum from scratch — students trained image recognition models in Python using Pandas and NumPy. Awarded the Taco Bell Ambition Accelerator Grant.</p>
+                            <p>Founded a summer Python and ML curriculum program across 3+ school districts. Designed and taught from scratch; students trained image recognition models using Pandas and NumPy. Awarded the Taco Bell Ambition Accelerator Grant.</p>
                         </div>
                     </div>
 
