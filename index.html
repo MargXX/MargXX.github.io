@@ -10,11 +10,14 @@
     <meta property="og:title" content="Margeaux Corrigan — EE @ Brown">
     <meta property="og:description" content="Electrical engineering student at Brown building embedded systems from the register level up. Avionics lead on Brown Rocketry's IREC rocket; bare-metal Ada firmware at AdaCore.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="images/profile_pic.jpg">
+    <meta property="og:url" content="https://margxx.github.io/">
+    <meta property="og:image" content="https://margxx.github.io/images/profile_pic.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Margeaux Corrigan — EE @ Brown">
     <meta name="twitter:description" content="Electrical engineering student at Brown building embedded systems from the register level up.">
-    <meta name="twitter:image" content="images/profile_pic.jpg">
+    <meta name="twitter:image" content="https://margxx.github.io/images/profile_pic.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,10 +71,14 @@
                         capture systems in C++. I care about code that maps cleanly to the silicon it runs on —
                         no HAL abstractions hiding the interesting parts.
                     </p>
+                    <p class="hero-bio">
+                        Working toward a Summer 2027 internship in embedded firmware or avionics, and always happy
+                        to chat with people working in those fields.
+                    </p>
                     <div class="hero-links">
                         <a href="https://www.linkedin.com/in/margeaux-c-559142303/" target="_blank" class="btn-outline">LinkedIn</a>
                         <a href="https://github.com/MargXX" target="_blank" class="btn-outline">GitHub</a>
-                        <a href="images/resume.pdf" target="_blank" class="btn-primary">Resume ↓</a>
+                        <a href="assets/resume.pdf" target="_blank" class="btn-primary">Resume ↓</a>
                         <a href="mailto:margeaux_corrigan@brown.edu" class="btn-outline">Email</a>
                     </div>
                 </div>
@@ -100,6 +107,7 @@
                             <p class="project-short">Ada firmware for an RP2040 rocket payload — logged sensor data live under real G-loads.</p>
                             <div class="project-details">
                                 <p>Bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload; work led to AdaCore mentorship. Deployed on a live high-power launch — logged repeatable 12+ G flight data, validating the system end to end. Integrated BMP390 and LSM9DS1 over I2C at 119 Hz with register-level configuration; implemented W25Q128 SPI flash logging and debugged I2C, SPI, UART, and power sequencing issues across hardware and firmware layers.</p>
+                                <p class="project-note">Note: the linked repo is the original competition build, shipped under deadline. A refined version is in progress with my AdaCore mentor.</p>
                                 <div class="project-tags">
                                     <span class="tag">RP2040</span>
                                     <span class="tag">Ada</span>
@@ -124,14 +132,16 @@
                                     <span class="expand-toggle">see more...</span>
                                 </div>
                             </div>
-                            <p class="project-short">I2C, UART, and GPIO drivers for ARM Cortex-M written from scratch — no HAL.</p>
+                            <p class="project-short">Bare-metal C peripheral drivers for the RP2040 — GPIO, SysTick, and UART complete, I2C in progress. No HAL.</p>
                             <div class="project-details">
-                                <p>Bare-metal peripheral and device drivers in C for ARM Cortex-M targets — I2C, UART, and GPIO bus drivers, SysTick-based timing, and device drivers for the LSM9DS1 IMU and BMP390 barometer built on top. Hardware abstraction layer separates register definitions from driver logic, with consistent error handling and a unified API across the stack. Written without HAL libraries — every register access is explicit. Target hardware is the custom sensor board below.</p>
+                                <p>A peripheral and device driver library written directly against the RP2040 datasheet, with no vendor HAL. GPIO, SysTick-based timing, and UART drivers are complete and validated on hardware using OpenOCD and CMSIS-DAP. I2C is in active development. Planned next: SPI and device drivers for the LSM9DS1 IMU, BMP390 barometer, and W25Q128 flash for onboard logging. Register definitions are isolated from driver logic to keep the public API clean and the implementation portable to STM32 Cortex-M.</p>
                                 <div class="project-tags">
                                     <span class="tag">C</span>
-                                    <span class="tag">ARM Cortex-M</span>
-                                    <span class="tag">I2C</span>
+                                    <span class="tag">RP2040</span>
+                                    <span class="tag">GPIO</span>
                                     <span class="tag">UART</span>
+                                    <span class="tag">I2C</span>
+                                    <span class="tag">SPI</span>
                                     <span class="tag">Driver Design</span>
                                 </div>
                                 <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
@@ -139,27 +149,29 @@
                         </div>
                     </div>
 
-                    <!-- SENSOR BOARD -->
-                    <div class="project-card expandable" id="proj-sensor-board">
+                    <!-- FLIGHT COMPUTER -->
+                    <div class="project-card expandable" id="proj-flight-computer">
                         <div class="project-thumb">
-                            <img src="images/kicad_schematic.png" alt="KiCad schematic for custom sensor board showing LSM9DS1 and BMP390 on shared I2C bus" class="thumb-img" onerror="this.style.display='none'">
+                            <img src="images/kicad_schematic.png" alt="KiCad schematic for custom flight computer PCB with IMU, barometer, GPS, and pyrotechnic output control" class="thumb-img" onerror="this.style.display='none'">
                         </div>
                         <div class="project-info">
                             <div class="project-header">
-                                <h3>Sensor Board</h3>
+                                <h3>Flight Computer</h3>
                                 <div class="project-header-meta">
                                     <span class="badge badge-planned">Planned</span>
                                     <span class="expand-toggle">see more...</span>
                                 </div>
                             </div>
-                            <p class="project-short">Custom KiCad PCB consolidating rocket payload sensors onto a single unified board.</p>
+                            <p class="project-short">A custom ARM Cortex-M flight computer to run the bare-metal driver stack — KiCad PCB consolidating IMU, barometer, GPS, and pyrotechnic output.</p>
                             <div class="project-details">
-                                <p>Custom PCB designed in KiCad — consolidates the rocket payload's sensor breakouts into a unified board. LSM9DS1 IMU and BMP390 barometer integrated on a single design with shared I2C bus, decoupling, and cleaned-up routing. Built as the target hardware for the bare-metal driver stack, closing the loop from peripheral driver to schematic to layout.</p>
+                                <p>Planned next step after the driver stack: a custom flight computer designed in KiCad that consolidates the rocket payload's sensor breakouts onto a unified PCB. The board will integrate an LSM9DS1 IMU, BMP390 barometer, GPS module, and onboard flash logging, with pyrotechnic output for deployment charges or e-matches. The goal is to run the bare-metal driver stack on real flight hardware I designed, making deliberate decisions about where hand-rolled drivers add value and where existing solutions are the right call. Long-term goal is integration with the IREC competition flight system.</p>
                                 <div class="project-tags">
                                     <span class="tag">KiCad</span>
                                     <span class="tag">PCB Design</span>
+                                    <span class="tag">C</span>
+                                    <span class="tag">ARM Cortex-M</span>
                                     <span class="tag">I2C</span>
-                                    <span class="tag">Schematic Capture</span>
+                                    <span class="tag">Pyrotechnic Control</span>
                                 </div>
                                 <span class="btn-secondary btn-disabled">Coming to GitHub</span>
                             </div>
@@ -194,32 +206,6 @@
                         </div>
                     </div>
 
-                    <!-- TEMPERATURE-CONTROLLED FAN -->
-                    <div class="project-card expandable">
-                        <div class="project-thumb">
-                            <img src="images/Arduino_Internal_wiring.jpg" alt="Arduino breadboard wiring for temperature-controlled fan showing sensor and display connections" class="thumb-img" onerror="this.style.display='none'">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <h3>Temperature-Controlled Fan</h3>
-                                <div class="project-header-meta">
-                                    <span class="badge badge-complete">Complete</span>
-                                    <span class="expand-toggle">see more...</span>
-                                </div>
-                            </div>
-                            <p class="project-short">Arduino system that reads a temperature sensor and drives a fan and LED display.</p>
-                            <div class="project-details">
-                                <p>Embedded system that reads a temperature sensor and drives a fan and LED display via Arduino firmware. Built and debugged the full hardware circuit integrating sensor, display module, and microcontroller control logic.</p>
-                                <div class="project-tags">
-                                    <span class="tag">Arduino</span>
-                                    <span class="tag">C++</span>
-                                    <span class="tag">PWM</span>
-                                    <span class="tag">Temperature Sensor</span>
-                                </div>
-                                <span class="btn-secondary btn-disabled">No repo</span>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -284,7 +270,7 @@
                 <h2>Experience</h2>
                 <p class="section-sub">
                     A quick summary of my technical roles —
-                    <a href="images/resume.pdf" target="_blank" class="inline-link">full resume here ↓</a>
+                    <a href="assets/resume.pdf" target="_blank" class="inline-link">full resume here ↓</a>
                 </p>
 
                 <div class="timeline">
@@ -309,7 +295,7 @@
                         <div class="timeline-date">Sep 2025 — Present</div>
                         <div class="timeline-content">
                             <h3>Brown Rocketry <span class="role">— Co-President, Avionics Team Lead</span></h3>
-                            <p>Contributed to Brown Rocketry's first-ever IREC acceptance as sole avionics developer on the competing payload. Designed the full electrical architecture, wiring diagrams, and power distribution; performed FEA on avionics bay components; secured annual industry sponsorship.</p>
+                            <p>Contributed to Brown Rocketry's first-ever IREC acceptance as sole avionics developer on the competing payload. Designed the full electrical architecture, wiring diagrams, and power distribution; performed FEA on avionics bay components; secured annual industry sponsorship. Payload flew successfully on a live high-power launch, logging repeatable 12+ G flight data and validating the system end to end.</p>
                         </div>
                     </div>
 
@@ -331,14 +317,14 @@
 
                 </div>
 
-                <a href="images/resume.pdf" target="_blank" class="btn-primary">Download Resume ↓</a>
+                <a href="assets/resume.pdf" target="_blank" class="btn-primary">Download Resume ↓</a>
             </div>
         </section>
 
         <!-- ═══ INTERESTS ═══ -->
         <section id="interests" class="interests">
             <div class="container">
-                <h2>Outside the Lab</h2>
+                <h2>Interests</h2>
                 <div class="interests-grid">
                     <div class="interest-card">
                         <span class="interest-icon">📻</span>
@@ -364,11 +350,6 @@
                         <span class="interest-icon">🤹</span>
                         <h3>Plate Spinning</h3>
                         <p>Literally spinning plates on sticks. It's a surprisingly good full-body workout and I find the focus it requires genuinely meditative.</p>
-                    </div>
-                    <div class="interest-card">
-                        <span class="interest-icon">🎳</span>
-                        <h3>Casual Bowling</h3>
-                        <p>Emphasis on casual. I'm in it for the shoes and the snacks.</p>
                     </div>
                 </div>
             </div>
