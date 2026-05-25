@@ -67,8 +67,8 @@ main {
 
 @keyframes particleDrift {
     0%   { translate: 0 105vh;              opacity: 0; }
-    8%   {                                  opacity: 0.18; }
-    92%  {                                  opacity: 0.12; }
+    8%   {                                  opacity: 0.09; }
+    92%  {                                  opacity: 0.06; }
     100% { translate: var(--drift) -8vh;    opacity: 0; }
 }
 
