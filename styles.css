@@ -181,19 +181,26 @@ header {
 }
 
 .hero-content { flex: 1; min-width: 0; }
-.hero-portrait { flex-shrink: 0; }
-
-.hero-portrait img {
+.hero-portrait {
+    flex-shrink: 0;
     width: 220px;
     height: 290px;
-    object-fit: cover;
-    object-position: center top;
-    display: block;
+    overflow: hidden;
     border-radius: var(--radius);
     border: 1px solid var(--border);
     box-shadow:
         0 0 0 4px rgba(99, 102, 241, 0.08),
         0 24px 60px rgba(0, 0, 0, 0.12);
+}
+
+.hero-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transform: scale(1.5);
+    transform-origin: center top;
 }
 
 .hero-eyebrow {
@@ -876,7 +883,7 @@ footer p {
         align-items: flex-start;
     }
 
-    .hero-portrait img {
+    .hero-portrait {
         width: 120px;
         height: 150px;
     }
