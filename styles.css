@@ -70,16 +70,24 @@ main {
 .particles-bg span {
     position: absolute;
     display: block;
-    border-radius: 50%;
     opacity: 0;
-    animation: particleDrift linear infinite;
+    animation-name: particleDrift, particleSpin;
+    animation-timing-function: linear, linear;
+    animation-iteration-count: infinite, infinite;
+    color: var(--accent);
+    user-select: none;
 }
 
 @keyframes particleDrift {
-    0%   { transform: translateY(105vh) translateX(0);             opacity: 0; }
-    8%   {                                                          opacity: 1; }
-    92%  {                                                          opacity: 0.5; }
-    100% { transform: translateY(-8vh)  translateX(var(--drift));  opacity: 0; }
+    0%   { translate: 0 105vh;           opacity: 0; }
+    8%   {                               opacity: 0.12; }
+    92%  {                               opacity: 0.07; }
+    100% { translate: var(--drift) -8vh; opacity: 0; }
+}
+
+@keyframes particleSpin {
+    from { rotate: 0deg; }
+    to   { rotate: 360deg; }
 }
 
 /* ─── NAV ─── */
@@ -183,8 +191,8 @@ header {
 .hero-content { flex: 1; min-width: 0; }
 .hero-portrait {
     flex-shrink: 0;
-    width: 220px;
-    height: 290px;
+    width: 260px;
+    height: 780px;
     overflow: hidden;
     border-radius: var(--radius);
     border: 1px solid var(--border);
@@ -197,10 +205,8 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center center;
     display: block;
-    transform: scale(1.5);
-    transform-origin: center top;
 }
 
 .hero-eyebrow {
@@ -219,12 +225,10 @@ header {
     font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 700;
     line-height: 1.06;
-    margin-bottom: 1.2rem;
+    margin-bottom: 2.2rem;
+    padding-bottom: 0.12em;
     letter-spacing: -0.025em;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--accent);
     display: inline-block;
     position: relative;
 }
@@ -272,7 +276,7 @@ header {
 .btn-primary {
     display: inline-block;
     padding: 0.6rem 1.5rem;
-    background: var(--grad);
+    background: var(--accent);
     color: #fff;
     font-family: var(--font);
     font-size: 0.82rem;
@@ -697,10 +701,8 @@ section h2::after {
 }
 
 .skill-chip:hover {
-    border-color: var(--border-hover);
     background: var(--bg-card-hover);
     color: var(--text);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 
 .skills-seen-in {
@@ -753,10 +755,8 @@ section h2::after {
 }
 
 .interest-card:hover {
-    border-color: rgba(99, 102, 241, 0.22);
-    transform: translateY(-4px);
     background: var(--bg-card-hover);
-    box-shadow: var(--shadow-hover);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
 }
 
 .interest-icon {
@@ -884,8 +884,8 @@ footer p {
     }
 
     .hero-portrait {
-        width: 120px;
-        height: 150px;
+        width: 90vw;
+        height: 30vh;
     }
 
     .container { padding: 0 1.5rem; }

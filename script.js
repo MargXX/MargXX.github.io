@@ -1,30 +1,27 @@
-/* ── Floating particle dots ── */
+/* ── Floating symbol particles ── */
 (function () {
     const container = document.getElementById('particlesBg');
     if (!container) return;
 
-    const count = 55;
+    const symbols = ['✦', '✧', '✦', '+', '◆', '✧', '·', '✦', '+', '◆'];
+    const count = 36;
 
     for (let i = 0; i < count; i++) {
         const el = document.createElement('span');
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
 
-        const size  = 1.2 + Math.random() * 2.8;           // px
-        const dur   = 22  + Math.random() * 28;             // seconds
-        const delay = -(Math.random() * dur);               // stagger pre-fill
-        const left  = Math.random() * 100;                  // vw
-        const drift = (Math.random() - 0.5) * 100;          // px horizontal
-
-        // hue across blue → purple range
-        const hue   = 210 + Math.random() * 70;
-        const alpha = 0.10 + Math.random() * 0.15;
+        const size    = 1.2 + Math.random() * 2.2;
+        const dur     = 18  + Math.random() * 22;
+        const spinDur = 6   + Math.random() * 10;
+        const delay   = -(Math.random() * dur);
+        const left    = Math.random() * 100;
+        const drift   = (Math.random() - 0.5) * 60;
 
         el.style.cssText = `
             left: ${left}vw;
-            width: ${size}px;
-            height: ${size}px;
-            background: hsla(${hue}, 75%, 65%, ${alpha});
-            animation-duration: ${dur}s;
-            animation-delay: ${delay}s;
+            font-size: ${size}rem;
+            animation-duration: ${dur}s, ${spinDur}s;
+            animation-delay: ${delay}s, 0s;
             --drift: ${drift}px;
         `;
         container.appendChild(el);
