@@ -1,27 +1,30 @@
-/* ── Floating particles background ── */
+/* ── Floating particle dots ── */
 (function () {
     const container = document.getElementById('particlesBg');
     if (!container) return;
 
-    const symbols = ['✦', '✧', '✦', '+', '◆', '✧', '·', '✦', '+', '◆'];
-    const count = 36;
+    const count = 55;
 
     for (let i = 0; i < count; i++) {
         const el = document.createElement('span');
-        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
 
-        const size    = 1.2 + Math.random() * 2.2;       // rem
-        const dur     = 18  + Math.random() * 22;         // seconds, drift
-        const spinDur = 6   + Math.random() * 10;         // seconds per full rotation
-        const delay   = -(Math.random() * dur);            // stagger, pre-fill screen
-        const left    = Math.random() * 100;              // vw
-        const drift   = (Math.random() - 0.5) * 60;       // px horizontal wander
+        const size  = 1.2 + Math.random() * 2.8;           // px
+        const dur   = 22  + Math.random() * 28;             // seconds
+        const delay = -(Math.random() * dur);               // stagger pre-fill
+        const left  = Math.random() * 100;                  // vw
+        const drift = (Math.random() - 0.5) * 100;          // px horizontal
+
+        // hue across blue → purple range
+        const hue   = 210 + Math.random() * 70;
+        const alpha = 0.10 + Math.random() * 0.15;
 
         el.style.cssText = `
             left: ${left}vw;
-            font-size: ${size}rem;
-            animation-duration: ${dur}s, ${spinDur}s;
-            animation-delay: ${delay}s, 0s;
+            width: ${size}px;
+            height: ${size}px;
+            background: hsla(${hue}, 75%, 65%, ${alpha});
+            animation-duration: ${dur}s;
+            animation-delay: ${delay}s;
             --drift: ${drift}px;
         `;
         container.appendChild(el);
@@ -29,7 +32,7 @@
 }());
 
 /* ── Mobile nav toggle ── */
-const toggle = document.querySelector('.menu-toggle');
+const toggle  = document.querySelector('.menu-toggle');
 const navMenu = document.querySelector('.nav-menu');
 
 toggle.addEventListener('click', () => {
@@ -56,8 +59,9 @@ if (nameEl) {
     const type = () => {
         if (i < fullText.length) {
             nameEl.textContent += fullText[i++];
-            setTimeout(type, 55 + Math.random() * 30);
+            setTimeout(type, 52 + Math.random() * 28);
         } else {
+            // remove the blinking cursor pseudo-element
             setTimeout(() => nameEl.classList.add('done'), 900);
         }
     };
@@ -86,9 +90,31 @@ sections.forEach(s => sectionObserver.observe(s));
 /* ── Expandable project cards ── */
 document.querySelectorAll('.project-card.expandable').forEach(card => {
     card.addEventListener('click', e => {
-        if (e.target.closest('a')) return; // don't intercept link clicks
+        if (e.target.closest('a')) return;
         const isExpanded = card.classList.toggle('expanded');
-        const toggle = card.querySelector('.expand-toggle');
-        if (toggle) toggle.textContent = isExpanded ? 'see less' : 'see more...';
+        const tog = card.querySelector('.expand-toggle');
+        if (tog) tog.textContent = isExpanded ? 'see less' : 'see more...';
     });
+});
+
+/* ── Scroll-entrance animation for cards ── */
+const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const siblings = [...entry.target.parentElement.children].filter(el =>
+            el.classList.contains('project-card') || el.classList.contains('interest-card')
+        );
+        const idx = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = `${idx * 0.07}s`;
+        entry.target.classList.add('card-visible');
+        // clear delay after animation so hover transitions aren't delayed
+        entry.target.addEventListener('transitionend', () => {
+            entry.target.style.transitionDelay = '';
+        }, { once: true });
+        cardObserver.unobserve(entry.target);
+    });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.project-card, .interest-card').forEach(card => {
+    cardObserver.observe(card);
 });
