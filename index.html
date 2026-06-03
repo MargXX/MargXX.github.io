@@ -122,7 +122,7 @@
                     <!-- BARE-METAL DRIVER STACK IN C -->
                     <div class="project-card expandable" id="proj-drivers">
                         <div class="project-thumb">
-                            <img src="images/driver_uart_output.png" alt="UART driver output captured on serial monitor confirming hardware-verified transmission on RP2040" class="thumb-img" onerror="this.style.display='none'">
+                            <img src="images/driver_i2c_uart_output.png" alt="I2C and UART driver outputs captured on serial monitor confirming hardware-verified transmissions on RP2040" class="thumb-img" onerror="this.style.display='none'">
                         </div>
                         <div class="project-info">
                             <div class="project-header">
@@ -133,7 +133,7 @@
                             </div>
                             <p class="project-short">Bare-metal C peripheral drivers for the RP2040: GPIO, SysTick, and UART complete, I2C in progress. No HAL.</p>
                             <div class="project-details">
-                                <p>A peripheral and device driver library written directly against the RP2040 datasheet, with no vendor HAL. GPIO, SysTick-based timing, and UART drivers are complete and validated on hardware using OpenOCD and CMSIS-DAP. I2C is in active development. Planned next: SPI and device drivers for the LSM9DS1 IMU, BMP390 barometer, and W25Q128 flash for onboard logging. Register definitions are isolated from driver logic to keep the public API clean and the implementation portable to STM32 Cortex-M.</p>
+                                <p>A peripheral and device driver library written directly against the RP2040 datasheet, with no vendor HAL. GPIO, SysTick-based timing, I2C, and UART drivers are complete and validated on hardware using OpenOCD and CMSIS-DAP. BMP390 is in active development. Planned next: SPI and device drivers for the LSM9DS1 IMU and W25Q128 flash for onboard logging. Register definitions are isolated from driver logic to keep the public API clean and the implementation portable to STM32 Cortex-M.</p>
                                 <div class="project-tags">
                                     <span class="tag">C</span>
                                     <span class="tag">RP2040</span>
