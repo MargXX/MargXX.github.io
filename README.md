@@ -11,21 +11,20 @@ Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. N
 ## Stack
 
 - HTML / CSS / JavaScript
-- [Anonymous Pro](https://fonts.google.com/specimen/Anonymous+Pro) via Google Fonts
+- [Inter](https://fonts.google.com/specimen/Inter) via Google Fonts
 - Hosted on GitHub Pages
 
 ## Sections
 
 - **Projects** — cards with a one-line summary; click to expand full description, tags, and links
-- **Skills** — Programming, Embedded Systems, and Hardware skills
-- **Experience** — IVL Lab, AdaCore, Brown Rocketry, Persistence Labs, Project Amplify
-- **Outside the Lab** — interests and hobbies
+- **Skills** — languages, embedded systems, CAD, and fabrication
+- **Experience** — IVL Lab, AdaCore, Brown Rocketry, and Project Amplify
+- **Interests** — hobbies outside engineering
 - **Contact**
 
 ## Projects featured
 
 - Rocket Payload Sensor System — bare-metal Ada firmware on RP2040, deployed on a live IREC launch
-- Bare-Metal Driver Stack in C — I2C, UART, GPIO, and device drivers for ARM Cortex-M without HAL
-- Sensor Board — custom KiCad PCB consolidating LSM9DS1 and BMP390 on a shared I2C bus
-- Boba Machine — ESP32-driven dispenser with Wi-Fi ordering and gradient descent recipe optimization
-- Temperature-Controlled Fan — Arduino firmware with sensor, PWM fan control, and LED display
+- Bare-Metal Driver Stack in C — hardware-verified RP2040 GPIO, SysTick, UART, I2C, and BMP390 drivers without HAL; test infrastructure in progress
+- Flight Computer — planned KiCad flight computer integrating an IMU, barometer, GPS, flash logging, and pyrotechnic output
+- Boba Machine — collaborative automated dispenser; mechanical CAD, 3D-printed parts, and servo-valve integration
