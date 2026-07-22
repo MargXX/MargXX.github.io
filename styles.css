@@ -20,7 +20,7 @@
     --border-hover:   rgba(0, 0, 0, 0.14);
     --font:           'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     --nav-h:          64px;
-    --max-w:          1280px;
+    --max-w:          1040px;
     --radius:         14px;
     --radius-sm:      8px;
     --radius-full:    9999px;
@@ -375,6 +375,12 @@ section h2::after {
     margin-bottom: 2.5rem;
 }
 
+.section-sub time {
+    color: var(--text-dim);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 .inline-link {
     color: var(--accent);
     text-decoration: none;
@@ -549,8 +555,9 @@ section h2::after {
 
 .project-header-meta {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
     flex-shrink: 0;
     margin-left: auto;
 }
@@ -581,6 +588,7 @@ section h2::after {
 .badge-complete   { background: rgba(16, 185, 129, 0.10); color: #059669; border: 1px solid rgba(16, 185, 129, 0.20); }
 .badge-inprogress { background: rgba(245, 158, 11,  0.10); color: #d97706; border: 1px solid rgba(245, 158, 11,  0.20); }
 .badge-planned    { background: rgba(99,  102, 241, 0.10); color: #6366f1; border: 1px solid rgba(99,  102, 241, 0.20); }
+.badge-featured   { background: rgba(168, 85, 247, 0.10); color: #9333ea; border: 1px solid rgba(168, 85, 247, 0.22); }
 
 /* tech tags */
 .project-tags {
@@ -722,12 +730,21 @@ section h2::after {
 /* ─── INTERESTS ─── */
 .interests { background: var(--bg-raised); border-top: 1px solid var(--border); }
 
+.on-the-side-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.on-the-side-project {
+    height: 100%;
+}
+
 .interests-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
-    max-width: 900px;
-    margin: 0 auto;
 }
 
 /* ── Interest card base ── */
@@ -890,7 +907,8 @@ footer p {
 
     .container { padding: 0 1.5rem; }
 
-    .projects-grid { grid-template-columns: 1fr; }
+    .projects-grid,
+    .on-the-side-layout { grid-template-columns: 1fr; }
     .interests-grid { grid-template-columns: 1fr; }
 
     .timeline-item {
