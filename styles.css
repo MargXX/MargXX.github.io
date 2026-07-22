@@ -225,7 +225,7 @@ header {
     font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 700;
     line-height: 1.06;
-    margin-bottom: 2.2rem;
+    margin-bottom: 0.45rem;
     padding-bottom: 0.12em;
     letter-spacing: -0.025em;
     color: var(--accent);
@@ -251,19 +251,31 @@ header {
 }
 
 .hero-tagline {
-    font-size: 1.02rem;
+    font-size: 0.96rem;
     color: var(--text-dim);
     font-weight: 400;
-    margin-bottom: 1.4rem;
+    margin-bottom: 0.55rem;
     line-height: 1.65;
+}
+
+.hero-meta {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin-bottom: 1.15rem;
 }
 
 .hero-bio {
     font-size: 0.9rem;
     color: var(--text-dim);
     line-height: 1.9;
-    margin-bottom: 2.5rem;
+    margin-bottom: 0.55rem;
     max-width: 560px;
+}
+
+.hero-links {
+    margin-top: 1.95rem;
 }
 
 .hero-links {

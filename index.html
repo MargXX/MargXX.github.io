@@ -61,14 +61,15 @@
                 <div class="hero-content">
                     <p class="hero-eyebrow">hi, I'm</p>
                     <h1 class="hero-name">Margeaux Corrigan</h1>
+                    <p class="hero-meta">Brown University EE &middot; Class of 2029</p>
                     <p class="hero-tagline">
                         Electrical engineering student at Brown. I build embedded systems from the register level up.
                     </p>
                     <p class="hero-bio">
-                        I led avionics on Brown Rocketry's IREC-accepted rocket as the sole avionics developer; the payload flew on a live high-power launch and logged 23+ hours of sensor data, including flight data above 12 G. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack to STM32 work through a technical mentorship with AdaCore, and I'm currently in Brown's Interactive 3D Vision & Learning Lab working on multi-camera rig hardware.
+                        I led avionics on Brown Rocketry's IREC-accepted rocket as the sole avionics developer; the payload flew on a separate live high-power launch and logged 25 hours of flight and ground sensor data, including flight data above 12 G. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack to STM32 work through a technical mentorship with AdaCore, and I'm currently in Brown's Interactive 3D Vision & Learning Lab working on multi-camera rig hardware.
                     </p>
                     <p class="hero-bio">
-                        Working toward a future in electrical engineering and aerospace, and always happy to chat with people working in those fields.
+                        Working toward a future in electrical engineering and aerospace. Always happy to talk rockets or weird side projects, too.
                     </p>
                     <div class="hero-links">
                         <a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" class="btn-outline">LinkedIn</a>
@@ -100,9 +101,9 @@
                                     <span class="badge badge-complete">Complete</span>
                                 </div>
                             </div>
-                            <p class="project-short">Ada firmware for an RP2040 rocket payload; logged sensor data live under real G-loads.</p>
+                            <p class="project-short">I built Ada firmware for an RP2040 rocket payload and logged sensor data live under real G-loads.</p>
                             <div class="project-details">
-                                <p>Bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload; work led to AdaCore mentorship. Deployed on a live high-power launch; logged flight data above 12 G, validating the system end to end. Integrated BMP390 and LSM9DS1 over I2C that logged 23+ hours of continuous flight and ground data with register-level configuration; implemented W25Q128 SPI flash logging and debugged I2C, SPI, UART, and power sequencing issues across hardware and firmware layers.</p>
+                                <p>I wrote bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload; the work led to an AdaCore mentorship. I deployed it on a live high-power launch and logged flight data above 12 G, validating the system end to end. I integrated BMP390 and LSM9DS1 sensors over I2C for 25 hours of continuous flight and ground data with register-level configuration, implemented W25Q128 SPI flash logging, and debugged I2C, SPI, UART, and power sequencing issues across hardware and firmware layers.</p>
                                 <div class="project-tags">
                                     <span class="tag">RP2040</span>
                                     <span class="tag">Ada</span>
@@ -126,16 +127,15 @@
                                     <span class="badge badge-inprogress">In Progress</span>
                                 </div>
                             </div>
-                            <p class="project-short">Bare-metal C drivers for the RP2040: GPIO, SysTick, UART, I2C, and BMP390 complete and hardware-verified. Test infrastructure in progress. No HAL.</p>
+                            <p class="project-short">Bare-metal C drivers for the RP2040: GPIO, SysTick, UART, I2C, and BMP390 are complete and hardware-verified. No HAL.</p>
                             <div class="project-details">
-                                <p>A peripheral and device driver library written directly against the RP2040 datasheet, with no vendor HAL. GPIO, SysTick timing, UART, I2C, and a BMP390 barometer driver are complete and validated on hardware using OpenOCD, CMSIS-DAP, and a logic analyzer. In progress: three-layer test infrastructure with host-side unit tests against a simulated I2C register file, a pytest hardware-in-the-loop harness over UART, and a GitHub Actions CI pipeline. Planned next: SPI plus device drivers for the LSM9DS1 IMU and W25Q128 flash. Register definitions are isolated from driver logic to keep the public API clean and the implementation portable to STM32 Cortex-M.</p>
+                                <p>I'm writing this peripheral and device-driver library directly against the RP2040 datasheet, with no vendor HAL. I have completed and validated GPIO, SysTick timing, UART, I2C, and a BMP390 barometer driver on hardware using OpenOCD, CMSIS-DAP, and a logic analyzer. The GitHub Actions CI pipeline cross-compiles every firmware target and runs the host test suite on every push. Current host tests cover BMP390 compensation math; a fake-I2C backend and a pytest hardware-in-the-loop harness are planned next. I isolate register definitions from driver logic to keep the public API clean and portable to STM32 Cortex-M.</p>
                                 <div class="project-tags">
                                     <span class="tag">C</span>
                                     <span class="tag">RP2040</span>
                                     <span class="tag">GPIO</span>
                                     <span class="tag">UART</span>
                                     <span class="tag">I2C</span>
-                                    <span class="tag">SPI</span>
                                     <span class="tag">Driver Design</span>
                                 </div>
                                 <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
@@ -156,9 +156,9 @@
                                     <span class="badge badge-planned">Planned</span>
                                 </div>
                             </div>
-                            <p class="project-short">A custom ARM Cortex-M flight computer to run the bare-metal driver stack: KiCad PCB with IMU, barometer, GPS, and pyrotechnic output.</p>
+                            <p class="project-short">A custom ARM Cortex-M flight computer to run my bare-metal driver stack, with IMU, barometer, GPS, and pyrotechnic output.</p>
                             <div class="project-details">
-                                <p>Planned next step after the driver stack: a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, and onboard flash logging, with pyrotechnic output for deployment charges or e-matches. The goal is to run the bare-metal driver stack on real flight hardware I designed, making deliberate decisions about where hand-rolled drivers add value and where existing solutions are the right call. Long-term goal is integration with the IREC competition flight system.</p>
+                                <p>The next step after the driver stack is a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The goal is to run my bare-metal driver stack on flight hardware I designed, making deliberate decisions about where hand-rolled drivers add value and where existing solutions are the right call. The long-term goal is integration with the IREC competition flight system.</p>
                                 <div class="project-tags">
                                     <span class="tag">KiCad</span>
                                     <span class="tag">PCB Design</span>
@@ -268,7 +268,7 @@
                         <div class="timeline-date">Sep 2025 — Present</div>
                         <div class="timeline-content">
                             <h3>Brown Rocketry <span class="role">— Avionics Team Lead</span></h3>
-                            <p>Sole avionics developer on Brown Rocketry's first IREC-accepted rocket. Wrote the bare-metal Ada payload firmware, designed the full electrical architecture, wiring diagrams, and power distribution, performed FEA on avionics bay components, and secured industry sponsorship. The payload flew on a live high-power launch and logged 23+ hours of sensor data, including flight data above 12 G. A refined version of the payload firmware is in development through my AdaCore mentorship.</p>
+                            <p>Sole avionics developer on Brown Rocketry's first IREC-accepted rocket. Wrote the bare-metal Ada payload firmware, designed the full electrical architecture, wiring diagrams, and power distribution, performed FEA on avionics bay components, and secured industry sponsorship. The payload flew on a live high-power launch and logged 25 hours of flight and ground sensor data, including flight data above 12 G. A refined version of the payload firmware is in development through my AdaCore mentorship.</p>
                         </div>
                     </div>
 
@@ -351,7 +351,7 @@
             <div class="container">
                 <h2>Contact</h2>
                 <p class="contact-sub">
-                    Always happy to talk embedded systems, rockets, or weird side projects.
+                    I'm especially interested in embedded software, avionics, and aerospace hardware opportunities, and always happy to chat with people working in those fields.
                 </p>
                 <div class="contact-links">
                     <a href="mailto:margeauxcorrigan@gmail.com" class="contact-item">
