@@ -89,7 +89,7 @@
                 <div class="projects-grid">
 
                     <!-- ROCKET PAYLOAD SENSOR SYSTEM -->
-                    <div class="project-card expandable featured-project" id="proj-rocket">
+                    <div class="project-card expandable" id="proj-rocket">
                         <div class="project-thumb">
                             <img src="images/Rocket_Payload_Final_Programming.jpeg" alt="Rocket payload board with sensors mounted, photographed during final pre-launch programming session" class="thumb-img" onerror="this.style.display='none'">
                         </div>
@@ -97,7 +97,6 @@
                             <div class="project-header">
                                 <h3>Rocket Payload Sensor System</h3>
                                 <div class="project-header-meta">
-                                    <span class="badge badge-featured">Featured</span>
                                     <span class="badge badge-complete">Complete</span>
                                 </div>
                             </div>
@@ -124,12 +123,14 @@
                             <div class="project-header">
                                 <h3>Bare-Metal Driver Stack in C</h3>
                                 <div class="project-header-meta">
-                                    <span class="badge badge-inprogress">In Progress</span>
+                                    <span class="badge badge-complete">Complete</span>
                                 </div>
                             </div>
-                            <p class="project-short">Bare-metal C drivers for the RP2040: GPIO, SysTick, UART, I2C, and BMP390 are complete and hardware-verified. No HAL.</p>
+                            <p class="project-short">A no-HAL RP2040 driver library in C: GPIO, SysTick, UART, I2C, and a BMP390 barometer, verified on hardware and covered by an automated test suite.</p>
                             <div class="project-details">
-                                <p>I'm writing this peripheral and device-driver library directly against the RP2040 datasheet, with no vendor HAL. I have completed and validated GPIO, SysTick timing, UART, I2C, and a BMP390 barometer driver on hardware using OpenOCD, CMSIS-DAP, and a logic analyzer. The GitHub Actions CI pipeline cross-compiles every firmware target and runs the host test suite on every push. Current host tests cover BMP390 compensation math; a fake-I2C backend and a pytest hardware-in-the-loop harness are planned next. I isolate register definitions from driver logic to keep the public API clean and portable to STM32 Cortex-M.</p>
+                                <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
+                                <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target and runs the suite on every push.</p>
+                                <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it.</p>
                                 <div class="project-tags">
                                     <span class="tag">C</span>
                                     <span class="tag">RP2040</span>
@@ -137,6 +138,8 @@
                                     <span class="tag">UART</span>
                                     <span class="tag">I2C</span>
                                     <span class="tag">Driver Design</span>
+                                    <span class="tag">Unit Testing</span>
+                                    <span class="tag">CI/CD</span>
                                 </div>
                                 <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
                             </div>
@@ -153,19 +156,23 @@
                             <div class="project-header">
                                 <h3>Flight Computer</h3>
                                 <div class="project-header-meta">
-                                    <span class="badge badge-planned">Planned</span>
+                                    <span class="badge badge-inprogress">In Progress</span>
                                 </div>
                             </div>
-                            <p class="project-short">A custom ARM Cortex-M flight computer to run my bare-metal driver stack, with IMU, barometer, GPS, and pyrotechnic output.</p>
+                            <p class="project-short">A custom ARM Cortex-M flight computer running my bare-metal driver stack, with IMU, barometer, GPS, flash logging, and pyrotechnic output.</p>
                             <div class="project-details">
-                                <p>The next step after the driver stack is a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The goal is to run my bare-metal driver stack on flight hardware I designed, making deliberate decisions about where hand-rolled drivers add value and where existing solutions are the right call. </p>
+                                <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The RP2040 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
+                                <p>Not everything is hand-rolled here. Remaining device drivers use vendor HALs, with SPI written from scratch to complete the transport layer the BMP390 driver was designed around. Writing the stack at the register level first is what makes that a choice rather than a default.</p>
+                                <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 12 G ascent, back through the stack for fault injection.</p>
                                 <div class="project-tags">
                                     <span class="tag">KiCad</span>
                                     <span class="tag">PCB Design</span>
                                     <span class="tag">C</span>
                                     <span class="tag">ARM Cortex-M</span>
                                     <span class="tag">I2C</span>
+                                    <span class="tag">SPI</span>
                                     <span class="tag">Pyrotechnic Control</span>
+                                    <span class="tag">pytest</span>
                                 </div>
                             </div>
                             <span class="expand-toggle">see more...</span>
@@ -212,6 +219,18 @@
                         <span class="skill-chip">I2C</span>
                         <span class="skill-chip">SPI</span>
                         <span class="skill-chip">UART</span>
+                    </div>
+                </div>
+
+                <div class="skills-group">
+                    <p class="skills-label">TOOLCHAIN &amp; VERIFICATION</p>
+                    <div class="skills-chips">
+                        <span class="skill-chip">CMake</span>
+                        <span class="skill-chip">Unit testing</span>
+                        <span class="skill-chip">GitHub Actions CI</span>
+                        <span class="skill-chip">Git</span>
+                        <span class="skill-chip">OpenOCD</span>
+                        <span class="skill-chip">Logic analyzer</span>
                     </div>
                 </div>
 
@@ -267,7 +286,7 @@
                     <div class="timeline-item">
                         <div class="timeline-date">Sep 2025 — Present</div>
                         <div class="timeline-content">
-                            <h3>Brown Rocketry <span class="role">— Avionics Team Lead</span></h3>
+                            <h3>Brown Rocketry <span class="role">— Avionics Team Lead, Incoming Co-President</span></h3>
                             <p>Sole avionics developer on Brown Rocketry's first IREC-accepted rocket. Wrote the bare-metal Ada payload firmware, designed the full electrical architecture, wiring diagrams, and power distribution, performed FEA on avionics bay components, and secured industry sponsorship. The payload flew on a live high-power launch and logged 25 hours of flight and ground sensor data, including flight data above 12 G. A refined version of the payload firmware is in development through my AdaCore mentorship.</p>
                         </div>
                     </div>
