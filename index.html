@@ -102,12 +102,14 @@
                             </div>
                             <p class="project-short">I built Ada firmware for an RP2040 rocket payload and logged sensor data live under real G-loads.</p>
                             <div class="project-details">
-                                <p>I wrote bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload. I deployed it on a live high-power launch and logged flight data above 12 G, validating the system end to end. I integrated BMP390 and LSM9DS1 sensors over I2C for 25 hours of continuous flight and ground data with register-level configuration, implemented W25Q128 SPI flash logging, and debugged I2C, SPI, UART, and power sequencing issues across hardware and firmware layers.</p>
-                                <div class="project-tags">
-                                    <span class="tag">RP2040</span>
-                                    <span class="tag">Ada</span>
-                                    <span class="tag">I2C</span>
-                                    <span class="tag">SPI</span>
+                                <div class="project-details-inner">
+                                    <p>I wrote bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload. I deployed it on a live high-power launch and logged flight data above 12 G, validating the system end to end. I integrated BMP390 and LSM9DS1 sensors over I2C for 25 hours of continuous flight and ground data with register-level configuration, implemented W25Q128 SPI flash logging, and debugged I2C, SPI, UART, and power sequencing issues across hardware and firmware layers.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">RP2040</span>
+                                        <span class="tag">Ada</span>
+                                        <span class="tag">I2C</span>
+                                        <span class="tag">SPI</span>
+                                    </div>
                                 </div>
                             </div>
                             <span class="expand-toggle">see more...</span>
@@ -128,20 +130,22 @@
                             </div>
                             <p class="project-short">A no-HAL RP2040 driver library in C: GPIO, SysTick, UART, I2C, and a BMP390 barometer, verified on hardware and covered by an automated test suite.</p>
                             <div class="project-details">
-                                <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
-                                <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target and runs the suite on every push.</p>
-                                <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it.</p>
-                                <div class="project-tags">
-                                    <span class="tag">C</span>
-                                    <span class="tag">RP2040</span>
-                                    <span class="tag">GPIO</span>
-                                    <span class="tag">UART</span>
-                                    <span class="tag">I2C</span>
-                                    <span class="tag">Driver Design</span>
-                                    <span class="tag">Unit Testing</span>
-                                    <span class="tag">CI/CD</span>
+                                <div class="project-details-inner">
+                                    <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
+                                    <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target and runs the suite on every push.</p>
+                                    <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">C</span>
+                                        <span class="tag">RP2040</span>
+                                        <span class="tag">GPIO</span>
+                                        <span class="tag">UART</span>
+                                        <span class="tag">I2C</span>
+                                        <span class="tag">Driver Design</span>
+                                        <span class="tag">Unit Testing</span>
+                                        <span class="tag">CI/CD</span>
+                                    </div>
+                                    <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
                                 </div>
-                                <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
                             </div>
                             <span class="expand-toggle">see more...</span>
                         </div>
@@ -161,18 +165,20 @@
                             </div>
                             <p class="project-short">A custom ARM Cortex-M flight computer running my bare-metal driver stack, with IMU, barometer, GPS, flash logging, and pyrotechnic output.</p>
                             <div class="project-details">
-                                <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The RP2040 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
-                                <p>Not everything is hand-rolled here. Remaining device drivers use vendor HALs, with SPI written from scratch to complete the transport layer the BMP390 driver was designed around. Writing the stack at the register level first is what makes that a choice rather than a default.</p>
-                                <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 12 G ascent, back through the stack for fault injection.</p>
-                                <div class="project-tags">
-                                    <span class="tag">KiCad</span>
-                                    <span class="tag">PCB Design</span>
-                                    <span class="tag">C</span>
-                                    <span class="tag">ARM Cortex-M</span>
-                                    <span class="tag">I2C</span>
-                                    <span class="tag">SPI</span>
-                                    <span class="tag">Pyrotechnic Control</span>
-                                    <span class="tag">pytest</span>
+                                <div class="project-details-inner">
+                                    <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The RP2040 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
+                                    <p>Not everything is hand-rolled here. Remaining device drivers use vendor HALs, with SPI written from scratch to complete the transport layer the BMP390 driver was designed around. Writing the stack at the register level first is what makes that a choice rather than a default.</p>
+                                    <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 12 G ascent, back through the stack for fault injection.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">KiCad</span>
+                                        <span class="tag">PCB Design</span>
+                                        <span class="tag">C</span>
+                                        <span class="tag">ARM Cortex-M</span>
+                                        <span class="tag">I2C</span>
+                                        <span class="tag">SPI</span>
+                                        <span class="tag">Pyrotechnic Control</span>
+                                        <span class="tag">pytest</span>
+                                    </div>
                                 </div>
                             </div>
                             <span class="expand-toggle">see more...</span>
@@ -326,14 +332,16 @@
                             </div>
                             <p class="project-short">CAD · 3D Printing · Mechanical Design · Systems Integration</p>
                             <div class="project-details">
-                                <p>Collaborative build of an automated boba dispenser with Wi-Fi ordering and a learned recipe optimizer. My contribution is the mechanical side: CAD of the dispensing mechanism and chassis, 3D-printed parts, and integration of the servo-actuated valves with the overall assembly. Firmware and the gradient descent optimizer are my collaborators' work. The system takes orders from a web interface, dispenses by holding servo-controlled valves open for calibrated durations, and learns from 1–5 ratings to refine ingredient ratios over time.</p>
-                                <div class="project-tags">
-                                    <span class="tag">CAD</span>
-                                    <span class="tag">3D Printing</span>
-                                    <span class="tag">Mechanical Design</span>
-                                    <span class="tag">Systems Integration</span>
+                                <div class="project-details-inner">
+                                    <p>Collaborative build of an automated boba dispenser with Wi-Fi ordering and a learned recipe optimizer. My contribution is the mechanical side: CAD of the dispensing mechanism and chassis, 3D-printed parts, and integration of the servo-actuated valves with the overall assembly. Firmware and the gradient descent optimizer are my collaborators' work. The system takes orders from a web interface, dispenses by holding servo-controlled valves open for calibrated durations, and learns from 1–5 ratings to refine ingredient ratios over time.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">CAD</span>
+                                        <span class="tag">3D Printing</span>
+                                        <span class="tag">Mechanical Design</span>
+                                        <span class="tag">Systems Integration</span>
+                                    </div>
+                                    <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" class="btn-secondary">View on GitHub</a>
                                 </div>
-                                <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" class="btn-secondary">View on GitHub</a>
                             </div>
                             <span class="expand-toggle">see more...</span>
                         </div>
