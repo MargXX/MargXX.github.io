@@ -403,10 +403,39 @@ section h2::after {
 /* ─── PROJECTS ─── */
 .projects { background: var(--bg); border-top: 1px solid var(--border); }
 
+/* smooth per-card morph when expanding/collapsing, matching the site's 0.4s timing */
+::view-transition-group(*) {
+    animation-duration: 0.4s;
+    animation-timing-function: ease;
+}
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
+}
+
+/* pin each card to its column/row so it never moves when a sibling expands */
+.projects-grid .project-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.projects-grid .project-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.projects-grid .project-card:nth-child(3) { grid-column: 3; grid-row: 1; }
+
+/* dashed placeholder marking the expanded card's original slot, positioned
+   via --expanded-col (set in script.js) so it sits in that column
+   independently of the card itself, which has moved to the row-2 drawer */
+.projects-grid.has-expanded::before {
+    content: 'expanded below ↓';
+    grid-column: var(--expanded-col, 1);
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+    opacity: 0.7;
 }
 
 /* ── Project card base ── */
@@ -466,6 +495,11 @@ section h2::after {
 /* expandable cards */
 .project-card.expandable { cursor: pointer; }
 
+.project-card.expandable:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
 .project-card.expandable .project-details {
     display: grid;
     grid-template-rows: 0fr;
@@ -476,6 +510,48 @@ section h2::after {
 .project-card.expandable.expanded .project-details {
     grid-template-rows: 1fr;
     opacity: 1;
+}
+
+/* expanded card drops into its own full-width row underneath row 1 instead
+   of reflowing siblings — the other two cards stay pinned to their column
+   (see nth-child rules above), so expanding one never moves the others.
+   Layout becomes a 2-column grid: header + short blurb beside the photo,
+   then the full detail text/tags/link reclaim the full width underneath. */
+.projects-grid .project-card.expandable.expanded {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: 1fr minmax(220px, 320px);
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+        "header  image"
+        "short   image"
+        "details details"
+        "toggle  toggle";
+    column-gap: 1.25rem;
+    row-gap: 0.35rem;
+    padding: 1rem 1.1rem;
+}
+
+/* lets project-info's children (header, short, details, toggle) become
+   direct items of the .project-card grid above, without touching the HTML */
+.projects-grid .project-card.expandable.expanded .project-info {
+    display: contents;
+}
+
+.projects-grid .project-card.expandable.expanded .project-header  { grid-area: header; }
+.projects-grid .project-card.expandable.expanded .project-short   { grid-area: short; }
+.projects-grid .project-card.expandable.expanded .project-details { grid-area: details; }
+.projects-grid .project-card.expandable.expanded .expand-toggle   { grid-area: toggle; }
+
+/* image sits on the right with its own rounded corners. Keeps the same
+   16:9 cover-crop it had when compressed (not object-fit: contain) so every
+   card scales up identically instead of each snapping to its own native
+   ratio when it expands */
+.projects-grid .project-card.expandable.expanded .project-thumb {
+    grid-area: image;
+    align-self: start;
+    border-radius: var(--radius);
 }
 
 .project-details-inner {
@@ -924,6 +1000,36 @@ footer p {
     .projects-grid,
     .on-the-side-layout { grid-template-columns: 1fr; }
     .interests-grid { grid-template-columns: 1fr; }
+
+    /* single column already stacks every card full-width, so the pinned-
+       column/drawer-row trick is desktop-only */
+    .projects-grid .project-card:nth-child(1),
+    .projects-grid .project-card:nth-child(2),
+    .projects-grid .project-card:nth-child(3) {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    /* no slot is left behind on mobile — the card just expands in place */
+    .projects-grid.has-expanded::before {
+        display: none;
+    }
+
+    .projects-grid .project-card.expandable.expanded {
+        grid-column: auto;
+        grid-row: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .projects-grid .project-card.expandable.expanded .project-info {
+        display: flex;
+    }
+
+    .projects-grid .project-card.expandable.expanded .project-thumb {
+        border-radius: 0;
+    }
 
     .timeline-item {
         grid-template-columns: 1fr;

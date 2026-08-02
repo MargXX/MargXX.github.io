@@ -85,13 +85,117 @@ const sectionObserver = new IntersectionObserver(entries => {
 sections.forEach(s => sectionObserver.observe(s));
 
 /* ── Expandable project cards ── */
-document.querySelectorAll('.project-card.expandable').forEach(card => {
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// only one card transition runs at a time — a second click/keypress mid-animation
+// is ignored rather than starting an overlapping view transition
+let cardTransitionInFlight = false;
+
+function runTransition(mutate) {
+    if (document.startViewTransition && !prefersReducedMotion) {
+        return document.startViewTransition(mutate).finished;
+    }
+    mutate();
+    return Promise.resolve();
+}
+
+// shows a dashed placeholder in the expanded card's original grid slot,
+// marking where it collapses back to, driven by a --expanded-col custom
+// property so the indicator can sit in that slot independently of the
+// card itself (which has physically moved to the row-2 drawer)
+function updateExpandedIndicator(grid) {
+    if (!grid || !grid.classList.contains('projects-grid')) return;
+    const expandedCard = grid.querySelector('.project-card.expandable.expanded');
+    if (expandedCard) {
+        const siblings = [...grid.children].filter(el => el.classList.contains('project-card'));
+        grid.style.setProperty('--expanded-col', siblings.indexOf(expandedCard) + 1);
+        grid.classList.add('has-expanded');
+    } else {
+        grid.classList.remove('has-expanded');
+    }
+}
+
+function setCardExpanded(card, expanded) {
+    card.classList.toggle('expanded', expanded);
+    card.setAttribute('aria-expanded', String(expanded));
+    const tog = card.querySelector('.expand-toggle');
+    if (tog) tog.textContent = expanded ? 'see less' : 'see more...';
+    updateExpandedIndicator(card.parentElement);
+}
+
+function collapseExpanded(scope) {
+    if (cardTransitionInFlight) return;
+    const expandedCards = [...scope.querySelectorAll('.project-card.expandable.expanded')];
+    if (!expandedCards.length) return;
+    cardTransitionInFlight = true;
+    runTransition(() => expandedCards.forEach(card => setCardExpanded(card, false)))
+        .then(() => { cardTransitionInFlight = false; });
+}
+
+function toggleCard(card) {
+    if (cardTransitionInFlight) return;
+    const willExpand = !card.classList.contains('expanded');
+    cardTransitionInFlight = true;
+    const done = () => { cardTransitionInFlight = false; };
+
+    if (!willExpand) {
+        runTransition(() => setCardExpanded(card, false)).then(done);
+        return;
+    }
+
+    // collapse any sibling that's already open first and wait for that
+    // transition to finish before expanding this one, rather than morphing
+    // two different cards at once — doing both together let their animation
+    // paths overlap and clip each other
+    const others = [...card.parentElement.querySelectorAll('.project-card.expandable.expanded')]
+        .filter(other => other !== card);
+
+    const expandThis = () => runTransition(() => setCardExpanded(card, true)).then(done);
+
+    if (others.length) {
+        runTransition(() => others.forEach(other => setCardExpanded(other, false)))
+            .then(expandThis);
+    } else {
+        expandThis();
+    }
+}
+
+document.querySelectorAll('.project-card.expandable').forEach((card, i) => {
+    // gives each card its own view-transition snapshot so the browser morphs
+    // its position/size individually instead of cross-fading the whole page
+    const name = card.id || i;
+    card.style.viewTransitionName = `project-card-${name}`;
+
+    // the thumbnail gets its own snapshot too, separate from the card's, so
+    // it morphs smoothly to its new position/size instead of being flattened
+    // into the card's crossfade (which briefly double-exposes old/new image)
+    const thumb = card.querySelector('.project-thumb');
+    if (thumb) thumb.style.viewTransitionName = `project-thumb-${name}`;
+
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-expanded', 'false');
+
     card.addEventListener('click', e => {
         if (e.target.closest('a')) return;
-        const isExpanded = card.classList.toggle('expanded');
-        const tog = card.querySelector('.expand-toggle');
-        if (tog) tog.textContent = isExpanded ? 'see less' : 'see more...';
+        toggleCard(card);
     });
+
+    card.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        if (e.target.closest('a')) return;
+        e.preventDefault();
+        toggleCard(card);
+    });
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') collapseExpanded(document);
+});
+
+document.addEventListener('click', e => {
+    if (e.target.closest('.project-card.expandable')) return;
+    collapseExpanded(document);
 });
 
 /* ── Scroll-entrance animation for cards ── */
