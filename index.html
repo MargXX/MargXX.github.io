@@ -66,7 +66,7 @@
                         Electrical engineering student at Brown. I build embedded systems from the register level up.
                     </p>
                     <p class="hero-bio">
-                        I led avionics on Brown Rocketry's IREC-accepted rocket, with a payload flew on a separate live high-power launch and logged 25 hours of flight and ground sensor data, including flight data above 12 G. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack to STM32 work through a technical mentorship with AdaCore, and I'm currently in Brown's Interactive 3D Vision & Learning Lab working on multi-camera rig hardware.
+                        I led avionics on Brown Rocketry's IREC-accepted rocket, with a payload flew on a separate live high-power launch and logged 25 hours of flight and ground sensor data, including flight data above 16 Gs. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack to STM32 work through a technical mentorship with AdaCore, and I'm currently in Brown's Interactive 3D Vision & Learning Lab working on multi-camera rig hardware.
                     </p>
                     <p class="hero-bio">
                         Working toward a future in electrical engineering and aerospace. Always happy to talk rockets or weird side projects, too.
@@ -85,7 +85,7 @@
         <section id="projects" class="projects">
             <div class="container">
                 <h2>Current, Recent &amp; Next</h2>
-                <p class="section-sub">A snapshot of what I'm building, what I recently shipped, and what's next. <time datetime="2026-07">Last updated August 8, 2026</time></p>
+                <p class="section-sub">A snapshot of what I'm building, what I recently shipped, and what's next. <time datetime="2026-07">Last updated August 16, 2026</time></p>
                 <div class="projects-grid">
 
                     <!-- ROCKET PAYLOAD SENSOR SYSTEM -->
@@ -171,7 +171,7 @@
                                 <div class="project-details-inner">
                                     <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The RP2040 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
                                     <p>Not everything is hand-rolled here. Remaining device drivers use vendor HALs, with SPI written from scratch to complete the transport layer the BMP390 driver was designed around. Writing the stack at the register level first is what makes that a choice rather than a default.</p>
-                                    <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 12 G ascent, back through the stack for fault injection.</p>
+                                    <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 16+ G ascent, back through the stack for fault injection.</p>
                                     <div class="project-tags">
                                         <span class="tag">KiCad</span>
                                         <span class="tag">PCB Design</span>
@@ -304,7 +304,7 @@
                         <div class="timeline-date">Sep 2025 — Present</div>
                         <div class="timeline-content">
                             <h3>Brown Rocketry <span class="role">— Avionics Team Lead, Incoming Co-President</span></h3>
-                            <p>Wrote the bare-metal Ada payload firmware, designed the full electrical architecture, wiring diagrams, and power distribution, performed FEA on avionics bay components, and secured industry sponsorship. The payload flew on a live high-power launch and logged 25 hours of flight and ground sensor data, including flight data above 12 G. A refined version of the payload firmware is in development through my AdaCore mentorship.</p>
+                            <p>Wrote the bare-metal Ada payload firmware, designed the full electrical architecture, wiring diagrams, and power distribution, performed FEA on avionics bay components, and secured industry sponsorship. The payload flew on a live high-power launch and logged 25 hours of flight and ground sensor data, including flight data above 16 Gs. A refined version of the payload firmware is in development through my AdaCore mentorship.</p>
                         </div>
                     </div>
 
