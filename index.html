@@ -128,7 +128,7 @@
                             <div class="project-header">
                                 <h3>Bare-Metal Driver Stack in C</h3>
                                 <div class="project-header-meta">
-                                    <span class="badge badge-complete">Complete</span>
+                                    <span class="badge badge-inprogress">In Progress</span>
                                 </div>
                             </div>
                             <p class="project-short">A no-HAL RP2040 driver library in C: GPIO, SysTick, UART, I2C, and a BMP390 barometer, verified on hardware and covered by an automated test suite.</p>
@@ -137,6 +137,7 @@
                                     <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
                                     <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target and runs the suite on every push.</p>
                                     <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it.</p>
+                                    <p>Currently porting the stack to the STM32G4 in preparation for the flight computer.</p>
                                     <div class="project-tags">
                                         <span class="tag">C</span>
                                         <span class="tag">RP2040</span>
@@ -157,7 +158,7 @@
                     <!-- FLIGHT COMPUTER -->
                     <div class="project-card expandable" id="proj-flight-computer">
                         <div class="project-thumb">
-                            <img src="images/kicad_schematic.png" alt="KiCad schematic for custom flight computer PCB with IMU, barometer, GPS, and pyrotechnic output control" class="thumb-img" onerror="this.style.display='none'">
+                            <img src="images/kicad_schematic.png" alt="KiCad schematic for custom flight computer PCB with IMU, high-G accelerometer, barometer, and pyrotechnic output control" class="thumb-img" onerror="this.style.display='none'">
                         </div>
                         <div class="project-info">
                             <div class="project-header">
@@ -166,10 +167,10 @@
                                     <span class="badge badge-planned">Planned</span>
                                 </div>
                             </div>
-                            <p class="project-short">A custom ARM Cortex-M flight computer running my bare-metal driver stack, with IMU, barometer, GPS, flash logging, and pyrotechnic output.</p>
+                            <p class="project-short">A custom ARM Cortex-M flight computer running my bare-metal driver stack, with an IMU, high-G accelerometer, barometer, flash logging, and pyrotechnic output.</p>
                             <div class="project-details">
                                 <div class="project-details-inner">
-                                    <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an LSM9DS1 IMU, BMP390 barometer, GPS module, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The RP2040 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
+                                    <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an IMU, a high-G accelerometer, a BMP390 barometer, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The RP2040 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
                                     <p>Not everything is hand-rolled here. Remaining device drivers use vendor HALs, with SPI written from scratch to complete the transport layer the BMP390 driver was designed around. Writing the stack at the register level first is what makes that a choice rather than a default.</p>
                                     <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 16+ G ascent, back through the stack for fault injection.</p>
                                     <div class="project-tags">
