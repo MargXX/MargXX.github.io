@@ -18,13 +18,13 @@ Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. N
 
 - **Projects** — cards with a one-line summary; click to expand full description, tags, and links
 - **Skills** — languages, embedded systems, CAD, and fabrication
-- **Experience** — IVL Lab, AdaCore, Brown Rocketry, and Project Amplify
+- **Experience** — GE Aerospace, IVL Lab, Brown Rocketry, Brown Space Engineering, and AdaCore
 - **Interests** — hobbies outside engineering
 - **Contact**
 
 ## Projects featured
 
 - Rocket Payload Sensor System — bare-metal Ada firmware on RP2040, deployed on a live IREC launch
-- Bare-Metal Driver Stack in C — hardware-verified RP2040 GPIO, SysTick, UART, I2C, and BMP390 drivers without HAL; test infrastructure in progress
+- Bare-Metal Driver Stack in C — hardware-verified RP2040 GPIO, SysTick, UART, I2C, and BMP390 drivers without HAL, with a host unit test suite in CI; STM32G4 port in progress
 - Flight Computer — planned KiCad flight computer integrating an IMU, barometer, GPS, flash logging, and pyrotechnic output
 - Boba Machine — collaborative automated dispenser; mechanical CAD, 3D-printed parts, and servo-valve integration
