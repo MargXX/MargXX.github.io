@@ -66,7 +66,7 @@
                         Electrical engineering student at Brown. I build embedded systems from the register level up.
                     </p>
                     <p class="hero-bio">
-                        I led avionics on Brown Rocketry's IREC-accepted rocket and now serve as the club's co-president. A payload I wrote flew on a separate live high-power launch, logging 25 hours of flight and ground sensor data through a boost that exceeded the IMU's 16 G linear range. I write bare-metal firmware in C and Ada, from a no-HAL driver stack running on the RP2040 and STM32G4 to Ada payload firmware reviewed weekly by an AdaCore engineer. I'm currently an undergraduate researcher in Brown's Interactive 3D Vision &amp; Learning Lab, working on multi-camera rig hardware, and I'll be joining GE Aerospace as an avionics systems engineering co-op in fall 2027.
+                        I led avionics on Brown Rocketry's IREC-accepted rocket and now serve as the club's co-president. A payload I wrote flew on a separate live high-power launch, logging 25 hours of flight and ground sensor data through a boost that exceeded the IMU's 16 G linear range. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack, now being ported to the STM32G4, to Ada payload firmware reviewed weekly by an AdaCore engineer. I'm currently an undergraduate researcher in Brown's Interactive 3D Vision &amp; Learning Lab, working on multi-camera rig hardware, and I'll be joining GE Aerospace as an avionics systems engineering co-op in fall 2027.
                     </p>
                     <p class="hero-bio">
                         Working toward a future in electrical engineering and aerospace. Always happy to talk rockets or weird side projects, too.
@@ -137,7 +137,7 @@
                                     <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
                                     <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target and runs the suite on every push.</p>
                                     <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it. The drivers and tests now share a single hardware-verified constant, so the two can't drift apart again.</p>
-                                    <p>Currently porting the stack to the STM32G4 in preparation for the flight computer. The STM32G431RB startup path is hand-written, including the linker script, vector table, FPU enable, and reset handler, with boot verified over SWD.</p>
+                                    <p>Currently porting the stack to the STM32G4 in preparation for the flight computer. The STM32G431RB startup path is hand-written, including the linker script, vector table, FPU enable, and reset handler, with boot verified over SWD. SysTick is the first driver running on the G4 so far, with the rest of the stack to follow.</p>
                                     <div class="project-tags">
                                         <span class="tag">C</span>
                                         <span class="tag">RP2040</span>
@@ -244,7 +244,6 @@
                     <div class="skills-chips">
                         <span class="skill-chip">Oscilloscope</span>
                         <span class="skill-chip">Logic analyzer</span>
-                        <span class="skill-chip">NanoVNA</span>
                         <span class="skill-chip">Digital multimeter</span>
                         <span class="skill-chip">Bench power supply</span>
                         <span class="skill-chip">OpenOCD</span>
