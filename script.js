@@ -104,7 +104,7 @@ function runTransition(mutate) {
 // property so the indicator can sit in that slot independently of the
 // card itself (which has physically moved to the row-2 drawer)
 function updateExpandedIndicator(grid) {
-    if (!grid || !grid.classList.contains('projects-grid')) return;
+    if (!grid || !grid.matches('.projects-grid, .on-the-side-layout')) return;
     const expandedCard = grid.querySelector('.project-card.expandable.expanded');
     if (expandedCard) {
         const siblings = [...grid.children].filter(el => el.classList.contains('project-card'));
