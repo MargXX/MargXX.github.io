@@ -66,7 +66,7 @@
                         Electrical engineering student at Brown. I build embedded systems from the register level up.
                     </p>
                     <p class="hero-bio">
-                        I led avionics on Brown Rocketry's IREC-accepted rocket and now serve as the club's co-president. A payload I wrote flew on a separate live high-power launch, logging 25 hours of flight and ground sensor data through a boost that exceeded the IMU's 16 G linear range. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack, now being ported to the STM32G4, to Ada payload firmware reviewed weekly by an AdaCore engineer. I'm currently an undergraduate researcher in Brown's Interactive 3D Vision &amp; Learning Lab, working on multi-camera rig hardware, and I'll be joining GE Aerospace as an avionics systems engineering co-op in fall 2027.
+                        I led avionics on Brown Rocketry's IREC-accepted rocket, with a payload I wrote flew on a separate live high-power launch, logging 25 hours of flight and ground sensor data through a boost that exceeded the IMU's 16 G linear range. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack to STM32 work through a technical mentorship with AdaCore, and I'm currently in Brown's Interactive 3D Vision &amp; Learning Lab working on multi-camera rig hardware.
                     </p>
                     <p class="hero-bio">
                         Working toward a future in electrical engineering and aerospace. Always happy to talk rockets or weird side projects, too.
@@ -85,7 +85,7 @@
         <section id="projects" class="projects">
             <div class="container">
                 <h2>Current, Recent &amp; Next</h2>
-                <p class="section-sub">A snapshot of what I'm building, what I recently shipped, and what's next. <time datetime="2026-10-07">Last updated October 7, 2026</time></p>
+                <p class="section-sub">A snapshot of what I'm building, what I recently shipped, and what's next. <time datetime="2026-10-23">Last updated October 23, 2026</time></p>
                 <div class="projects-grid">
 
                     <!-- ROCKET PAYLOAD SENSOR SYSTEM -->
@@ -103,9 +103,9 @@
                             <p class="project-short">I built Ada firmware for an RP2040 rocket payload and logged sensor data live under real G-loads.</p>
                             <div class="project-details">
                                 <div class="project-details-inner">
-                                    <p>I built bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload and flew it on a live high-power launch, reaching 377 m AGL. Boost and ejection both exceeded the IMU's specified 16 G linear range, indicating 18.1 G and 22 G, so I treat those values as indicative rather than calibrated.</p>
-                                    <p>I integrated a BMP390 barometer and LSM9DS1 IMU over I2C, configuring their registers directly from the datasheets, and built the SPI flash logging pipeline to a W25Q128, with sensor compensation applied offline in Python. The system ran at 100+ Hz on the bench, but roughly 21 hours of storage, drive, and pad wait had to fit in 16 MB, so I traded sampling rate for endurance and flew at 4.9 Hz. Logging ran continuously for 24.96 hours across 438,858 samples with no dropped records.</p>
-                                    <p>Post-flight analysis turned up a 1.5&times; count-to-g conversion error, caught by comparing logged pad data against the expected 1 G static acceleration. Earlier in development, flash writes were being silently truncated because the HAL SPI transmit released chip-select before the transfer finished, so I replaced it with register-level SPI transfers. Debugging across the project also covered I2C addressing, SPI clocking, UART data loss, and power sequencing at both the hardware and firmware layers.</p>
+                                    <p>I built bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload, under weekly review from an AdaCore engineer, and flew it on a live high-power launch, reaching 377 m AGL. Boost and ejection both exceeded the IMU's specified 16 G linear range, indicating 18.1 G and 22 G, so I treat those values as indicative rather than calibrated.</p>
+                                    <p>I integrated a BMP390 barometer and LSM9DS1 IMU over I2C and built the SPI flash logging pipeline to a W25Q128, with sensor compensation applied offline in Python. The system ran at 100+ Hz on the bench, but roughly 21 hours of storage, drive, and pad wait had to fit in 16 MB, so I traded sampling rate for endurance and flew at 4.9 Hz. Logging ran continuously for 24.96 hours across 438,858 samples with no dropped records.</p>
+                                    <p>Post-flight analysis turned up a 1.5&times; count-to-g conversion error, caught by comparing logged pad data against the expected 1 G static acceleration. On the flash logger, the HAL SPI transmit released chip select early and silently truncated writes, so I replaced it with register-level transfers. Debugging across the project also covered I2C addressing, SPI clocking, UART data loss, and power sequencing at both the hardware and firmware layers.</p>
                                     <p>The flight produced two requirements for the custom STM32G431 flight computer I am building: arm on launch detect with a circular pre-buffer, so a storage budget doesn't dictate flight sample rate so strongly, and a dedicated high-G accelerometer, since the flight exceeded the IMU's specified linear range.</p>
                                     <div class="project-tags">
                                         <span class="tag">RP2040</span>
@@ -136,8 +136,8 @@
                                 <div class="project-details-inner">
                                     <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
                                     <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target and runs the suite on every push.</p>
-                                    <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it. The drivers and tests now share a single hardware-verified constant, so the two can't drift apart again.</p>
-                                    <p>Currently porting the stack to the STM32G4 in preparation for the flight computer. The STM32G431RB startup path is hand-written, including the linker script, vector table, FPU enable, and reset handler, with boot verified over SWD. SysTick is the first driver running on the G4 so far, with the rest of the stack to follow.</p>
+                                    <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it.</p>
+                                    <p>Currently porting the stack to the STM32G4 in preparation for the flight computer. The STM32G431RB startup path is hand-written, including the linker script, vector table, FPU enable, and reset handler, with boot verified over SWD.</p>
                                     <div class="project-tags">
                                         <span class="tag">C</span>
                                         <span class="tag">RP2040</span>
@@ -199,6 +199,7 @@
             <div class="container">
                 <h2>Skills</h2>
                 <p class="section-sub">Tools and languages across the full stack, from firmware to fabrication.</p>
+                <div class="skills-grid">
 
                 <div class="skills-group">
                     <p class="skills-label">LANGUAGES FOR EMBEDDED</p>
@@ -209,14 +210,16 @@
                 </div>
 
                 <div class="skills-group">
-                    <p class="skills-label">OTHER LANGUAGES &amp; LIBRARIES</p>
+                    <p class="skills-label">TOOLS &amp; OTHER LANGUAGES</p>
                     <div class="skills-chips">
                         <span class="skill-chip">Python</span>
                         <span class="skill-chip">NumPy</span>
-                        <span class="skill-chip">pandas</span>
+                        <span class="skill-chip">Pandas</span>
                         <span class="skill-chip">Matplotlib</span>
                         <span class="skill-chip">MATLAB</span>
                         <span class="skill-chip">Java</span>
+                        <span class="skill-chip">OCaml</span>
+                        <span class="skill-chip">Racket</span>
                     </div>
                 </div>
 
@@ -240,38 +243,32 @@
                 </div>
 
                 <div class="skills-group">
-                    <p class="skills-label">DEBUGGING &amp; TEST</p>
+                    <p class="skills-label">TEST &amp; TOOLING</p>
                     <div class="skills-chips">
-                        <span class="skill-chip">Oscilloscope</span>
-                        <span class="skill-chip">Logic analyzer</span>
-                        <span class="skill-chip">Digital multimeter</span>
-                        <span class="skill-chip">Bench power supply</span>
-                        <span class="skill-chip">OpenOCD</span>
-                        <span class="skill-chip">SWD</span>
                         <span class="skill-chip">Unity/CTest</span>
                         <span class="skill-chip">pytest</span>
-                    </div>
-                </div>
-
-                <div class="skills-group">
-                    <p class="skills-label">SOFTWARE &amp; TOOLS</p>
-                    <div class="skills-chips">
-                        <span class="skill-chip">Git/GitHub</span>
-                        <span class="skill-chip">CMake</span>
                         <span class="skill-chip">GitHub Actions CI</span>
-                        <span class="skill-chip">Linux/bash</span>
+                        <span class="skill-chip">CMake</span>
+                        <span class="skill-chip">OpenOCD</span>
+                        <span class="skill-chip">SWD</span>
                         <span class="skill-chip">arm-none-eabi-gcc</span>
+                        <span class="skill-chip">Git/GitHub</span>
+                        <span class="skill-chip">Linux/bash</span>
+                        <span class="skill-chip">Logic analyzer</span>
+                        <span class="skill-chip">Oscilloscope</span>
                     </div>
                 </div>
 
                 <div class="skills-group">
-                    <p class="skills-label">CIRCUIT DESIGN &amp; HARDWARE</p>
+                    <p class="skills-label">HARDWARE</p>
                     <div class="skills-chips">
                         <span class="skill-chip">KiCad (schematic capture &amp; PCB layout)</span>
                         <span class="skill-chip">Component selection</span>
                         <span class="skill-chip">Wiring diagrams</span>
                         <span class="skill-chip">Soldering</span>
-                        <span class="skill-chip">SMD assembly &amp; reflow</span>
+                        <span class="skill-chip">Digital multimeter</span>
+                        <span class="skill-chip">Bench power supply</span>
+                        <span class="skill-chip">NanoVNA</span>
                     </div>
                 </div>
 
@@ -281,10 +278,12 @@
                         <span class="skill-chip">SolidWorks</span>
                         <span class="skill-chip">Fusion 360</span>
                         <span class="skill-chip">FEA (SolidWorks)</span>
+                        <span class="skill-chip">CAM</span>
                         <span class="skill-chip">3D printing</span>
                         <span class="skill-chip">Laser cutter</span>
                         <span class="skill-chip">Sheet metal fabrication</span>
                     </div>
+                </div>
                 </div>
             </div>
         </section>
@@ -304,15 +303,24 @@
                         <div class="timeline-date">Fall 2027</div>
                         <div class="timeline-content">
                             <h3>GE Aerospace <span class="role">— Incoming Avionics Systems Engineering Co-op</span></h3>
-                            <p>Earned a co-op offer through an interview at the GE Aerospace LIFT Summit, where I was 1 of 61 students selected to attend from 3,800+ applicants across 44 universities.</p>
+                            <ul class="timeline-bullets">
+                                <li>Selected for the GE Aerospace LIFT Summit, 61 of 3,800+ applicants across 44 universities</li>
+                                <li>Received a co-op offer following an interview at the summit</li>
+                            </ul>
                         </div>
                     </div>
                     
                     <div class="timeline-item">
                         <div class="timeline-date">June 2026 — Present</div>
                         <div class="timeline-content">
-                            <h3>Interactive 3D Vision &amp; Learning Lab, Brown University <span class="role">— Undergraduate Researcher</span></h3>
-                            <p>Co-maintaining a 20-unit multi-camera rig fleet: running status checks, repairing 6+ faulty units, and debugging multi-camera start/stop faults. Assisted with the schematic and KiCad PCB layout for a BJT-driven LED module slated for the next rig revision. Built an egocentric capture unit for a partner lab, from selecting connectors and cabling to designing the 3D-printed enclosure and installing the hardware, and now co-lead that lab's data capture project, gathering their requirements and reporting progress at weekly meetings. Advised by Prof. Srinath Sridhar and funded by the Brown UTRA Research Award.</p>
+                            <h3>IVL Lab, Brown University <span class="role">— Undergraduate Researcher</span></h3>
+                            <ul class="timeline-bullets">
+                                <li>Co-maintaining the lab's 20-unit multi-camera rig fleet: running status checks, repairing 6+ faulty units, and debugging multi-camera start/stop faults</li>
+                                <li>Assisted with the schematic and KiCad PCB layout for a BJT-driven LED module slated for the next rig revision</li>
+                                <li>Built an egocentric capture unit for a partner lab, from connector and cabling selection to a 3D-printed enclosure and installation</li>
+                                <li>Co-leading the partner lab's data capture project, gathering their requirements and reporting progress at weekly meetings</li>
+                            </ul>
+                            <p class="timeline-note">Advised by Prof. Srinath Sridhar and funded by the Brown UTRA Research Award.</p>
                         </div>
                     </div>
 
@@ -320,7 +328,13 @@
                         <div class="timeline-date">Sep 2025 — Present</div>
                         <div class="timeline-content">
                             <h3>Brown Rocketry <span class="role">— Avionics Team Lead (2025), Co-President (2026)</span></h3>
-                            <p>Co-leading weekly meetings and running avionics workshops for freshmen new to microcontrollers, building toward a fall launch. Designed the IREC avionics wiring diagrams, splitting power into five isolated buses for redundancy and to meet competition rules, and ran SolidWorks FEA on the avionics bay aluminum ring to cut mass while holding margin under expected flight loads. Wrote the bare-metal Ada payload, which flew on a live high-power launch, logged 25 hours of flight and ground sensor data through a boost that exceeded the IMU's 16 G linear range, and fulfilled a $1K AdaCore sponsorship. Also arranged for the AdaCore engineer's mentorship to extend to other club members.</p>
+                            <ul class="timeline-bullets">
+                                <li>Co-lead weekly meetings and avionics workshops for freshmen new to microcontrollers, building toward a fall launch</li>
+                                <li>Designed the IREC wiring diagrams, splitting power into five isolated buses for redundancy and competition rules</li>
+                                <li>Ran SolidWorks FEA on the avionics bay's aluminum ring to cut mass while holding margin under flight loads</li>
+                                <li>Wrote the bare-metal Ada payload that fulfilled a $1K AdaCore sponsorship; it flew on a live high-power launch and logged 25 hours of flight and ground data through a boost past the IMU's 16 G linear range</li>
+                                <li>Arranged the AdaCore engineer's mentorship for club members; a refined version of the payload firmware is in development through that mentorship</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -328,7 +342,12 @@
                         <div class="timeline-date">Mar 2026 — Present</div>
                         <div class="timeline-content">
                             <h3>Brown Space Engineering <span class="role">— Communications Team Member</span></h3>
-                            <p>Sized a UHF Nitinol dipole and an S-band copper patch antenna to CubeSat deployment constraints, correcting the patch resonant length for fringing fields. Laid out the CubeSat antenna board in KiCad from existing dimensions and calibrated a NanoVNA for antenna characterization. In the clean room, stenciled solder paste and hand-placed SMD components on the comms board for reflow soldering.</p>
+                            <ul class="timeline-bullets">
+                                <li>Laid out the CubeSat antenna board in KiCad from existing dimensions and calibrated a NanoVNA for antenna characterization</li>
+                                <li>Stenciled solder paste and hand-placed SMD components on the comms board in a clean room for reflow soldering</li>
+                                <li>Designed a UHF Nitinol dipole and an S-band copper patch antenna to CubeSat deployment constraints</li>
+                                <li>Corrected the patch resonant length for fringing fields and characterized how sensitive resonance is to fabrication tolerance</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -336,7 +355,10 @@
                         <div class="timeline-date">Dec 2025 — Present</div>
                         <div class="timeline-content">
                             <h3>AdaCore <span class="role">— Technical Mentee</span></h3>
-                            <p>Received weekly 1-on-1 code reviews from an AdaCore engineer to develop bare-metal Ada firmware. Configured STM32 and RP2040 peripherals at the register level without HAL, establishing toolchain fundamentals and best practices for low-level software safety.</p>
+                            <ul class="timeline-bullets">
+                                <li>Weekly 1-on-1 code reviews from an AdaCore engineer while developing bare-metal Ada firmware</li>
+                                <li>Configured STM32 and RP2040 peripherals at the register level without HAL, building toolchain fundamentals and low-level software safety practices</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -355,7 +377,7 @@
                     <!-- BOBA MACHINE -->
                     <div class="project-card expandable on-the-side-project">
                         <div class="project-thumb">
-                            <img src="images/Boba_Machine_CAD_Prototype.png" alt="CAD prototype of the boba machine dispensing mechanism showing servo-controlled valve layout" class="thumb-img" onerror="this.style.display='none'">
+                            <img src="images/Boba_Machine_Prototype.png" alt="Boba machine prototype with tea and creamer lines feeding a wooden dispensing mount over a cup, next to the phone ordering instructions sign" class="thumb-img" onerror="this.style.display='none'">
                         </div>
                         <div class="project-info">
                             <div class="project-header">
@@ -364,14 +386,19 @@
                                     <span class="badge badge-inprogress">In Progress</span>
                                 </div>
                             </div>
-                            <p class="project-short">CAD · 3D Printing · Mechanical Design · Systems Integration</p>
+                            <p class="project-short">A self-serve milk tea machine friends order from by phone, with a model that learns each person's ideal mix from their ratings.</p>
                             <div class="project-details">
                                 <div class="project-details-inner">
-                                    <p>Collaborative build of an automated boba dispenser with Wi-Fi ordering and a learned recipe optimizer. My contribution is the mechanical side: CAD of the dispensing mechanism and chassis, 3D-printed parts, and integration of the servo-actuated valves with the overall assembly. Firmware and the gradient descent optimizer are my collaborators' work. The system takes orders from a web interface, dispenses by holding servo-controlled valves open for calibrated durations, and learns from 1–5 ratings to refine ingredient ratios over time.</p>
+                                    <p>Collaborative build of a self-serve milk tea machine for our lounge. Guests join the machine's own Wi-Fi network, order from their phone, and rate each cup 1 to 5 stars. A gradient descent model running in the browser learns a group taste plus each person's own tea and creamer ratio from those ratings. I built the mechanical side, the hardware integration, and the full ordering website, including the live queue, ratings, and recipe model, using AI-assisted development. The microcontroller firmware is my collaborators' work.</p>
+                                    <p>The control system is split across two microcontrollers. An ESP32 running MicroPython hosts the ordering site and converts each recipe into precise pump run times from a measured 27 ml/s flow rate. It sends commands over UART to an Arduino Uno, which drives servo actuators on each 5V pump. Dedicating the Uno to actuation isolates servo current transients from the ESP32, keeping the web server and order queue stable while pumps run.</p>
+                                    <p>The machine is already serving drinks to real users, and the current build is set up as a modular testbed so new features can be added quickly. Solid topping dispensing is next, starting with aloe and small pearls, followed by tapioca with an agitation mechanism to keep pearls from clumping. A cloud-hosted version of the ordering site is also in development, so guests will be able to order without joining the machine's network.</p>
                                     <div class="project-tags">
                                         <span class="tag">CAD</span>
-                                        <span class="tag">3D Printing</span>
                                         <span class="tag">Mechanical Design</span>
+                                        <span class="tag">Servo Actuation</span>
+                                        <span class="tag">ESP32</span>
+                                        <span class="tag">UART</span>
+                                        <span class="tag">JavaScript</span>
                                         <span class="tag">Systems Integration</span>
                                     </div>
                                     <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" class="btn-secondary">View on GitHub</a>

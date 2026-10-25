@@ -423,10 +423,11 @@ section h2::after {
 /* dashed placeholder marking the expanded card's original slot, positioned
    via --expanded-col (set in script.js) so it sits in that column
    independently of the card itself, which has moved to the row-2 drawer */
-.projects-grid.has-expanded::before {
+:is(.projects-grid, .on-the-side-layout).has-expanded::before {
     content: 'expanded below ↓';
     grid-column: var(--expanded-col, 1);
     grid-row: 1;
+    align-self: stretch;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -517,7 +518,7 @@ section h2::after {
    (see nth-child rules above), so expanding one never moves the others.
    Layout becomes a 2-column grid: header + short blurb beside the photo,
    then the full detail text/tags/link reclaim the full width underneath. */
-.projects-grid .project-card.expandable.expanded {
+:is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded {
     grid-column: 1 / -1;
     grid-row: 2;
     display: grid;
@@ -535,20 +536,20 @@ section h2::after {
 
 /* lets project-info's children (header, short, details, toggle) become
    direct items of the .project-card grid above, without touching the HTML */
-.projects-grid .project-card.expandable.expanded .project-info {
+:is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .project-info {
     display: contents;
 }
 
-.projects-grid .project-card.expandable.expanded .project-header  { grid-area: header; }
-.projects-grid .project-card.expandable.expanded .project-short   { grid-area: short; }
-.projects-grid .project-card.expandable.expanded .project-details { grid-area: details; }
-.projects-grid .project-card.expandable.expanded .expand-toggle   { grid-area: toggle; }
+:is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .project-header  { grid-area: header; }
+:is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .project-short   { grid-area: short; }
+:is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .project-details { grid-area: details; }
+:is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .expand-toggle   { grid-area: toggle; }
 
 /* image sits on the right with its own rounded corners. Keeps the same
    16:9 cover-crop it had when compressed (not object-fit: contain) so every
    card scales up identically instead of each snapping to its own native
    ratio when it expands */
-.projects-grid .project-card.expandable.expanded .project-thumb {
+:is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .project-thumb {
     grid-area: image;
     align-self: start;
     border-radius: var(--radius);
@@ -762,16 +763,39 @@ section h2::after {
     line-height: 1.65;
 }
 
+.timeline-bullets {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.87rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+}
+
+.timeline-bullets li + li { margin-top: 0.3rem; }
+
+.timeline-bullets li::marker { color: var(--accent); }
+
+.timeline-content .timeline-note {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 /* ─── SKILLS ─── */
 .skills { background: var(--bg); border-top: 1px solid var(--border); }
 
-.skills-group { margin-bottom: 2rem; }
+/* two columns of groups on desktop so the section doesn't stack six rows */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2.5rem;
+}
 
 .skills-label {
     font-size: 0.69rem;
     color: var(--text-muted);
     letter-spacing: 0.14em;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -779,17 +803,17 @@ section h2::after {
 .skills-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .skill-chip {
     display: inline-block;
-    padding: 0.32rem 0.9rem;
+    padding: 0.26rem 0.8rem;
     border: 1px solid var(--border);
     background: var(--bg-card);
     color: var(--text-dim);
     font-family: var(--font);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 500;
     letter-spacing: 0.02em;
     border-radius: var(--radius-full);
@@ -830,6 +854,11 @@ section h2::after {
 .on-the-side-project {
     height: 100%;
 }
+
+/* same pinned-slot/drawer-row trick as .projects-grid: the boba card and the
+   interests grid stay in row 1, and the expanded card drops into row 2 */
+.on-the-side-layout > .on-the-side-project { grid-column: 1; grid-row: 1; }
+.on-the-side-layout > .interests-grid      { grid-column: 2; grid-row: 1; }
 
 .interests-grid {
     display: grid;
@@ -999,23 +1028,26 @@ footer p {
 
     .projects-grid,
     .on-the-side-layout { grid-template-columns: 1fr; }
-    .interests-grid { grid-template-columns: 1fr; }
+    .interests-grid,
+    .skills-grid { grid-template-columns: 1fr; }
 
     /* single column already stacks every card full-width, so the pinned-
        column/drawer-row trick is desktop-only */
     .projects-grid .project-card:nth-child(1),
     .projects-grid .project-card:nth-child(2),
-    .projects-grid .project-card:nth-child(3) {
+    .projects-grid .project-card:nth-child(3),
+    .on-the-side-layout > .on-the-side-project,
+    .on-the-side-layout > .interests-grid {
         grid-column: auto;
         grid-row: auto;
     }
 
     /* no slot is left behind on mobile — the card just expands in place */
-    .projects-grid.has-expanded::before {
+    :is(.projects-grid, .on-the-side-layout).has-expanded::before {
         display: none;
     }
 
-    .projects-grid .project-card.expandable.expanded {
+    :is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded {
         grid-column: auto;
         grid-row: auto;
         display: flex;
@@ -1023,11 +1055,11 @@ footer p {
         padding: 0;
     }
 
-    .projects-grid .project-card.expandable.expanded .project-info {
+    :is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .project-info {
         display: flex;
     }
 
-    .projects-grid .project-card.expandable.expanded .project-thumb {
+    :is(.projects-grid, .on-the-side-layout) .project-card.expandable.expanded .project-thumb {
         border-radius: 0;
     }
 
