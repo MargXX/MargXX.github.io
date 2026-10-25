@@ -400,6 +400,12 @@ section h2::after {
 
 .inline-link:hover { text-decoration: underline; }
 
+.project-link-note {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 /* ─── PROJECTS ─── */
 .projects { background: var(--bg); border-top: 1px solid var(--border); }
 
