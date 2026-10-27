@@ -128,16 +128,17 @@
                             <div class="project-header">
                                 <h3>Bare-Metal Driver Stack in C</h3>
                                 <div class="project-header-meta">
-                                    <span class="badge badge-inprogress">In Progress</span>
+                                    <span class="badge badge-complete">Complete</span>
                                 </div>
                             </div>
-                            <p class="project-short">A no-HAL RP2040 driver library in C: GPIO, SysTick, UART, I2C, and a BMP390 barometer, verified on hardware and covered by an automated test suite.</p>
+                            <p class="project-short">A portable C driver stack running on two MCUs, the RP2040 and the STM32G431: GPIO, SysTick, UART, I2C, and a BMP390 barometer, verified on hardware on both and covered by an automated test suite.</p>
                             <div class="project-details">
                                 <div class="project-details-inner">
                                     <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
-                                    <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target and runs the suite on every push.</p>
+                                    <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target for both MCUs and runs the suite on every push.</p>
                                     <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it.</p>
-                                    <p>Currently porting the stack to the STM32G4 in preparation for the flight computer. The STM32G431RB startup path is hand-written, including the linker script, vector table, FPU enable, and reset handler, with boot verified over SWD.</p>
+                                    <p>The stack is ported to the STM32G431RB, the MCU for the flight computer. Its startup path is hand-written at the register level: linker script, vector table, FPU enable, and reset handler, plus a 144 MHz clock tree verified by direct frequency measurement. The SysTick driver runs unchanged on both the Cortex-M0+ and the Cortex-M4F.</p>
+                                    <p>The STM32 UART and I2C drivers implement the same public headers as the RP2040 versions, with ST's HAL as the backend, wired so that the HAL runs on the project's own clock and SysTick timebase instead of taking them over. The BMP390 driver compiles unchanged on top of them and passes its full on-target suite on the STM32, which is the point of the portable layer. The STM32 run also reproduced the datasheet discrepancy on a second I2C implementation. When UART output didn't arrive, reading the peripheral registers over SWD showed the firmware was transmitting correctly and isolated the fault to board-level pin routing.</p>
                                     <div class="project-tags">
                                         <span class="tag">C</span>
                                         <span class="tag">RP2040</span>
@@ -171,7 +172,7 @@
                             <p class="project-short">A custom ARM Cortex-M flight computer running my bare-metal driver stack, with an IMU, high-G accelerometer, barometer, flash logging, and pyrotechnic output.</p>
                             <div class="project-details">
                                 <div class="project-details-inner">
-                                    <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an IMU, a high-G accelerometer, a BMP390 barometer, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The RP2040 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
+                                    <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an IMU, a high-G accelerometer, a BMP390 barometer, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The STM32G4 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
                                     <p>Not everything is hand-rolled here. Remaining device drivers use vendor HALs, with SPI written from scratch to complete the transport layer the BMP390 driver was designed around. Writing the stack at the register level first is what makes that a choice rather than a default.</p>
                                     <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 16+ G ascent, back through the stack for fault injection.</p>
                                     <div class="project-tags">

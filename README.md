@@ -25,6 +25,6 @@ Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. N
 ## Projects featured
 
 - Rocket Payload Sensor System — bare-metal Ada firmware on RP2040, deployed on a live IREC launch
-- Bare-Metal Driver Stack in C — hardware-verified RP2040 GPIO, SysTick, UART, I2C, and BMP390 drivers without HAL; test infrastructure in progress
+- Bare-Metal Driver Stack in C — portable GPIO, SysTick, UART, I2C, and BMP390 drivers, hardware-verified on the RP2040 (no HAL) and the STM32G431 (HAL backend); host unit tests and CI for both targets
 - Flight Computer — planned KiCad flight computer integrating an IMU, barometer, GPS, flash logging, and pyrotechnic output
 - Boba Machine — self-serve milk tea machine with phone ordering, ESP32 + Arduino pump control, and a ratings-trained recipe model
