@@ -40,7 +40,7 @@
                 </button>
                 <ul class="nav-menu">
                     <li><a href="#hero">Home</a></li>
-                    <li><a href="#projects">Now</a></li>
+                    <li><a href="#projects">Projects</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#interests">On the Side</a></li>
@@ -81,11 +81,11 @@
             </div>
         </section>
 
-        <!-- ═══ CURRENT, RECENT & NEXT ═══ -->
+        <!-- ═══ PROJECTS ═══ -->
         <section id="projects" class="projects">
             <div class="container">
-                <h2>Current, Recent &amp; Next</h2>
-                <p class="section-sub">A snapshot of what I'm building, what I recently shipped, and what's next. <time datetime="2026-10-23">Last updated October 23, 2026</time></p>
+                <h2>Projects</h2>
+                <p class="section-sub">What I'm building and what I've recently shipped. <time datetime="2026-10-28">Last updated October 28, 2026</time></p>
                 <div class="projects-grid">
 
                     <!-- ROCKET PAYLOAD SENSOR SYSTEM -->
@@ -157,34 +157,35 @@
                         </div>
                     </div>
 
-                    <!-- FLIGHT COMPUTER -->
-                    <div class="project-card expandable" id="proj-flight-computer">
+                    <!-- BOBA MACHINE -->
+                    <div class="project-card expandable" id="proj-boba">
                         <div class="project-thumb">
-                            <img src="images/kicad_schematic.png" alt="KiCad schematic for custom flight computer PCB with IMU, high-G accelerometer, barometer, and pyrotechnic output control" class="thumb-img" onerror="this.style.display='none'">
+                            <img src="images/Boba_Machine_Prototype.png" alt="Boba machine prototype with tea and creamer lines feeding a wooden dispensing mount over a cup, next to the phone ordering instructions sign" class="thumb-img" onerror="this.style.display='none'">
                         </div>
                         <div class="project-info">
                             <div class="project-header">
-                                <h3>Flight Computer</h3>
+                                <h3>Boba Machine</h3>
                                 <div class="project-header-meta">
-                                    <span class="badge badge-planned">Planned</span>
+                                    <span class="badge badge-inprogress">In Progress</span>
                                 </div>
                             </div>
-                            <p class="project-short">A custom ARM Cortex-M flight computer running my bare-metal driver stack, with an IMU, high-G accelerometer, barometer, flash logging, and pyrotechnic output.</p>
+                            <p class="project-short">A self-serve milk tea machine friends order from by phone, with a model that learns each person's ideal mix from their ratings.</p>
                             <div class="project-details">
                                 <div class="project-details-inner">
-                                    <p>The stage after the driver stack: a custom flight computer designed in KiCad, integrating an IMU, a high-G accelerometer, a BMP390 barometer, onboard flash logging, and pyrotechnic output for deployment charges or e-matches. The STM32G4 peripheral drivers and the BMP390 device driver carry over from the previous project.</p>
-                                    <p>Not everything is hand-rolled here. Remaining device drivers use vendor HALs, with SPI written from scratch to complete the transport layer the BMP390 driver was designed around. Writing the stack at the register level first is what makes that a choice rather than a default.</p>
-                                    <p>Verification moves to this project as well: a pytest hardware-in-the-loop harness driving the board over UART, and a replay harness that feeds 25 hours of logged flight data, including a 16+ G ascent, back through the stack for fault injection.</p>
+                                    <p>Collaborative build of a self-serve milk tea machine for our lounge. Guests join the machine's own Wi-Fi network, order from their phone, and rate each cup 1 to 5 stars. A gradient descent model running in the browser learns a group taste plus each person's own tea and creamer ratio from those ratings. I built the mechanical side, the hardware integration, and the full ordering website, including the live queue, ratings, and recipe model, using AI-assisted development. </p>
+                                    <p>The machine is already serving drinks to real users, and the current build is set up as a modular testbed so new features can be added quickly. Solid topping dispensing is next, starting with aloe and small pearls, followed by tapioca with an agitation mechanism to keep pearls from clumping. A cloud-hosted version of the ordering site is also in development, so guests will be able to order without joining the machine's network.</p>
                                     <div class="project-tags">
-                                        <span class="tag">KiCad</span>
-                                        <span class="tag">PCB Design</span>
-                                        <span class="tag">C++</span>
-                                        <span class="tag">ARM Cortex-M</span>
-                                        <span class="tag">I2C</span>
-                                        <span class="tag">SPI</span>
-                                        <span class="tag">Pyrotechnic Control</span>
-                                        <span class="tag">pytest</span>
+                                        <span class="tag">CAD</span>
+                                        <span class="tag">Mechanical Design</span>
+                                        <span class="tag">Servo Actuation</span>
+                                        <span class="tag">ESP32</span>
+                                        <span class="tag">MicroPython</span>
+                                        <span class="tag">Power Systems</span>
+                                        <span class="tag">MOSFET Switching</span>
+                                        <span class="tag">Systems Integration</span>
                                     </div>
+                                    <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" class="btn-secondary">View on GitHub</a>
+                                    <p class="project-link-note">Also on my <a href="https://lambdainstitute.com/projects/margeaux-corrigan" target="_blank" class="inline-link">Lambda Institute project page &#8599;</a></p>
                                 </div>
                             </div>
                             <span class="expand-toggle">see more...</span>
@@ -375,42 +376,6 @@
             <div class="container">
                 <h2>On the Side</h2>
                 <p class="section-sub">The projects and pursuits that keep me curious beyond the classroom and lab.</p>
-                <div class="on-the-side-layout">
-                    <!-- BOBA MACHINE -->
-                    <div class="project-card expandable on-the-side-project">
-                        <div class="project-thumb">
-                            <img src="images/Boba_Machine_Prototype.png" alt="Boba machine prototype with tea and creamer lines feeding a wooden dispensing mount over a cup, next to the phone ordering instructions sign" class="thumb-img" onerror="this.style.display='none'">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <h3>Boba Machine</h3>
-                                <div class="project-header-meta">
-                                    <span class="badge badge-inprogress">In Progress</span>
-                                </div>
-                            </div>
-                            <p class="project-short">A self-serve milk tea machine friends order from by phone, with a model that learns each person's ideal mix from their ratings.</p>
-                            <div class="project-details">
-                                <div class="project-details-inner">
-                                    <p>Collaborative build of a self-serve milk tea machine for our lounge. Guests join the machine's own Wi-Fi network, order from their phone, and rate each cup 1 to 5 stars. A gradient descent model running in the browser learns a group taste plus each person's own tea and creamer ratio from those ratings. I built the mechanical side, the hardware integration, and the full ordering website, including the live queue, ratings, and recipe model, using AI-assisted development. </p>
-                                    <p>The machine is already serving drinks to real users, and the current build is set up as a modular testbed so new features can be added quickly. Solid topping dispensing is next, starting with aloe and small pearls, followed by tapioca with an agitation mechanism to keep pearls from clumping. A cloud-hosted version of the ordering site is also in development, so guests will be able to order without joining the machine's network.</p>
-                                    <div class="project-tags">
-                                        <span class="tag">CAD</span>
-                                        <span class="tag">Mechanical Design</span>
-                                        <span class="tag">Servo Actuation</span>
-                                        <span class="tag">ESP32</span>
-                                        <span class="tag">MicroPython</span>
-                                        <span class="tag">UART</span>
-                                        <span class="tag">JavaScript</span>
-                                        <span class="tag">Systems Integration</span>
-                                    </div>
-                                    <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" class="btn-secondary">View on GitHub</a>
-                                    <p class="project-link-note">Also on my <a href="https://lambdainstitute.com/projects/margeaux-corrigan" target="_blank" class="inline-link">Lambda Institute project page &#8599;</a></p>
-                                </div>
-                            </div>
-                            <span class="expand-toggle">see more...</span>
-                        </div>
-                    </div>
-
                     <div class="interests-grid">
                         <div class="interest-card">
                         <span class="interest-icon">📻</span>
@@ -433,7 +398,6 @@
                         <p>Literally spinning plates on sticks. It's a surprisingly good full-body workout and I find the focus it requires genuinely meditative.</p>
                     </div>
                     </div>
-                </div>
             </div>
         </section>
 
