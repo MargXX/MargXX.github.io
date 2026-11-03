@@ -66,10 +66,10 @@
                         Electrical engineering student at Brown. I build embedded systems from the register level up.
                     </p>
                     <p class="hero-bio">
-                        I led avionics on Brown Rocketry's IREC-accepted rocket, with a payload I wrote flew on a separate live high-power launch, logging 25 hours of flight and ground sensor data through a boost that exceeded the IMU's 16 G linear range. I write bare-metal firmware in C and Ada, from a no-HAL RP2040 driver stack to STM32 work through a technical mentorship with AdaCore, and I'm currently in Brown's Interactive 3D Vision &amp; Learning Lab working on multi-camera rig hardware.
+                        I write bare-metal firmware in C and Ada and bring it up on real hardware: a portable driver stack that runs on both the RP2040 and STM32, with host unit tests and CI, and a multi-sensor data logger that recorded 25 hours of data without a dropped sample, including a live high-power rocket flight. I'm currently in Brown's Interactive 3D Vision &amp; Learning Lab working on multi-camera rig hardware, I led avionics on Brown Rocketry's IREC-accepted rocket, and I get weekly firmware code review through a technical mentorship with AdaCore.
                     </p>
                     <p class="hero-bio">
-                        Working toward a future in electrical engineering and aerospace. Always happy to talk rockets or weird side projects, too.
+                        I'm drawn to work wherever software meets physical hardware, in whatever industry that happens to be. Always happy to talk firmware, hardware bring-up, rockets, or weird side projects.
                     </p>
                     <div class="hero-links">
                         <a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" class="btn-outline">LinkedIn</a>
@@ -87,37 +87,6 @@
                 <h2>Projects</h2>
                 <p class="section-sub">What I'm building and what I've recently shipped. <time datetime="2026-10-28">Last updated October 28, 2026</time></p>
                 <div class="projects-grid">
-
-                    <!-- ROCKET PAYLOAD SENSOR SYSTEM -->
-                    <div class="project-card expandable" id="proj-rocket">
-                        <div class="project-thumb">
-                            <img src="images/Rocket_Payload_Final_Programming.jpeg" alt="Rocket payload board with sensors mounted, photographed during final pre-launch programming session" class="thumb-img" onerror="this.style.display='none'">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <h3>Rocket Payload Sensor System</h3>
-                                <div class="project-header-meta">
-                                    <span class="badge badge-complete">Complete</span>
-                                </div>
-                            </div>
-                            <p class="project-short">I built Ada firmware for an RP2040 rocket payload and logged sensor data live under real G-loads.</p>
-                            <div class="project-details">
-                                <div class="project-details-inner">
-                                    <p>I built bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload, under weekly review from an AdaCore engineer, and flew it on a live high-power launch, reaching 377 m AGL. Boost and ejection both exceeded the IMU's specified 16 G linear range, indicating 18.1 G and 22 G, so I treat those values as indicative rather than calibrated.</p>
-                                    <p>I integrated a BMP390 barometer and LSM9DS1 IMU over I2C and built the SPI flash logging pipeline to a W25Q128, with sensor compensation applied offline in Python. The system ran at 100+ Hz on the bench, but roughly 21 hours of storage, drive, and pad wait had to fit in 16 MB, so I traded sampling rate for endurance and flew at 4.9 Hz. Logging ran continuously for 24.96 hours across 438,858 samples with no dropped records.</p>
-                                    <p>Post-flight analysis turned up a 1.5&times; count-to-g conversion error, caught by comparing logged pad data against the expected 1 G static acceleration. On the flash logger, the HAL SPI transmit released chip select early and silently truncated writes, so I replaced it with register-level transfers. Debugging across the project also covered I2C addressing, SPI clocking, UART data loss, and power sequencing at both the hardware and firmware layers.</p>
-                                    <p>The flight produced two requirements for the custom STM32G431 flight computer I am building: arm on launch detect with a circular pre-buffer, so a storage budget doesn't dictate flight sample rate so strongly, and a dedicated high-G accelerometer, since the flight exceeded the IMU's specified linear range.</p>
-                                    <div class="project-tags">
-                                        <span class="tag">RP2040</span>
-                                        <span class="tag">Ada</span>
-                                        <span class="tag">I2C</span>
-                                        <span class="tag">SPI</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="expand-toggle">see more...</span>
-                        </div>
-                    </div>
 
                     <!-- BARE-METAL DRIVER STACK IN C -->
                     <div class="project-card expandable" id="proj-drivers">
@@ -151,6 +120,37 @@
                                         <span class="tag">CI/CD</span>
                                     </div>
                                     <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
+                                </div>
+                            </div>
+                            <span class="expand-toggle">see more...</span>
+                        </div>
+                    </div>
+
+                    <!-- MULTI-SENSOR DATA LOGGER -->
+                    <div class="project-card expandable" id="proj-rocket">
+                        <div class="project-thumb">
+                            <img src="images/Rocket_Payload_Final_Programming.jpeg" alt="Rocket payload board with sensors mounted, photographed during final pre-launch programming session" class="thumb-img" onerror="this.style.display='none'">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-header">
+                                <h3>Multi-Sensor Data Logger</h3>
+                                <div class="project-header-meta">
+                                    <span class="badge badge-complete">Complete</span>
+                                </div>
+                            </div>
+                            <p class="project-short">Bare-metal Ada firmware for an RP2040 sensor logger that ran 25 hours unattended with no dropped records, flown as a payload on a live high-power rocket launch.</p>
+                            <div class="project-details">
+                                <div class="project-details-inner">
+                                    <p>I built bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload, under weekly review from an AdaCore engineer, and flew it on a live high-power launch, reaching 377 m AGL. Boost and ejection both exceeded the IMU's specified 16 G linear range, indicating 18.1 G and 22 G, so I treat those values as indicative rather than calibrated.</p>
+                                    <p>I integrated a BMP390 barometer and LSM9DS1 IMU over I2C and built the SPI flash logging pipeline to a W25Q128, with sensor compensation applied offline in Python. The system ran at 100+ Hz on the bench, but roughly 21 hours of storage, drive, and pad wait had to fit in 16 MB, so I traded sampling rate for endurance and flew at 4.9 Hz. Logging ran continuously for 24.96 hours across 438,858 samples with no dropped records.</p>
+                                    <p>Post-flight analysis turned up a 1.5&times; count-to-g conversion error, caught by comparing logged pad data against the expected 1 G static acceleration. On the flash logger, the HAL SPI transmit released chip select early and silently truncated writes, so I replaced it with register-level transfers. Debugging across the project also covered I2C addressing, SPI clocking, UART data loss, and power sequencing at both the hardware and firmware layers.</p>
+                                    <p>The flight produced two requirements for the custom STM32G431 flight computer I am building: arm on launch detect with a circular pre-buffer, so a storage budget doesn't dictate flight sample rate so strongly, and a dedicated high-G accelerometer, since the flight exceeded the IMU's specified linear range.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">RP2040</span>
+                                        <span class="tag">Ada</span>
+                                        <span class="tag">I2C</span>
+                                        <span class="tag">SPI</span>
+                                    </div>
                                 </div>
                             </div>
                             <span class="expand-toggle">see more...</span>
@@ -406,7 +406,7 @@
             <div class="container">
                 <h2>Contact</h2>
                 <p class="contact-sub">
-                    I'm especially interested in embedded software, avionics, and aerospace hardware opportunities, and always happy to chat with people working in those fields.
+                    I'm interested in embedded software, firmware, and hardware engineering opportunities across industries, and always happy to chat with people building things where code meets hardware.
                 </p>
                 <div class="contact-links">
                     <a href="mailto:margeauxcorrigan@gmail.com" class="contact-item">

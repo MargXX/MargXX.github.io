@@ -6,7 +6,7 @@ Personal portfolio site for Margeaux Corrigan — EE student at Brown University
 
 ## About
 
-Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. No frameworks. Features a typed-name animation, expandable project cards, a timeline-style experience section, a skills section, an interests section, and a contact block.
+Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. No frameworks. Features expandable project cards, a timeline-style experience section, a skills section, an interests section, and a contact block.
 
 ## Stack
 
@@ -17,14 +17,13 @@ Single-page portfolio built from scratch in HTML, CSS, and vanilla JavaScript. N
 ## Sections
 
 - **Projects** — cards with a one-line summary; click to expand full description, tags, and links
-- **Skills** — languages, embedded systems, CAD, and fabrication
-- **Experience** — IVL Lab, AdaCore, Brown Rocketry, and Project Amplify
-- **Interests** — hobbies outside engineering
+- **Skills** — languages, embedded systems, test tooling, hardware, CAD, and fabrication
+- **Experience** — GE Aerospace (incoming co-op), IVL Lab, Brown Rocketry, Brown Space Engineering, and AdaCore
+- **On the Side** — hobbies outside engineering
 - **Contact**
 
 ## Projects featured
 
-- Rocket Payload Sensor System — bare-metal Ada firmware on RP2040, deployed on a live IREC launch
 - Bare-Metal Driver Stack in C — portable GPIO, SysTick, UART, I2C, and BMP390 drivers, hardware-verified on the RP2040 (no HAL) and the STM32G431 (HAL backend); host unit tests and CI for both targets
-- Flight Computer — planned KiCad flight computer integrating an IMU, barometer, GPS, flash logging, and pyrotechnic output
-- Boba Machine — self-serve milk tea machine with phone ordering, ESP32 + Arduino pump control, and a ratings-trained recipe model
+- Multi-Sensor Data Logger — bare-metal Ada firmware on RP2040 that logged 25 hours with no dropped records, flown as a payload on a live high-power rocket launch
+- Boba Machine — self-serve milk tea machine with phone ordering, ESP32-based dispensing, and a ratings-trained recipe model
