@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MC-EE29 Datasheet · Margeaux Corrigan</title>
-<meta name="description" content="Margeaux Corrigan — Electrical Engineering at Brown. Embedded systems, bare-metal firmware, PCB design, rocketry avionics.">
+<title>Margeaux Corrigan</title>
+<meta name="description" content="Margeaux Corrigan, EE at Brown. Bare-metal firmware, boards, rockets, and one boba machine.">
 <meta property="og:title" content="Margeaux Corrigan | EE @ Brown">
 <meta property="og:description" content="Electrical engineering student at Brown building embedded systems from the register level up. Bare-metal C and Ada firmware, verified on hardware.">
 <meta property="og:type" content="website">
@@ -16,566 +16,563 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f6f4ee;
-    --sheet: #fffefa;
-    --ink: #16161a;
-    --ink-2: #4a4a52;
-    --ink-3: #8a8a90;
-    --rule: #16161a;
-    --hair: #d9d6cc;
-    --accent: #5753e6;
-    --accent-soft: #ecebfd;
-    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mask: #f7f8fc;        /* page */
+    --mask-2: #eef0ff;      /* hover / selected */
+    --mask-3: #ffffff;      /* cards */
+    --silk: #0d0d1a;        /* text */
+    --silk-2: #525270;
+    --silk-3: #7c7c9a;
+    --copper: #6366f1;      /* accent */
+    --copper-2: #818cf8;
+    --ok: #059669;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --sans: "Space Grotesk", system-ui, sans-serif;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --paper: #111113; --sheet: #18181b; --ink: #ecebe6; --ink-2: #b4b3ad;
-      --ink-3: #7c7b77; --rule: #ecebe6; --hair: #34343a; --accent: #a5a8fc; --accent-soft: #24233f;
-    }
-  }
-  :root[data-theme="dark"] {
-    --paper: #111113; --sheet: #18181b; --ink: #ecebe6; --ink-2: #b4b3ad;
-    --ink-3: #7c7b77; --rule: #ecebe6; --hair: #34343a; --accent: #a5a8fc; --accent-soft: #24233f;
-  }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font: 15px/1.6 var(--sans);
+    background-color: var(--mask);
+    background-image: radial-gradient(circle at 1px 1px, rgba(13,13,26,.06) 1px, transparent 0);
+    background-size: 24px 24px;
+    color: var(--silk);
+    font: 16px/1.65 var(--sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
-  a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
-  a:hover { color: var(--accent); }
+  a { color: var(--copper); text-underline-offset: 3px; }
+  a:hover { color: var(--silk); }
+  ::selection { background: var(--copper); color: var(--mask-3); }
+  .skip { position: absolute; left: -999px; top: 8px; background: var(--copper); color: var(--mask-3); padding: 6px 10px; z-index: 100; }
+  .skip:focus { left: 8px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; position: relative; }
+  .mono { font-family: var(--mono); }
 
-  .sheet {
-    max-width: 960px;
-    margin: 32px auto;
-    background: var(--sheet);
-    border: 1px solid var(--hair);
-    box-shadow: 0 1px 0 var(--hair), 0 12px 40px -20px rgba(0,0,0,.18);
+  main, header, footer { position: relative; z-index: 1; }
+
+  /* ---------- nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(255,255,255, .86); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(99,102,241,.25);
   }
-  .pad { padding: 0 48px; }
-
-  /* ---------- Top bar ---------- */
-  .topbar {
-    display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    padding: 14px 48px;
-    border-bottom: 3px solid var(--rule);
-    font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 58px; gap: 16px; }
+  .logo { font: 700 14px var(--mono); letter-spacing: .08em; color: var(--silk); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo .fid { width: 14px; height: 14px; border-radius: 50%; background: var(--copper); box-shadow: 0 0 0 3px var(--mask-3), 0 0 0 4px var(--copper-2); }
+  .nav ul { list-style: none; display: flex; gap: 22px; }
+  .nav ul a { font: 500 13px var(--mono); color: var(--silk-2); text-decoration: none; }
+  .nav ul a span { color: var(--copper); margin-right: 6px; }
+  .nav ul a:hover { color: var(--silk); }
+  .kbd-btn {
+    font: 500 12px var(--mono); color: var(--silk); background: var(--mask-2);
+    border: 1px solid rgba(13,13,26,0.138); border-radius: 6px; padding: 6px 10px; cursor: pointer;
   }
-  .topbar .brand { display: flex; align-items: center; gap: 10px; }
-  .topbar .brand b { background: var(--ink); color: var(--sheet); padding: 4px 7px; }
-  .topbar nav { display: flex; gap: 18px; flex-wrap: wrap; }
-  .topbar nav a { text-decoration: none; color: var(--ink-2); }
-  .topbar nav a:hover { color: var(--accent); }
-  #theme {
-    background: none; border: 1px solid var(--ink); color: var(--ink);
-    font: 500 11px var(--mono); padding: 4px 8px; cursor: pointer; text-transform: uppercase;
+  .kbd-btn:hover { border-color: var(--copper); }
+
+  /* ---------- section heading ---------- */
+  section { padding: 52px 0 0; }
+  h2 { font-size: clamp(26px, 3.6vw, 36px); line-height: 1.1; font-weight: 700; letter-spacing: -.02em; margin: 0 0 6px; }
+  h2::after {
+    content: ""; display: block; margin-top: 10px; height: 2px; width: 120px;
+    background: linear-gradient(90deg, var(--copper) 0 70%, transparent 70% 76%, var(--copper) 76% 100%);
   }
+  .lede { color: var(--silk-2); max-width: 62ch; margin-top: 10px; }
 
-  /* ---------- Title block ---------- */
-  .title {
-    display: grid; grid-template-columns: 1fr 200px; gap: 40px;
-    padding-top: 40px; padding-bottom: 32px;
-    border-bottom: 1px solid var(--rule);
+  /* ---------- hero ---------- */
+  .hero { padding: 44px 0 8px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; align-items: center; }
+  .silk-row { font: 500 11px var(--mono); color: var(--silk-3); letter-spacing: .14em; margin-bottom: 22px; }
+  h1 { font-size: clamp(44px, 7.5vw, 84px); line-height: .98; letter-spacing: -.035em; font-weight: 700; }
+  h1 em { font-style: normal; color: var(--copper); }
+  .tagline { font-size: clamp(18px, 2.2vw, 22px); color: var(--silk-2); margin-top: 20px; max-width: 34ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn {
+    font: 700 13px var(--mono); text-decoration: none; letter-spacing: .03em;
+    padding: 12px 18px; border-radius: 999px; border: 1.5px solid var(--copper);
+    color: var(--copper); background: transparent; cursor: pointer; transition: .15s;
   }
-  .partno { font: 500 13px var(--mono); color: var(--accent); letter-spacing: .08em; }
-  h1 { font-size: clamp(34px, 6vw, 54px); line-height: 1.05; font-weight: 700; letter-spacing: -.02em; margin: 8px 0 12px; }
-  .subtitle { font-size: 18px; color: var(--ink-2); max-width: 52ch; }
-  .contact { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .contact a {
-    font: 500 12px var(--mono); text-decoration: none;
-    border: 1px solid var(--ink); padding: 6px 10px; text-transform: uppercase; letter-spacing: .04em;
+  .btn.solid { background: var(--copper); color: #fff; }
+  .btn:hover { background: var(--silk); border-color: var(--silk); color: var(--mask-3); }
+  .status { margin-top: 26px; font: 13px var(--mono); color: var(--silk-2); border-left: 2px solid var(--ok); padding-left: 12px; }
+
+  /* headshot as a footprint */
+  .footprint { position: relative; padding: 22px; }
+  .footprint .outline { position: absolute; inset: 0; border: 1.5px dashed rgba(13,13,26,0.193); border-radius: 10px; }
+  .footprint .pad { position: absolute; width: 18px; height: 18px; background: var(--copper); border-radius: 3px; }
+  .footprint .pad.tl { top: -9px; left: -9px; } .footprint .pad.tr { top: -9px; right: -9px; }
+  .footprint .pad.bl { bottom: -9px; left: -9px; } .footprint .pad.br { bottom: -9px; right: -9px; border-radius: 50%; }
+  .photo { aspect-ratio: 4/5; overflow: hidden; border-radius: 6px; border: 1px solid rgba(99,102,241,.4); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.6); transform-origin: 49% 48%; display: block; }
+
+
+  /* ---------- toolkit ---------- */
+  .bom { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; border: 1px solid rgba(13,13,26,0.099); border-radius: 10px; padding: 18px 20px; background: rgba(255,255,255,.6); font: 13px/1.5 var(--mono); }
+  .bom div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px dashed rgba(13,13,26,0.077); }
+  .bom div:nth-last-child(-n+2) { border-bottom: 0; }
+  .bom span:first-child { color: var(--silk-3); }
+  .bom span:last-child { text-align: right; }
+
+  /* ---------- experience (netlist) ---------- */
+  .net { margin-top: 20px; position: relative; }
+  .net::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--copper-2); opacity: .6; }
+  .node { position: relative; padding: 0 0 16px 40px; }
+  .node::before { content: ""; position: absolute; left: 0; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--mask); border: 3px solid var(--copper); }
+  .node .when { font: 500 12px var(--mono); color: var(--copper); letter-spacing: .06em; }
+  .node h3 { font-size: 20px; font-weight: 700; margin-top: 2px; }
+  .node .role { color: var(--silk-2); font-size: 15px; }
+  .node ul { margin-top: 4px; padding-left: 18px; color: var(--silk); }
+  .node li { margin: 2px 0; }
+  .node li::marker { color: var(--copper-2); }
+
+  /* ---------- projects ---------- */
+
+  .grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 18px; }
+  .card.feature { display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
+  .card.feature .media { padding: 22px 0 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .card.feature .shot { aspect-ratio: 16/10; border: 1px solid rgba(13,13,26,0.077); border-radius: 10px; }
+  .card.feature .shot img { object-position: var(--pos, 50% 50%); }
+  .card.feature .metrics { margin: 0; }
+  .card.feature .body { padding: 24px 28px 26px; }
+  .card.feature h3 { font-size: 28px; letter-spacing: -.02em; }
+  .card.feature:nth-of-type(2) .media { order: 2; padding: 22px 22px 22px 0; }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: 16px 0 6px; background: rgba(99,102,241,.25); border: 1px solid rgba(99,102,241,.25); border-radius: 8px; overflow: hidden; }
+  .metrics div { background: var(--mask); padding: 10px 12px; display: flex; flex-direction: column; }
+  .metrics b { font: 700 18px var(--mono); color: var(--silk); letter-spacing: -.02em; }
+  .metrics span { font: 10.5px/1.35 var(--mono); color: var(--silk-3); text-transform: uppercase; letter-spacing: .06em; }
+  details.writeup { margin-top: 14px; border-top: 1px dashed rgba(13,13,26,0.11); }
+  details.writeup summary { cursor: pointer; list-style: none; padding: 12px 0 4px; font: 700 13px var(--mono); color: var(--copper); }
+  details.writeup summary::-webkit-details-marker { display: none; }
+  details.writeup summary::before { content: "+ "; }
+  details.writeup[open] summary::before { content: "− "; }
+  details.writeup h4 { font: 700 12px var(--mono); color: var(--silk); text-transform: uppercase; letter-spacing: .08em; margin: 14px 0 4px; }
+  details.writeup p { font-size: 14.5px; }
+  .linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--copper); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .linkish:hover { color: var(--silk); }
+  section.first { padding-top: 40px; }
+  .card {
+    position: relative; border-radius: 14px; overflow: hidden;
+    background: var(--mask-3); border: 1px solid rgba(13,13,26,0.077);
+    display: flex; flex-direction: column; transition: border-color .15s, transform .15s;
   }
-  .contact a.primary { background: var(--ink); color: var(--sheet); }
-  .contact a:hover { background: var(--accent); border-color: var(--accent); color: var(--sheet); }
-  .figure { border: 1px solid var(--rule); align-self: start; }
-  .figure .crop { overflow: hidden; aspect-ratio: 1; }
-  .figure img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.75); transform-origin: 49% 55%; }
-  .figure figcaption { font: 11px var(--mono); padding: 6px 8px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+  .card:hover { box-shadow: 0 16px 48px rgba(0,0,0,.08), 0 0 0 1px rgba(99,102,241,.15); border-color: rgba(99,102,241,.6); transform: translateY(-2px); }
+  .card[hidden] { display: none; }
+  .card .shot { aspect-ratio: 16/9; overflow: hidden; border-bottom: 1px solid rgba(13,13,26,0.077); background: var(--mask-2); }
+  .card .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .shot.blank { display: grid; place-items: center; font: 500 12px var(--mono); color: var(--silk-3); letter-spacing: .1em; }
+  .card .body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+  .card .ref { font: 500 11px var(--mono); color: var(--copper); letter-spacing: .12em; display: flex; justify-content: space-between; }
+  .card .ref .st { color: var(--silk-3); }
+  .card .ref .st.wip { color: var(--ok); }
+  .card h3 { font-size: 21px; line-height: 1.2; margin: 6px 0 8px; }
+  .card p { color: var(--silk-2); font-size: 15px; }
+  .card ul { margin: 10px 0 0 18px; font-size: 14.5px; }
+  .card li { margin: 4px 0; }
+  .card li::marker { color: var(--copper-2); }
+  .tags { margin-top: auto; padding-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font: 500 11px var(--mono); padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(13,13,26,0.121); color: var(--silk-2); }
+  .card .links { margin-top: 12px; display: flex; gap: 14px; flex-wrap: wrap; font: 500 13px var(--mono); }
 
-  /* ---------- Features / ratings ---------- */
-  .twocol { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--rule); }
-  .twocol > div { padding: 28px 48px 32px; }
-  .twocol > div + div { border-left: 1px solid var(--rule); }
+  .lightbox { border: 0; padding: 0; background: transparent; max-width: min(92vw, 1100px); max-height: 92vh; margin: auto; }
+  .lightbox::backdrop { background: rgba(13,13,26,.85); }
+  .lightbox img { max-width: 100%; max-height: 82vh; display: block; border-radius: 8px; margin: 0 auto; }
+  .lightbox p { text-align: center; font: 13px var(--mono); color: #fff; margin-top: 10px; }
+  .lightbox .x { position: fixed; top: 16px; right: 20px; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--hair); vertical-align: top; }
-  thead th { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; border-bottom: 1.5px solid var(--rule); color: var(--ink-2); }
-  td.val { font: 600 14px var(--mono); white-space: nowrap; text-align: right; }
-  td.unit { font: 12px var(--mono); color: var(--ink-3); white-space: nowrap; }
+  /* ---------- side ---------- */
+  .side { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
+  .side div { border: 1px solid rgba(13,13,26,0.088); border-radius: 12px; padding: 18px; background: rgba(255,255,255,.6); }
+  .side h3 { font-size: 18px; margin: 4px 0 6px; }
+  .side p { color: var(--silk-2); font-size: 14px; }
 
-  /* ---------- Sections ---------- */
-  section { padding: 36px 48px; border-bottom: 1px solid var(--rule); }
-  h2 {
-    display: flex; align-items: baseline; gap: 14px;
-    font-size: 20px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 20px;
+  /* ---------- contact ---------- */
+  .contact { margin-top: 14px; max-width: 560px; }
+  .contact .direct a { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px dashed rgba(13,13,26,0.11); text-decoration: none; color: var(--silk); font: 14px var(--mono); }
+  .contact .direct a span { color: var(--silk-3); }
+  .contact .direct a:hover { color: var(--copper); }
+
+  /* ---------- footer ---------- */
+  footer { margin-top: 56px; border-top: 1px solid rgba(99,102,241,.25); background: var(--mask-3); }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 22px; padding-bottom: 26px; font: 12px var(--mono); color: var(--silk-3); }
+  kbd { font: 11px var(--mono); border: 1px solid rgba(13,13,26,0.165); border-bottom-width: 2px; border-radius: 4px; padding: 1px 5px; color: var(--silk); }
+
+
+  /* ---------- purple board band (hero + footer) ---------- */
+  .board {
+    --mask: #5853c4; --mask-2: #6560cc; --mask-3: #3f3a9e;
+    --silk: #ffffff; --silk-2: #eeedfb; --silk-3: #dddcf8;
+    --copper: #e3e4ff; --copper-2: #b9b7f5; --ok: #9df0c0;
+    background-color: var(--mask);
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.1) 1px, transparent 0);
+    background-size: 24px 24px;
+    color: var(--silk);
   }
-  h2 .n { font: 600 13px var(--mono); color: var(--accent); }
-  h2::after { content: ""; flex: 1; border-bottom: 1px dashed var(--hair); transform: translateY(-5px); }
-  .twocol h2 { margin-bottom: 14px; }
+  .board .hero { padding-bottom: 44px; }
+  .board .footprint .outline { border-color: rgba(255,255,255,.45); }
+  .board .photo { border-color: rgba(255,255,255,.55); }
+  .board .btn.solid { color: var(--mask-3); }
+  .board .btn:hover { background: var(--silk); border-color: var(--silk); color: var(--mask-3); }
+  footer.board { border-top: 0; }
+  footer.board .wrap { color: var(--silk-2); }
 
-  .entry { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 18px 0; border-top: 1px solid var(--hair); }
-  .entry:first-of-type { border-top: 0; padding-top: 0; }
-  .meta { font: 12px/1.5 var(--mono); color: var(--ink-2); }
-  .meta .when { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
-  .entry h3 { font-size: 17px; font-weight: 600; line-height: 1.3; }
-  .entry .role { color: var(--ink-2); font-size: 14px; margin: 2px 0 8px; }
-  .entry ul { padding-left: 18px; }
-  .entry li { margin: 4px 0; color: var(--ink); }
-  .entry li::marker { color: var(--ink-3); }
-  .tag {
-    display: inline-block; font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .05em;
-    padding: 2px 6px; margin: 0 4px 4px 0; border: 1px solid var(--hair); color: var(--ink-2);
+  /* ---------- console (command palette) ---------- */
+  .console { border: 0; padding: 0; background: transparent; width: min(560px, 92vw); margin: 12vh auto auto; }
+  .console::backdrop { background: rgba(13,13,26,.3); backdrop-filter: blur(2px); }
+  .console .box { background: #ffffff; border: 1px solid var(--copper-2); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 80px rgba(13,13,26,.18); font-family: var(--mono); color: var(--silk); }
+  .console .prompt { display: flex; align-items: center; gap: 8px; padding: 14px 16px; border-bottom: 1px solid rgba(13,13,26,0.066); }
+  .console .prompt span { color: var(--ok); font-size: 14px; white-space: nowrap; }
+  .console input { border: 0; background: transparent; padding: 0; font: 14px var(--mono); color: var(--silk); width: 100%; outline: none; }
+  .console ul { list-style: none; max-height: 320px; overflow: auto; padding: 6px; }
+  .console li { padding: 9px 12px; border-radius: 7px; font-size: 13px; display: flex; justify-content: space-between; cursor: pointer; color: var(--silk-2); }
+  .console li small { color: var(--silk-3); }
+  .console li[aria-selected="true"] { background: var(--mask-2); color: var(--silk); }
+  .console li[aria-selected="true"]::before { content: "›"; color: var(--copper); margin-right: 8px; }
+  .console li { gap: 12px; }
+  .console .hint { padding: 9px 16px; border-top: 1px solid rgba(13,13,26,0.066); font-size: 11px; color: var(--silk-3); display: flex; gap: 14px; }
+  .console .out { padding: 10px 16px; font-size: 12px; color: var(--ok); border-top: 1px solid rgba(13,13,26,0.066); }
+  .console .out:empty { display: none; }
+
+
+  @media (max-width: 860px) {
+    .nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; gap: 36px; padding-top: 32px; }
+    .footprint { max-width: 320px; }
+    .bom { grid-template-columns: 1fr; }
+    .bom div:nth-last-child(2) { border-bottom: 1px dashed rgba(13,13,26,0.077); }
+    .grid { grid-template-columns: 1fr; }
+    .card.feature { grid-template-columns: 1fr; }
+    .card.feature .media, .card.feature:nth-of-type(2) .media { order: 0; padding: 16px 16px 0; }
+    .card.feature .body { padding: 20px; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .side { grid-template-columns: 1fr 1fr; }
   }
-  .tag.hot { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
-
-  /* ---------- Project blocks ---------- */
-  .proj { border: 1px solid var(--rule); margin-bottom: 24px; }
-  .proj:last-child { margin-bottom: 0; }
-  .proj-head {
-    display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
-    padding: 12px 18px; border-bottom: 1px solid var(--rule); background: var(--paper);
+  @media (max-width: 480px) {
+    .wrap { padding: 0 16px; }
+    .side { grid-template-columns: 1fr; }
   }
-  .proj-head h3 { font-size: 17px; }
-  .proj-head .meta { text-align: right; }
-  .proj-body { display: grid; grid-template-columns: 1fr 260px; }
-  .proj-body ul { padding: 16px 18px 16px 36px; }
-  .proj-body li { margin: 5px 0; }
-  .proj-fig { border-left: 1px solid var(--rule); display: flex; flex-direction: column; }
-  .proj-fig img { width: 100%; flex: 1; min-height: 180px; object-fit: cover; display: block; }
-  .proj-fig figcaption { font: 11px var(--mono); padding: 6px 10px; border-top: 1px solid var(--rule); color: var(--ink-2); }
-  .proj-foot { border-top: 1px solid var(--hair); padding: 10px 18px; font: 12px var(--mono); display: flex; gap: 16px; flex-wrap: wrap; }
-
-  /* ---------- Application notes (expandable) ---------- */
-  details.note { border-top: 1px solid var(--hair); }
-  details.note summary {
-    cursor: pointer; list-style: none; padding: 10px 18px;
-    font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--accent);
-  }
-  details.note summary::-webkit-details-marker { display: none; }
-  details.note summary::before { content: "+ "; }
-  details.note[open] summary::before { content: "− "; }
-  details.note .note-body { padding: 0 18px 18px; color: var(--ink-2); max-width: 75ch; }
-  details.note .note-body p + p { margin-top: 10px; }
-  details.note .note-body h4 { font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink); margin: 14px 0 4px; }
-  .status { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; padding: 2px 6px; border: 1px solid currentColor; margin-left: 8px; vertical-align: 2px; }
-  .status.done { color: var(--ink-2); }
-  .status.wip { color: var(--accent); }
-
-  /* ---------- Key numbers strip ---------- */
-  .specs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--rule); }
-  .specs > div { padding: 18px 24px; display: flex; flex-direction: column; gap: 4px; }
-  .specs > div:first-child { padding-left: 48px; }
-  .specs > div + div { border-left: 1px solid var(--hair); }
-  .specs .v { font: 600 22px var(--mono); letter-spacing: -.01em; }
-  .specs .k { font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
-  .subtitle-2 { margin-top: 10px; color: var(--ink-2); max-width: 60ch; }
-
-  /* ---------- On the side ---------- */
-  .aux { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--rule); }
-  .aux > div { padding: 16px 18px; border-bottom: 1px solid var(--hair); }
-  .aux > div:nth-child(odd) { border-right: 1px solid var(--hair); }
-  .aux > div:nth-last-child(-n+2) { border-bottom: 0; }
-  .aux .pin { font: 600 11px var(--mono); color: var(--accent); letter-spacing: .06em; }
-  .aux h3 { font-size: 16px; margin: 2px 0 6px; }
-  .aux p { color: var(--ink-2); font-size: 14px; }
-
-  /* ---------- Contact ---------- */
-  .contact-table td:first-child { font: 600 12px var(--mono); text-transform: uppercase; width: 140px; color: var(--ink-2); }
-  .contact-table td:last-child { font-family: var(--mono); }
-
-  /* ---------- Skills ---------- */
-  .skills td:first-child { font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .04em; width: 200px; color: var(--ink-2); }
-
-  /* ---------- Footer ---------- */
-  footer {
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-    padding: 14px 48px; font: 11px var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em;
-  }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 780px) {
-    .sheet { margin: 0; border: 0; }
-    .pad, section, .twocol > div, .topbar, footer { padding-left: 16px; padding-right: 16px; }
-    .topbar nav { display: none; }
-    .title { grid-template-columns: 1fr; gap: 24px; }
-    .figure { max-width: 180px; }
-    .twocol { grid-template-columns: 1fr; }
-    .twocol > div + div { border-left: 0; border-top: 1px solid var(--rule); }
-    .entry { grid-template-columns: 1fr; gap: 6px; }
-    .proj-body { grid-template-columns: 1fr; }
-    .proj-fig { border-left: 0; border-top: 1px solid var(--rule); }
-    .proj-head .meta { text-align: left; }
-    .skills td:first-child { width: auto; display: block; border-bottom: 0; padding-bottom: 0; }
-    .skills td { display: block; }
-    .specs { grid-template-columns: 1fr 1fr; }
-    .specs > div, .specs > div:first-child { padding: 14px 16px; }
-    .specs > div:nth-child(3) { border-left: 0; }
-    .specs > div:nth-child(n+3) { border-top: 1px solid var(--hair); }
-    .aux { grid-template-columns: 1fr; }
-    .aux > div:nth-child(odd) { border-right: 0; }
-    .aux > div:nth-last-child(2) { border-bottom: 1px solid var(--hair); }
-    .contact-table td:first-child { width: auto; }
-  }
-  @media print {
-    body { background: #fff; }
-    .sheet { margin: 0; box-shadow: none; border: 0; }
-    #theme, .topbar nav { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   }
 </style>
 </head>
 <body>
-<div class="sheet">
+<a class="skip" href="#main">Skip to content</a>
 
-  <div class="topbar">
-    <div class="brand"><b>MC</b><span>MC-EE29 · Product Datasheet</span></div>
-    <nav>
-      <a href="#projects">Projects</a>
-      <a href="#experience">Experience</a>
-      <a href="#leadership">Leadership</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button id="theme" aria-label="Toggle color theme">◐ Theme</button>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top"><span class="fid"></span>Margeaux Corrigan</a>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="kbd-btn" id="openConsole" aria-label="Open quick menu">Menu ⌘K</button>
   </div>
+</header>
 
-  <!-- Title block -->
-  <div class="title pad">
+<main id="main">
+<div class="board" id="top"><div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
     <div>
-      <div class="partno">PART NO. MC-EE29 · BROWN UNIVERSITY</div>
-      <h1>Margeaux Corrigan</h1>
-      <p class="subtitle">Electrical engineering student at Brown (Class of 2029, 4.0 GPA). I build embedded systems from the register level up: bare-metal firmware in C and Ada, brought up and verified on real hardware.</p>
-      <p class="subtitle-2">Incoming Avionics Systems Engineering Co-op at GE Aerospace. Always happy to talk firmware, hardware bring-up, rockets, or weird side projects.</p>
-      <div class="contact">
-        <a class="primary" href="mailto:margeauxcorrigan@gmail.com">Email</a>
-        <a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://github.com/MargXX" target="_blank" rel="noopener">GitHub</a>
-        <a href="assets/resume.pdf" target="_blank">Resume PDF</a>
+      <div class="silk-row">BROWN EE · CLASS OF 2029 · PROVIDENCE, RI</div>
+      <h1>Margeaux<br><em>Corrigan</em></h1>
+      <p class="tagline">Firmware from the register up. Boards, rockets, and one very well-tuned boba machine.</p>
+      <div class="cta">
+        <a class="btn solid" href="#projects">See the projects ↓</a>
+        <a class="btn" href="assets/resume.pdf" target="_blank">Resume (PDF)</a>
       </div>
+      <p class="status">Incoming Avionics Systems Engineering Co-op · GE Aerospace · Fall 2027</p>
     </div>
-    <figure class="figure">
-      <div class="crop"><img src="images/profile_pic.jpg" alt="Portrait of Margeaux Corrigan"></div>
-      <figcaption>FIG 1. Device, top view</figcaption>
-    </figure>
+    <div class="footprint">
+      <div class="outline"></div>
+      <span class="pad tl"></span><span class="pad tr"></span><span class="pad bl"></span><span class="pad br"></span>
+      <div class="photo"><img src="images/profile_pic.jpg" alt="Margeaux Corrigan in front of the Van Wickle Gates at Brown"></div>
+    </div>
   </div>
 
-  <!-- Key numbers -->
-  <div class="specs">
-    <div><span class="v">377 m</span><span class="k">Payload apogee, live flight</span></div>
-    <div><span class="v">438,858</span><span class="k">Samples logged, 0 dropped</span></div>
-    <div><span class="v">2 MCUs</span><span class="k">One portable driver, unchanged</span></div>
-    <div><span class="v">61 / 3,800+</span><span class="k">GE LIFT Summit selection</span></div>
-  </div>
+</div></div>
+<div class="wrap">
 
-  <!-- Projects -->
-  <section id="projects">
-    <h2><span class="n">1</span>Projects</h2>
+  <!-- PROJECTS -->
+  <section id="projects" class="first">
+    <h2>Things I've built</h2>
+    <p class="lede">Three builds, each with the numbers and the debugging story behind it.</p>
 
-    <article class="proj">
-      <div class="proj-head">
-        <h3>Bare-Metal Driver Stack<span class="status done">Complete</span></h3>
-        <div class="meta"><span class="when">May 2026 – Sep 2026</span>Independent project</div>
-      </div>
-      <div class="proj-body">
-        <ul>
-          <li>Wrote no-HAL, register-level C drivers for RP2040 GPIO, SysTick, UART, I2C and the BMP390; verified UART/I2C on a logic analyzer.</li>
-          <li>Split drivers into portable and MCU-specific layers so the BMP390 driver ran unchanged on a HAL-backed STM32 port.</li>
-          <li>Hand-wrote STM32 startup code and a 144 MHz PLL clock tree; measured SYSCLK on a logic analyzer and confirmed the FPU with a fault test.</li>
-          <li>Built a Unity/CTest suite covering every BMP390 function via link-time fakes, with NAK and timeout fault injection, run in CI.</li>
-          <li>Traced a failed sensor init to a BMP390 reset value that contradicts its datasheet; reproduced it on both MCUs to rule out the I2C layer.</li>
-        </ul>
-        <figure class="proj-fig">
-          <img src="images/driver_i2c_uart_output.png" alt="Logic analyzer capture of I2C and UART traffic">
-          <figcaption>FIG 2. I2C/UART capture</figcaption>
-        </figure>
-      </div>
-      <details class="note">
-        <summary>Full write-up · AN-01: design details</summary>
-        <div class="note-body">
-          <h4>RP2040, no vendor HAL</h4>
-          <p>Peripheral and device drivers are written directly against the RP2040 datasheet. The Pico SDK supplies only the second-stage bootloader, the linker script, and the C runtime. Everything was verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
-          <h4>Off-target testing</h4>
-          <p>The host build compiles the BMP390 driver with the native compiler and swaps in software fakes for the I2C and SysTick layers at link time, so NAK handling, error paths, and timeouts can be tested without hardware. GitHub Actions cross-compiles every firmware target for both MCUs and runs the suite on every push.</p>
-          <h4>Datasheet discrepancy</h4>
-          <p>Re-testing on hardware found a BMP390 register whose power-on value doesn't match the published datasheet. The repository documents the discrepancy, the evidence that the error is in the documentation rather than the driver, and why the host test suite couldn't have caught it.</p>
-          <h4>STM32G431 port</h4>
-          <p>The STM32G431RB is the MCU for the flight computer. Its startup path is hand-written at the register level: linker script, vector table, FPU enable, and reset handler, plus a 144 MHz clock tree verified by measuring its frequency directly. The SysTick driver runs unchanged on both the Cortex-M0+ and the Cortex-M4F.</p>
-          <p>The STM32 UART and I2C drivers implement the same public headers as the RP2040 versions, with ST's HAL as the backend. The HAL runs on the project's own clock and SysTick timebase instead of taking them over. The BMP390 driver compiles unchanged on top of them and passes its full on-target suite on the STM32, which is the point of the portable layer. The STM32 run also reproduced the datasheet discrepancy on a second I2C implementation. When UART output didn't arrive, reading the peripheral registers over SWD showed the firmware was transmitting correctly and traced the fault to board-level pin routing.</p>
+    <div class="grid" id="cards">
+      <article class="card feature">
+        <div class="media">
+          <div class="shot"><img src="images/driver_i2c_uart_output.png" alt="Logic analyzer capture of I2C and UART traffic"></div>
+          <div class="metrics">
+          <div><b>2</b><span>MCUs, one driver</span></div>
+          <div><b>144 MHz</b><span>hand-built PLL</span></div>
+          <div><b>100%</b><span>BMP390 fns tested</span></div>
+          <div><b>1</b><span>datasheet bug found</span></div>
         </div>
-      </details>
-      <div class="proj-foot">
-        <span><span class="tag hot">RP2040</span><span class="tag hot">STM32G4</span><span class="tag">C</span><span class="tag">CMake</span><span class="tag">Unity/CTest</span><span class="tag">GitHub Actions</span></span>
-        <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" rel="noopener">→ Source on GitHub</a>
-      </div>
-    </article>
-
-    <article class="proj">
-      <div class="proj-head">
-        <h3>Rocket Payload Sensor System<span class="status done">Complete</span></h3>
-        <div class="meta"><span class="when">Feb 2026 – Apr 2026</span>Sole developer</div>
-      </div>
-      <div class="proj-body">
-        <ul>
-          <li>Wrote bare-metal Ada firmware under weekly review by an AdaCore engineer; configured BMP390 and LSM9DS1 registers from their datasheets.</li>
-          <li>Flew on a live high-power launch: logged 377 m AGL apogee, boost past the ±16 G linear range, and descent to recovery.</li>
-          <li>Built a W25Q128 SPI flash logger; sized the sample rate to 16 MB and logged 438,858 samples over 25 h with zero dropped intervals.</li>
-          <li>Found a 1.5× count-to-g conversion error in Python post-flight analysis by checking logged data against static 1 G on the pad.</li>
-          <li>Replaced HAL SPI transmit with register-level transfers after early chip-select release silently truncated flash writes.</li>
-        </ul>
-        <figure class="proj-fig">
-          <img src="images/Rocket_Payload_Final_Programming.jpeg" alt="Rocket payload board connected for final programming">
-          <figcaption>FIG 3. Payload, final programming</figcaption>
-        </figure>
-      </div>
-      <details class="note">
-        <summary>Full write-up · AN-02: flight data &amp; lessons</summary>
-        <div class="note-body">
-          <table style="margin:6px 0 14px">
-            <thead><tr><th>Measurement</th><th style="text-align:right">Value</th><th>Unit</th></tr></thead>
-            <tbody>
-              <tr><td>Apogee</td><td class="val">377</td><td class="unit">m AGL</td></tr>
-              <tr><td>Peak accel, boost (indicative)*</td><td class="val">18.1</td><td class="unit">G</td></tr>
-              <tr><td>Peak accel, ejection (indicative)*</td><td class="val">22</td><td class="unit">G</td></tr>
-              <tr><td>Flight sample rate (bench: 100+)</td><td class="val">4.9</td><td class="unit">Hz</td></tr>
-              <tr><td>Continuous logging</td><td class="val">24.96</td><td class="unit">h</td></tr>
-              <tr><td>Records / dropped</td><td class="val">438,858 / 0</td><td class="unit">samples</td></tr>
-            </tbody>
-          </table>
-          <p>* Above the LSM9DS1's specified ±16 G linear range, so these values are indicative rather than calibrated.</p>
-          <h4>Endurance vs. rate</h4>
-          <p>The BMP390 and LSM9DS1 talk over I2C, and the logging pipeline writes to a W25Q128 SPI flash, with sensor compensation applied offline in Python. The system ran at 100+ Hz on the bench, but about 21 hours of storage, drive, and pad wait had to fit in 16 MB, so I traded sample rate for endurance and flew at 4.9 Hz.</p>
-          <h4>Debugging</h4>
-          <p>Beyond the SPI chip-select truncation and the 1.5× scaling error, debugging covered I2C addressing, SPI clocking, UART data loss, and power sequencing at both the hardware and firmware layers.</p>
-          <h4>Requirements for the next flight computer</h4>
-          <p>The flight set two requirements for the custom STM32G431 flight computer I'm building. First, arm on launch detect with a circular pre-buffer, so the storage budget doesn't dictate the flight sample rate. Second, add a dedicated high-G accelerometer, since the flight exceeded the IMU's linear range.</p>
         </div>
-      </details>
-      <div class="proj-foot">
-        <span><span class="tag hot">RP2040</span><span class="tag">Ada</span><span class="tag">I2C</span><span class="tag">SPI Flash</span><span class="tag">Python</span><span class="tag">pandas</span></span>
-      </div>
-    </article>
+        <div class="body">
+          <div class="ref"><span>MAY – SEP 2026</span><span class="st">COMPLETE</span></div>
+          <h3>Bare-Metal Driver Stack</h3>
+          <p>Register-level C drivers for two MCUs. The BMP390 barometer driver compiles unchanged on an RP2040 with no HAL and on an STM32G431 with a HAL backend.</p>
+          <ul>
+            <li>GPIO, SysTick, UART and I2C written straight from the RP2040 datasheet, verified on a logic analyzer</li>
+            <li>Hand-written STM32 startup: linker script, vector table, FPU enable, and a clock tree measured directly</li>
+            <li>Unity/CTest suite with link-time fakes and NAK/timeout fault injection, run in GitHub Actions</li>
+          </ul>
+          <details class="writeup">
+            <summary>Read the full write-up</summary>
+            <div>
+              <h4>Testing without hardware</h4>
+              <p>The host build compiles the BMP390 driver with the native compiler and swaps in fakes for the I2C and SysTick layers at link time. That makes NAK handling, error paths, and timeouts reachable without a board. CI cross-compiles every firmware target for both MCUs and runs the suite on every push.</p>
+              <h4>The datasheet was wrong</h4>
+              <p>Sensor init kept failing, and I traced it to a BMP390 register whose power-on value doesn't match the published datasheet. I reproduced it on the STM32 with a completely different I2C implementation to rule out my own driver. The repo documents the evidence and explains why the host tests couldn't have caught it.</p>
+              <h4>Porting to the STM32</h4>
+              <p>The STM32 UART and I2C drivers implement the same public headers as the RP2040 versions, with ST's HAL running on my clock and SysTick timebase instead of taking them over. When UART output didn't arrive, I read the peripheral registers over SWD, which showed the firmware was transmitting correctly and traced the fault to board-level pin routing.</p>
+            </div>
+          </details>
+          <div class="tags"><span class="tag">C</span><span class="tag">RP2040</span><span class="tag">STM32G4</span><span class="tag">CMake</span><span class="tag">Unity/CTest</span><span class="tag">OpenOCD</span></div>
+          <div class="links"><a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" rel="noopener">Source on GitHub ↗</a></div>
+        </div>
+      </article>
 
-    <article class="proj">
-      <div class="proj-head">
-        <h3>Boba Machine<span class="status wip">In Progress</span></h3>
-        <div class="meta"><span class="when">Collaborative build</span>Mechanical, hardware &amp; web</div>
-      </div>
-      <div class="proj-body">
-        <ul>
-          <li>A self-serve milk tea machine for our lounge. Guests join the machine's Wi-Fi, order from their phone, and rate each cup from 1 to 5 stars.</li>
-          <li>A gradient descent model running in the browser learns a group taste, plus each person's own tea-to-creamer ratio, from their ratings.</li>
-          <li>I built the mechanical side, the hardware integration, and the full ordering website (live queue, ratings, recipe model), using AI-assisted development.</li>
-          <li>Already serving drinks to real users. The build is a modular testbed: solid topping dispensing (aloe, small pearls, then tapioca with agitation) and a cloud-hosted ordering site are next.</li>
-        </ul>
-        <figure class="proj-fig">
-          <img src="images/Boba_Machine_Prototype.png" alt="Boba machine prototype">
-          <figcaption>FIG 4. Boba machine prototype</figcaption>
-        </figure>
-      </div>
-      <div class="proj-foot">
-        <span><span class="tag hot">ESP32</span><span class="tag">MicroPython</span><span class="tag">CAD</span><span class="tag">Servo Actuation</span><span class="tag">MOSFET Switching</span><span class="tag">Power Systems</span></span>
-        <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" rel="noopener">→ Source on GitHub</a>
-        <a href="https://lambdainstitute.com/projects/margeaux-corrigan" target="_blank" rel="noopener">→ Lambda Institute page</a>
-      </div>
-    </article>
+      <article class="card feature">
+        <div class="media">
+          <div class="shot" style="--pos: 50% 47%"><img src="images/Rocket_Payload_Final_Programming.jpeg" alt="Rocket payload board connected for final programming"></div>
+          <div class="metrics">
+          <div><b>377 m</b><span>apogee AGL</span></div>
+          <div><b>438,858</b><span>samples logged</span></div>
+          <div><b>0</b><span>dropped intervals</span></div>
+          <div><b>25 h</b><span>continuous run</span></div>
+        </div>
+        </div>
+        <div class="body">
+          <div class="ref"><span>FEB – APR 2026</span><span class="st">FLOWN</span></div>
+          <h3>Rocket Payload Sensor System</h3>
+          <p>Bare-metal Ada firmware on an RP2040, logging a BMP390 barometer and LSM9DS1 IMU to SPI flash through a live high-power launch. Written under weekly review from an AdaCore engineer.</p>
+          <ul>
+            <li>Built a W25Q128 flash logger and sized the sample rate so the whole mission fit in 16 MB</li>
+            <li>Caught a 1.5× count-to-g error by checking the pad data against a static 1 G</li>
+            <li>Replaced HAL SPI transmit after early chip-select release silently truncated flash writes</li>
+          </ul>
+          <details class="writeup">
+            <summary>Read the full write-up</summary>
+            <div>
+              <h4>Rate vs. endurance</h4>
+              <p>The system ran at 100+ Hz on the bench, but about 21 hours of storage, drive, and pad wait had to fit in 16 MB. I traded sample rate for endurance and flew at 4.9 Hz. Logging ran for 24.96 hours straight with no dropped records.</p>
+              <h4>What the flight showed</h4>
+              <p>Boost and ejection read 18.1 G and 22 G, past the IMU's ±16 G linear range, so I treat those values as indicative rather than calibrated. Sensor compensation is applied offline in Python.</p>
+              <h4>What it changed</h4>
+              <p>The flight set two requirements for the STM32G431 flight computer I'm building. It needs to arm on launch detect with a circular pre-buffer, so storage doesn't dictate sample rate. It also needs a dedicated high-G accelerometer.</p>
+            </div>
+          </details>
+          <div class="tags"><span class="tag">Ada</span><span class="tag">RP2040</span><span class="tag">I2C</span><span class="tag">SPI flash</span><span class="tag">Python</span></div>
+          <div class="links"><button class="linkish" data-open="images/kicad_schematic.png" data-cap="Payload schematic: Pico, BMP390, LSM9DS1 and W25Q128 flash">View schematic ⤢</button></div>
+        </div>
+      </article>
+
+      <article class="card feature">
+        <div class="media">
+          <div class="shot"><img src="images/Boba_Machine_Prototype.png" alt="Boba machine prototype"></div>
+          <div class="metrics">
+          <div><b>1–5 ★</b><span>ratings per cup</span></div>
+          <div><b>ESP32</b><span>MicroPython</span></div>
+          <div><b>Live</b><span>serving real users</span></div>
+          <div><b>Next</b><span>topping dispensing</span></div>
+        </div>
+        </div>
+        <div class="body">
+          <div class="ref"><span>TEAM PROJECT</span><span class="st wip">IN PROGRESS</span></div>
+          <h3>Boba Machine</h3>
+          <p>A self-serve milk tea machine for our lounge. Guests join its Wi-Fi, order from their phone, and rate each cup. A model learns everyone's ideal mix from those ratings.</p>
+          <ul>
+            <li>Built the mechanical side, the hardware integration (servos, MOSFET switching, power), and the ordering site</li>
+            <li>A gradient descent model in the browser learns a group taste plus each person's tea-to-creamer ratio</li>
+            <li>Set up as a modular testbed: aloe and small pearls next, then tapioca with an agitator to stop clumping</li>
+          </ul>
+          <div class="tags"><span class="tag">ESP32</span><span class="tag">MicroPython</span><span class="tag">CAD</span><span class="tag">Servos</span><span class="tag">MOSFETs</span><span class="tag">AI-assisted web</span></div>
+          <div class="links"><a href="https://github.com/MargXX/Perfect-Boba" target="_blank" rel="noopener">Source on GitHub ↗</a><a href="https://lambdainstitute.com/projects/margeaux-corrigan" target="_blank" rel="noopener">Lambda Institute ↗</a></div>
+        </div>
+      </article>
+    </div>
   </section>
 
-  <!-- Experience -->
-  <section id="experience">
-    <h2><span class="n">2</span>Experience</h2>
+  <!-- TOOLKIT -->
+  <section id="toolkit">
+    <h2>Toolkit</h2>
+    <div class="bom">
+        <div><span>Microcontrollers</span><span>RP2040, STM32G4</span></div>
+        <div><span>Languages</span><span>C, Ada, Python</span></div>
+        <div><span>Protocols</span><span>I2C, SPI, UART</span></div>
+        <div><span>PCB design</span><span>KiCad</span></div>
+        <div><span>CAD</span><span>SolidWorks, Fusion 360</span></div>
+        <div><span>Lab equipment</span><span>Scope, logic analyzer, NanoVNA</span></div>
+        <div><span>Testing</span><span>Unity/CTest, pytest, CI</span></div>
+        <div><span>License</span><span>Ham radio, Technician</span></div>
+    </div>
+  </section>
 
-    <div class="entry">
-      <div class="meta"><span class="when">Fall 2027</span>Incoming</div>
-      <div>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <h2>Where I've worked</h2>
+    <div class="net">
+      <div class="node">
+        <div class="when">FALL 2027 · INCOMING</div>
         <h3>GE Aerospace</h3>
         <div class="role">Avionics Systems Engineering Co-op</div>
-        <ul>
-          <li>Earned co-op offer by interview at the GE Aerospace LIFT Summit, one of 61 attendees selected from 3,800+ applicants.</li>
-        </ul>
+        <ul><li>Offer earned by interview at the LIFT Summit, where I was one of 61 attendees picked from 3,800+ applicants.</li></ul>
       </div>
-    </div>
-
-    <div class="entry">
-      <div class="meta"><span class="when">Jun 2026 – Present</span>Providence, RI</div>
-      <div>
+      <div class="node">
+        <div class="when">JUN 2026 – PRESENT</div>
         <h3>Brown Interactive 3D Vision &amp; Learning Lab</h3>
         <div class="role">Undergraduate Researcher · Advisor: Prof. Srinath Sridhar</div>
-        <ul>
-          <li>Co-maintained a 20-unit camera rig fleet: ran status checks, repaired 6+ faulty units, debugged multi-camera start/stop faults.</li>
-          <li>Assisted with schematic and KiCad PCB layout for a BJT-driven LED module slated for the next camera rig revision.</li>
-          <li>Built an egocentric capture unit for a partner lab: selected connectors and cabling, designed a 3D-printed enclosure, installed hardware.</li>
-          <li>Co-leading the partner lab's data capture project; gather their data requirements and report progress at weekly meetings.</li>
-        </ul>
-        <p class="meta" style="margin-top:8px">Funded by the Brown UTRA Research Award.</p>
+        <ul><li>Camera rig fleet maintenance, LED module PCB, and co-leading a partner lab's data capture project.</li></ul>
       </div>
-    </div>
-
-    <div class="entry">
-      <div class="meta"><span class="when">Dec 2025 – Present</span>Remote</div>
-      <div>
+      <div class="node">
+        <div class="when">DEC 2025 – PRESENT</div>
         <h3>AdaCore</h3>
         <div class="role">Technical Mentee</div>
-        <ul>
-          <li>Weekly one-on-one code reviews from an AdaCore engineer while developing bare-metal Ada firmware.</li>
-          <li>Configured STM32 and RP2040 peripherals at the register level without a HAL, building toolchain fundamentals and low-level software safety practices.</li>
-        </ul>
+        <ul><li>Weekly one-on-one firmware code review while I write bare-metal Ada for STM32 and RP2040.</li></ul>
       </div>
-    </div>
-
-    <div class="entry">
-      <div class="meta"><span class="when">Jun 2024 – Oct 2024</span>Remote</div>
-      <div>
-        <h3>Persistence Labs Inc.</h3>
-        <div class="role">Strategy Intern</div>
-        <ul>
-          <li>Ran beta testing across 10+ iterations of an AI social media app; presented findings to the founder, informing feature prioritization.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Leadership -->
-  <section id="leadership">
-    <h2><span class="n">3</span>Leadership &amp; Activities</h2>
-
-    <div class="entry">
-      <div class="meta"><span class="when">Sep 2025 – Present</span>Providence, RI</div>
-      <div>
+      <div class="node">
+        <div class="when">SEP 2025 – PRESENT</div>
         <h3>Brown Rocketry Club</h3>
         <div class="role">Avionics Team Lead (2025) · Co-President (2026)</div>
-        <ul>
-          <li>Co-led weekly meetings and avionics workshops for freshmen new to microcontrollers, building toward a fall launch.</li>
-          <li>Designed IREC avionics wiring diagrams; split power into five isolated buses for redundancy and to meet competition rules.</li>
-          <li>Ran SolidWorks FEA on the avionics bay aluminum ring to cut mass while holding margin under expected flight loads.</li>
-          <li>Delivered the Ada payload that fulfilled a $1K AdaCore sponsorship; arranged the engineer's mentorship for club members, through which a refined version of the payload firmware is in development.</li>
-        </ul>
+        <ul><li>Delivered the Ada payload that fulfilled a $1K AdaCore sponsorship, and set up the mentorship for club members.</li></ul>
       </div>
-    </div>
-
-    <div class="entry">
-      <div class="meta"><span class="when">Mar 2026 – Present</span>Providence, RI</div>
-      <div>
+      <div class="node">
+        <div class="when">MAR 2026 – PRESENT</div>
         <h3>Brown Space Engineering</h3>
         <div class="role">Communications Team Member</div>
-        <ul>
-          <li>Laid out a CubeSat antenna board in KiCad from given dimensions; stenciled and placed SMD parts in a clean room for reflow.</li>
-          <li>Sized UHF Nitinol dipole and S-band patch antennas to CubeSat constraints; corrected patch length for fringing fields.</li>
-          <li>Tested dipole and patch antennas with a calibrated NanoVNA, function generator and spectrum analyzer; characterized how sensitive patch resonance is to fabrication tolerance.</li>
-        </ul>
-        <p class="meta" style="margin-top:8px"><a href="https://brownspace.io/members" target="_blank" rel="noopener">→ Listed on the BSE members page</a></p>
+      </div>
+      <div class="node">
+        <div class="when">JUN 2024 – OCT 2024</div>
+        <h3>Persistence Labs Inc.</h3>
+        <div class="role">Strategy Intern</div>
+        <ul><li>Ran beta testing across 10+ iterations of an AI social app and turned the findings into feature priorities.</li></ul>
       </div>
     </div>
   </section>
 
-  <!-- Skills -->
-  <section id="skills">
-    <h2><span class="n">4</span>Technical Skills</h2>
-    <table class="skills">
-      <tbody>
-        <tr><td>Circuit Design &amp; Hardware</td><td>Schematic capture &amp; PCB layout (KiCad), component selection, wiring diagrams, soldering</td></tr>
-        <tr><td>Embedded Systems</td><td>Bare-metal firmware, register-level programming, device drivers, interrupt handling, Arm Cortex-M0+/M4F, RP2040, STM32G4, I2C, SPI, UART, SPI flash logging, sensor data acquisition</td></tr>
-        <tr><td>Debugging &amp; Test</td><td>Oscilloscope, logic analyzer, NanoVNA, multimeter, bench power supply, OpenOCD, SWD, Unity/CTest, pytest</td></tr>
-        <tr><td>Languages</td><td>C, Ada, Python, MATLAB, Java, OCaml, Racket</td></tr>
-        <tr><td>Software &amp; Tools</td><td>Git/GitHub, CMake, GitHub Actions CI, Linux/bash, arm-none-eabi-gcc, NumPy, pandas, Matplotlib</td></tr>
-        <tr><td>Mechanical &amp; CAD</td><td>SolidWorks, Fusion 360, FEA (SolidWorks), CAM, 3D printing, laser cutter, sheet metal fabrication</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- Education + Awards -->
-  <div class="twocol">
-    <div>
-      <h2><span class="n">5</span>Education</h2>
-      <h3 style="font-size:17px">Brown University</h3>
-      <p style="color:var(--ink-2);margin-bottom:12px">Sc.B. Electrical Engineering · 4.0/4.0 · Expected Dec 2029</p>
-      <table>
-        <tbody>
-          <tr><td class="unit">COMPLETED</td><td>Data Structures &amp; Algorithms, Statics &amp; Dynamics, Ordinary Differential Equations, Linear Algebra</td></tr>
-          <tr><td class="unit">IN PROGRESS</td><td>Fundamentals of Computer Systems, Electricity &amp; Magnetism, Statistics, PDEs</td></tr>
-          <tr><td class="unit">SPRING 2027</td><td>Electrical Circuits &amp; Signals</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <h2><span class="n">6</span>Licenses, Awards &amp; Grants</h2>
-      <table>
-        <thead><tr><th>Item</th><th style="text-align:right">Year</th></tr></thead>
-        <tbody>
-          <tr><td>Amateur Radio Technician License</td><td class="val">2026</td></tr>
-          <tr><td>Brown UTRA Research Award</td><td class="val">2026</td></tr>
-          <tr><td>Taco Bell Ambition Accelerator Grant</td><td class="val">2024</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- On the side -->
+  <!-- SIDE -->
   <section id="side">
-    <h2><span class="n">7</span>On the Side</h2>
-    <p style="color:var(--ink-2);margin:-8px 0 16px">The projects and pursuits that keep me curious outside the classroom and lab.</p>
-    <div class="aux">
-      <div>
-        <div class="pin">AUX1 · RF</div>
-        <h3>Ham Radio</h3>
-        <p>Licensed as a Technician in 2026. I got into it for the RF theory and antenna design, and it ties directly into my antenna work at Brown Space Engineering.</p>
-      </div>
-      <div>
-        <div class="pin">AUX2 · THERMAL</div>
-        <h3>Cooking from Scratch</h3>
-        <p>Bread, homemade pasta, anything where the process matters. Recipes are just specs with tolerance ranges.</p>
-      </div>
-      <div>
-        <div class="pin">AUX3 · INPUT</div>
-        <h3>Reading</h3>
-        <p>Translated Korean, Chinese, and Japanese novels: web novels, light novels, whatever a good translator has picked up. Always something in progress.</p>
-      </div>
-      <div>
-        <div class="pin">AUX4 · BALANCE</div>
-        <h3>Plate Spinning</h3>
-        <p>Literally spinning plates on sticks. A surprisingly good full-body workout, and the focus it takes is genuinely meditative.</p>
+    <h2>On the side</h2>
+    <div class="side">
+      <div><h3>Ham radio</h3><p>Technician licensed in 2026. I got into it for the RF theory and antenna design.</p></div>
+      <div><h3>Cooking from scratch</h3><p>Bread, fresh pasta, anything where process matters. Recipes are specs with tolerances.</p></div>
+      <div><h3>Reading</h3><p>Translated Korean, Chinese, and Japanese novels. Always something in progress.</p></div>
+      <div><h3>Plate spinning</h3><p>Literal plates on sticks. A full-body workout that's oddly meditative.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Say hi</h2>
+    <p class="lede">Firmware and hardware roles, project questions, or a correction to something I got wrong above. All welcome, and email is fastest.</p>
+    <div class="contact">
+      <div class="direct">
+        <a href="mailto:margeauxcorrigan@gmail.com"><span>EMAIL</span>margeauxcorrigan@gmail.com</a>
+        <a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" rel="noopener"><span>LINKEDIN</span>margeaux-corrigan ↗</a>
+        <a href="https://github.com/MargXX" target="_blank" rel="noopener"><span>GITHUB</span>MargXX ↗</a>
+        <a href="assets/resume.pdf" target="_blank"><span>RESUME</span>PDF ↓</a>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact">
-    <h2><span class="n">8</span>Contact</h2>
-    <p style="margin-bottom:16px;max-width:65ch">I'm interested in embedded software, firmware, and hardware engineering opportunities across industries, and always happy to chat with people building things where code meets hardware.</p>
-    <table class="contact-table">
-      <tbody>
-        <tr><td>Email</td><td><a href="mailto:margeauxcorrigan@gmail.com">margeauxcorrigan@gmail.com</a></td></tr>
-        <tr><td>LinkedIn</td><td><a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" rel="noopener">linkedin.com/in/margeaux-corrigan</a></td></tr>
-        <tr><td>GitHub</td><td><a href="https://github.com/MargXX" target="_blank" rel="noopener">github.com/MargXX</a></td></tr>
-        <tr><td>Resume</td><td><a href="assets/resume.pdf" target="_blank">resume.pdf ⤓</a></td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <footer>
-    <span>MC-EE29 · Rev. 2026.11</span>
-    <span>margeauxcorrigan@gmail.com</span>
-    <span>Page 1 of 1</span>
-  </footer>
 </div>
+</main>
+
+<footer class="board">
+  <div class="wrap">
+    <span>© 2026 Margeaux Corrigan</span>
+    <span>Site code written with AI help. The hardware is all mine.</span>
+  </div>
+</footer>
+
+<!-- lightbox -->
+<dialog class="lightbox" id="lightbox">
+  <button class="btn solid x" id="lbClose" aria-label="Close">esc ✕</button>
+  <img id="lbImg" alt="">
+  <p id="lbCap"></p>
+</dialog>
+
+<!-- console -->
+<dialog class="console" id="console" aria-label="Quick menu">
+  <div class="box">
+    <div class="prompt"><span>Go to</span><input id="cmd" placeholder="projects, resume, email…" autocomplete="off" spellcheck="false" aria-controls="cmdList"></div>
+    <ul id="cmdList" role="listbox"></ul>
+    <div class="out" id="cmdOut"></div>
+    <div class="hint"><span><kbd>↑</kbd><kbd>↓</kbd> select</span><span><kbd>↵</kbd> run</span><span><kbd>esc</kbd> close</span></div>
+  </div>
+</dialog>
+
 
 <script>
-  (function () {
-    var root = document.documentElement, btn = document.getElementById('theme');
-    try { var saved = localStorage.getItem('theme'); if (saved) root.dataset.theme = saved; } catch (e) {}
-    btn.addEventListener('click', function () {
-      var dark = root.dataset.theme ? root.dataset.theme === 'dark'
-        : matchMedia('(prefers-color-scheme: dark)').matches;
-      root.dataset.theme = dark ? 'light' : 'dark';
-      try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+(function () {
+  /* ---- lightbox ---- */
+  var lb = document.getElementById('lightbox');
+  document.querySelectorAll('.linkish[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('lbImg').src = b.dataset.open;
+      document.getElementById('lbImg').alt = b.dataset.cap;
+      document.getElementById('lbCap').textContent = b.dataset.cap;
+      lb.showModal();
     });
-  })();
+  });
+  document.getElementById('lbClose').addEventListener('click', function () { lb.close(); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+
+  /* ---- console ---- */
+  var con = document.getElementById('console'), input = document.getElementById('cmd'),
+      list = document.getElementById('cmdList'), out = document.getElementById('cmdOut');
+  function go(id) { return function () { con.close(); document.getElementById(id).scrollIntoView(); }; }
+  var commands = [
+    { name: 'projects', desc: 'section', run: go('projects') },
+    { name: 'toolkit', desc: 'section', run: go('toolkit') },
+    { name: 'experience', desc: 'section', run: go('experience') },
+    { name: 'contact', desc: 'section', run: go('contact') },
+    { name: 'resume', desc: 'PDF', run: function () { con.close(); window.open('assets/resume.pdf', '_blank'); } },
+    { name: 'email', desc: 'copy my address', run: function () {
+        var a = 'margeauxcorrigan@gmail.com';
+        if (navigator.clipboard) navigator.clipboard.writeText(a).then(function () { out.textContent = 'Copied ' + a; }, function () { out.textContent = a; });
+        else out.textContent = a;
+      } },
+    { name: 'github', desc: 'MargXX', run: function () { con.close(); window.open('https://github.com/MargXX', '_blank'); } }
+  ];
+  var sel = 0, visible = commands;
+  function render() {
+    var q = input.value.trim().toLowerCase();
+    visible = commands.filter(function (c) { return c.name.indexOf(q) > -1 || c.desc.indexOf(q) > -1; });
+    if (sel >= visible.length) sel = 0;
+    list.innerHTML = '';
+    visible.forEach(function (c, i) {
+      var li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', i === sel ? 'true' : 'false');
+      li.innerHTML = '<span>' + c.name + '</span><small>' + c.desc + '</small>';
+      li.addEventListener('mouseenter', function () { sel = i; render(); });
+      li.addEventListener('click', function () { c.run(); });
+      list.appendChild(li);
+    });
+    if (!visible.length) list.innerHTML = '<li><span>No matches</span></li>';
+  }
+  function openConsole() { input.value = ''; out.textContent = ''; sel = 0; render(); con.showModal(); input.focus(); }
+  document.getElementById('openConsole').addEventListener('click', openConsole);
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); con.open ? con.close() : openConsole(); }
+  });
+  input.addEventListener('input', function () { sel = 0; out.textContent = ''; render(); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown') { e.preventDefault(); sel = (sel + 1) % Math.max(visible.length, 1); render(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sel = (sel - 1 + visible.length) % Math.max(visible.length, 1); render(); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (visible[sel]) visible[sel].run();
+    }
+  });
+  con.addEventListener('click', function (e) { if (e.target === con) con.close(); });
+})();
 </script>
 </body>
 </html>
