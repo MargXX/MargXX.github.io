@@ -1,437 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Margeaux Corrigan</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC-EE29 Datasheet · Margeaux Corrigan</title>
+<meta name="description" content="Margeaux Corrigan — Electrical Engineering at Brown. Embedded systems, bare-metal firmware, PCB design, rocketry avionics.">
+<meta property="og:title" content="Margeaux Corrigan | EE @ Brown">
+<meta property="og:description" content="Electrical engineering student at Brown building embedded systems from the register level up. Bare-metal C and Ada firmware, verified on hardware.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://margxx.github.io/">
+<meta property="og:image" content="https://margxx.github.io/images/profile_pic.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Margeaux Corrigan | EE @ Brown">
+<meta name="twitter:image" content="https://margxx.github.io/images/profile_pic.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f6f4ee;
+    --sheet: #fffefa;
+    --ink: #16161a;
+    --ink-2: #4a4a52;
+    --ink-3: #8a8a90;
+    --rule: #16161a;
+    --hair: #d9d6cc;
+    --accent: #5753e6;
+    --accent-soft: #ecebfd;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #111113; --sheet: #18181b; --ink: #ecebe6; --ink-2: #b4b3ad;
+      --ink-3: #7c7b77; --rule: #ecebe6; --hair: #34343a; --accent: #a5a8fc; --accent-soft: #24233f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #111113; --sheet: #18181b; --ink: #ecebe6; --ink-2: #b4b3ad;
+    --ink-3: #7c7b77; --rule: #ecebe6; --hair: #34343a; --accent: #a5a8fc; --accent-soft: #24233f;
+  }
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Margeaux Corrigan | EE @ Brown">
-    <meta property="og:description" content="Electrical engineering student at Brown building embedded systems from the register level up. Bare-metal C and Ada firmware, verified on hardware.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://margxx.github.io/">
-    <meta property="og:image" content="https://margxx.github.io/images/profile_pic.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Margeaux Corrigan | EE @ Brown">
-    <meta name="twitter:description" content="Electrical engineering student at Brown building embedded systems from the register level up.">
-    <meta name="twitter:image" content="https://margxx.github.io/images/profile_pic.jpg">
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font: 15px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+  .sheet {
+    max-width: 960px;
+    margin: 32px auto;
+    background: var(--sheet);
+    border: 1px solid var(--hair);
+    box-shadow: 0 1px 0 var(--hair), 0 12px 40px -20px rgba(0,0,0,.18);
+  }
+  .pad { padding: 0 48px; }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding: 14px 48px;
+    border-bottom: 3px solid var(--rule);
+    font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
+  }
+  .topbar .brand { display: flex; align-items: center; gap: 10px; }
+  .topbar .brand b { background: var(--ink); color: var(--sheet); padding: 4px 7px; }
+  .topbar nav { display: flex; gap: 18px; flex-wrap: wrap; }
+  .topbar nav a { text-decoration: none; color: var(--ink-2); }
+  .topbar nav a:hover { color: var(--accent); }
+  #theme {
+    background: none; border: 1px solid var(--ink); color: var(--ink);
+    font: 500 11px var(--mono); padding: 4px 8px; cursor: pointer; text-transform: uppercase;
+  }
+
+  /* ---------- Title block ---------- */
+  .title {
+    display: grid; grid-template-columns: 1fr 200px; gap: 40px;
+    padding-top: 40px; padding-bottom: 32px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .partno { font: 500 13px var(--mono); color: var(--accent); letter-spacing: .08em; }
+  h1 { font-size: clamp(34px, 6vw, 54px); line-height: 1.05; font-weight: 700; letter-spacing: -.02em; margin: 8px 0 12px; }
+  .subtitle { font-size: 18px; color: var(--ink-2); max-width: 52ch; }
+  .contact { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .contact a {
+    font: 500 12px var(--mono); text-decoration: none;
+    border: 1px solid var(--ink); padding: 6px 10px; text-transform: uppercase; letter-spacing: .04em;
+  }
+  .contact a.primary { background: var(--ink); color: var(--sheet); }
+  .contact a:hover { background: var(--accent); border-color: var(--accent); color: var(--sheet); }
+  .figure { border: 1px solid var(--rule); align-self: start; }
+  .figure img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .figure figcaption { font: 11px var(--mono); padding: 6px 8px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+
+  /* ---------- Features / ratings ---------- */
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--rule); }
+  .twocol > div { padding: 28px 48px 32px; }
+  .twocol > div + div { border-left: 1px solid var(--rule); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  thead th { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; border-bottom: 1.5px solid var(--rule); color: var(--ink-2); }
+  td.val { font: 600 14px var(--mono); white-space: nowrap; text-align: right; }
+  td.unit { font: 12px var(--mono); color: var(--ink-3); white-space: nowrap; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 36px 48px; border-bottom: 1px solid var(--rule); }
+  h2 {
+    display: flex; align-items: baseline; gap: 14px;
+    font-size: 20px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 20px;
+  }
+  h2 .n { font: 600 13px var(--mono); color: var(--accent); }
+  h2::after { content: ""; flex: 1; border-bottom: 1px dashed var(--hair); transform: translateY(-5px); }
+  .twocol h2 { margin-bottom: 14px; }
+
+  .entry { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 18px 0; border-top: 1px solid var(--hair); }
+  .entry:first-of-type { border-top: 0; padding-top: 0; }
+  .meta { font: 12px/1.5 var(--mono); color: var(--ink-2); }
+  .meta .when { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+  .entry h3 { font-size: 17px; font-weight: 600; line-height: 1.3; }
+  .entry .role { color: var(--ink-2); font-size: 14px; margin: 2px 0 8px; }
+  .entry ul { padding-left: 18px; }
+  .entry li { margin: 4px 0; color: var(--ink); }
+  .entry li::marker { color: var(--ink-3); }
+  .tag {
+    display: inline-block; font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .05em;
+    padding: 2px 6px; margin: 0 4px 4px 0; border: 1px solid var(--hair); color: var(--ink-2);
+  }
+  .tag.hot { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Project blocks ---------- */
+  .proj { border: 1px solid var(--rule); margin-bottom: 24px; }
+  .proj:last-child { margin-bottom: 0; }
+  .proj-head {
+    display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+    padding: 12px 18px; border-bottom: 1px solid var(--rule); background: var(--paper);
+  }
+  .proj-head h3 { font-size: 17px; }
+  .proj-head .meta { text-align: right; }
+  .proj-body { display: grid; grid-template-columns: 1fr 260px; }
+  .proj-body ul { padding: 16px 18px 16px 36px; }
+  .proj-body li { margin: 5px 0; }
+  .proj-fig { border-left: 1px solid var(--rule); display: flex; flex-direction: column; }
+  .proj-fig img { width: 100%; flex: 1; min-height: 180px; object-fit: cover; display: block; }
+  .proj-fig figcaption { font: 11px var(--mono); padding: 6px 10px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+  .proj-foot { border-top: 1px solid var(--hair); padding: 10px 18px; font: 12px var(--mono); display: flex; gap: 16px; flex-wrap: wrap; }
+
+  /* ---------- Application notes (expandable) ---------- */
+  details.note { border-top: 1px solid var(--hair); }
+  details.note summary {
+    cursor: pointer; list-style: none; padding: 10px 18px;
+    font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--accent);
+  }
+  details.note summary::-webkit-details-marker { display: none; }
+  details.note summary::before { content: "+ "; }
+  details.note[open] summary::before { content: "− "; }
+  details.note .note-body { padding: 0 18px 18px; color: var(--ink-2); max-width: 75ch; }
+  details.note .note-body p + p { margin-top: 10px; }
+  details.note .note-body h4 { font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink); margin: 14px 0 4px; }
+  .status { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; padding: 2px 6px; border: 1px solid currentColor; margin-left: 8px; vertical-align: 2px; }
+  .status.done { color: var(--ink-2); }
+  .status.wip { color: var(--accent); }
+
+  /* ---------- Key numbers strip ---------- */
+  .specs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--rule); }
+  .specs > div { padding: 18px 24px; display: flex; flex-direction: column; gap: 4px; }
+  .specs > div:first-child { padding-left: 48px; }
+  .specs > div + div { border-left: 1px solid var(--hair); }
+  .specs .v { font: 600 22px var(--mono); letter-spacing: -.01em; }
+  .specs .k { font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
+  .subtitle-2 { margin-top: 10px; color: var(--ink-2); max-width: 60ch; }
+
+  /* ---------- On the side ---------- */
+  .aux { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--rule); }
+  .aux > div { padding: 16px 18px; border-bottom: 1px solid var(--hair); }
+  .aux > div:nth-child(odd) { border-right: 1px solid var(--hair); }
+  .aux > div:nth-last-child(-n+2) { border-bottom: 0; }
+  .aux .pin { font: 600 11px var(--mono); color: var(--accent); letter-spacing: .06em; }
+  .aux h3 { font-size: 16px; margin: 2px 0 6px; }
+  .aux p { color: var(--ink-2); font-size: 14px; }
+
+  /* ---------- Contact ---------- */
+  .contact-table td:first-child { font: 600 12px var(--mono); text-transform: uppercase; width: 140px; color: var(--ink-2); }
+  .contact-table td:last-child { font-family: var(--mono); }
+
+  /* ---------- Skills ---------- */
+  .skills td:first-child { font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .04em; width: 200px; color: var(--ink-2); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    padding: 14px 48px; font: 11px var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 780px) {
+    .sheet { margin: 0; border: 0; }
+    .pad, section, .twocol > div, .topbar, footer { padding-left: 16px; padding-right: 16px; }
+    .topbar nav { display: none; }
+    .title { grid-template-columns: 1fr; gap: 24px; }
+    .figure { max-width: 180px; }
+    .twocol { grid-template-columns: 1fr; }
+    .twocol > div + div { border-left: 0; border-top: 1px solid var(--rule); }
+    .entry { grid-template-columns: 1fr; gap: 6px; }
+    .proj-body { grid-template-columns: 1fr; }
+    .proj-fig { border-left: 0; border-top: 1px solid var(--rule); }
+    .proj-head .meta { text-align: left; }
+    .skills td:first-child { width: auto; display: block; border-bottom: 0; padding-bottom: 0; }
+    .skills td { display: block; }
+    .specs { grid-template-columns: 1fr 1fr; }
+    .specs > div, .specs > div:first-child { padding: 14px 16px; }
+    .specs > div:nth-child(3) { border-left: 0; }
+    .specs > div:nth-child(n+3) { border-top: 1px solid var(--hair); }
+    .aux { grid-template-columns: 1fr; }
+    .aux > div:nth-child(odd) { border-right: 0; }
+    .aux > div:nth-last-child(2) { border-bottom: 1px solid var(--hair); }
+    .contact-table td:first-child { width: auto; }
+  }
+  @media print {
+    body { background: #fff; }
+    .sheet { margin: 0; box-shadow: none; border: 0; }
+    #theme, .topbar nav { display: none; }
+  }
+</style>
 </head>
 <body>
+<div class="sheet">
 
-    <div class="particles-bg" id="particlesBg" aria-hidden="true"></div>
+  <div class="topbar">
+    <div class="brand"><b>MC</b><span>MC-EE29 · Product Datasheet</span></div>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="theme" aria-label="Toggle color theme">◐ Theme</button>
+  </div>
 
-    <header>
-        <nav>
-            <div class="nav-container">
-                <div class="logo">MC</div>
-                <button class="menu-toggle" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <ul class="nav-menu">
-                    <li><a href="#hero">Home</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#interests">On the Side</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+  <!-- Title block -->
+  <div class="title pad">
+    <div>
+      <div class="partno">PART NO. MC-EE29 · BROWN UNIVERSITY</div>
+      <h1>Margeaux Corrigan</h1>
+      <p class="subtitle">Electrical engineering student at Brown (Class of 2029, 4.0 GPA). I build embedded systems from the register level up: bare-metal firmware in C and Ada, brought up and verified on real hardware.</p>
+      <p class="subtitle-2">Incoming Avionics Systems Engineering Co-op at GE Aerospace. Always happy to talk firmware, hardware bring-up, rockets, or weird side projects.</p>
+      <div class="contact">
+        <a class="primary" href="mailto:margeauxcorrigan@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/MargXX" target="_blank" rel="noopener">GitHub</a>
+        <a href="assets/resume.pdf" target="_blank">Resume PDF</a>
+      </div>
+    </div>
+    <figure class="figure">
+      <img src="images/profile_pic.jpg" alt="Portrait of Margeaux Corrigan">
+      <figcaption>FIG 1. Device, top view</figcaption>
+    </figure>
+  </div>
 
-    <main>
+  <!-- Key numbers -->
+  <div class="specs">
+    <div><span class="v">377 m</span><span class="k">Payload apogee, live flight</span></div>
+    <div><span class="v">438,858</span><span class="k">Samples logged, 0 dropped</span></div>
+    <div><span class="v">2 MCUs</span><span class="k">One portable driver, unchanged</span></div>
+    <div><span class="v">61 / 3,800+</span><span class="k">GE LIFT Summit selection</span></div>
+  </div>
 
-        <!-- ═══ HERO / ABOUT ═══ -->
-        <section id="hero" class="hero">
-            <div class="hero-inner">
-                <div class="hero-portrait">
-                    <img src="images/profile_pic.jpg" alt="Margeaux Corrigan">
-                </div>
-                <div class="hero-content">
-                    <p class="hero-eyebrow">hi, I'm</p>
-                    <h1 class="hero-name">Margeaux Corrigan</h1>
-                    <p class="hero-meta">Brown University EE &middot; Class of 2029</p>
-                    <p class="hero-tagline">
-                        Electrical engineering student at Brown. I build embedded systems from the register level up.
-                    </p>
-                    <p class="hero-bio">
-                        I write bare-metal firmware in C and Ada and bring it up on real hardware: a portable driver stack that runs on both the RP2040 and STM32, with host unit tests and CI, and a multi-sensor data logger that recorded 25 hours of data without a dropped sample, including a live high-power rocket flight. I'm currently in Brown's Interactive 3D Vision &amp; Learning Lab working on multi-camera rig hardware, I led avionics on Brown Rocketry's IREC-accepted rocket, and I get weekly firmware code review through a technical mentorship with AdaCore.
-                    </p>
-                    <p class="hero-bio">
-                        I'm drawn to work wherever software meets physical hardware, in whatever industry that happens to be. Always happy to talk firmware, hardware bring-up, rockets, or weird side projects.
-                    </p>
-                    <div class="hero-links">
-                        <a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" class="btn-outline">LinkedIn</a>
-                        <a href="https://github.com/MargXX" target="_blank" class="btn-outline">GitHub</a>
-                        <a href="assets/resume.pdf" target="_blank" class="btn-primary">Resume ⤓</a>
-                        <a href="mailto:margeauxcorrigan@gmail.com" class="btn-outline">Email</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <!-- Projects -->
+  <section id="projects">
+    <h2><span class="n">1</span>Projects</h2>
 
-        <!-- ═══ PROJECTS ═══ -->
-        <section id="projects" class="projects">
-            <div class="container">
-                <h2>Projects</h2>
-                <p class="section-sub">What I'm building and what I've recently shipped. <time datetime="2026-10-28">Last updated October 28, 2026</time></p>
-                <div class="projects-grid">
-
-                    <!-- BARE-METAL DRIVER STACK IN C -->
-                    <div class="project-card expandable" id="proj-drivers">
-                        <div class="project-thumb">
-                            <img src="images/driver_i2c_uart_output.png" alt="I2C and UART driver outputs captured on serial monitor confirming hardware-verified transmissions on RP2040" class="thumb-img" onerror="this.style.display='none'">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <h3>Bare-Metal Driver Stack in C</h3>
-                                <div class="project-header-meta">
-                                    <span class="badge badge-complete">Complete</span>
-                                </div>
-                            </div>
-                            <p class="project-short">A portable C driver stack running on two MCUs, the RP2040 and the STM32G431: GPIO, SysTick, UART, I2C, and a BMP390 barometer, verified on hardware on both and covered by an automated test suite.</p>
-                            <div class="project-details">
-                                <div class="project-details-inner">
-                                    <p>Peripheral and device drivers written directly against the RP2040 datasheet with no vendor HAL. The Pico SDK is used only for the second-stage bootloader, the linker script, and the C runtime. GPIO, SysTick, UART, I2C, and a BMP390 barometer driver are complete and verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
-                                    <p>The BMP390 driver has full off-target unit test coverage. The host build compiles it with the native compiler and substitutes software fakes for the I2C and SysTick layers at link time, which makes NAK handling, error paths, and timeouts reachable without hardware. GitHub Actions cross-compiles every firmware target for both MCUs and runs the suite on every push.</p>
-                                    <p>Hardware re-verification found a BMP390 register whose power-on value does not match the published datasheet. The repository documents the discrepancy, the evidence isolating it to the documentation rather than the driver, and why the host test suite could not detect it.</p>
-                                    <p>The stack is ported to the STM32G431RB, the MCU for the flight computer. Its startup path is hand-written at the register level: linker script, vector table, FPU enable, and reset handler, plus a 144 MHz clock tree verified by direct frequency measurement. The SysTick driver runs unchanged on both the Cortex-M0+ and the Cortex-M4F.</p>
-                                    <p>The STM32 UART and I2C drivers implement the same public headers as the RP2040 versions, with ST's HAL as the backend, wired so that the HAL runs on the project's own clock and SysTick timebase instead of taking them over. The BMP390 driver compiles unchanged on top of them and passes its full on-target suite on the STM32, which is the point of the portable layer. The STM32 run also reproduced the datasheet discrepancy on a second I2C implementation. When UART output didn't arrive, reading the peripheral registers over SWD showed the firmware was transmitting correctly and isolated the fault to board-level pin routing.</p>
-                                    <div class="project-tags">
-                                        <span class="tag">C</span>
-                                        <span class="tag">RP2040</span>
-                                        <span class="tag">STM32G4</span>
-                                        <span class="tag">GPIO</span>
-                                        <span class="tag">UART</span>
-                                        <span class="tag">I2C</span>
-                                        <span class="tag">Driver Design</span>
-                                        <span class="tag">Unit Testing</span>
-                                        <span class="tag">CI/CD</span>
-                                    </div>
-                                    <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" class="btn-secondary">View on GitHub</a>
-                                </div>
-                            </div>
-                            <span class="expand-toggle">see more...</span>
-                        </div>
-                    </div>
-
-                    <!-- MULTI-SENSOR DATA LOGGER -->
-                    <div class="project-card expandable" id="proj-rocket">
-                        <div class="project-thumb">
-                            <img src="images/Rocket_Payload_Final_Programming.jpeg" alt="Rocket payload board with sensors mounted, photographed during final pre-launch programming session" class="thumb-img" onerror="this.style.display='none'">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <h3>Multi-Sensor Data Logger</h3>
-                                <div class="project-header-meta">
-                                    <span class="badge badge-complete">Complete</span>
-                                </div>
-                            </div>
-                            <p class="project-short">Bare-metal Ada firmware for an RP2040 sensor logger that ran 25 hours unattended with no dropped records, flown as a payload on a live high-power rocket launch.</p>
-                            <div class="project-details">
-                                <div class="project-details-inner">
-                                    <p>I built bare-metal Ada firmware for an RP2040-based multi-sensor rocket payload, under weekly review from an AdaCore engineer, and flew it on a live high-power launch, reaching 377 m AGL. Boost and ejection both exceeded the IMU's specified 16 G linear range, indicating 18.1 G and 22 G, so I treat those values as indicative rather than calibrated.</p>
-                                    <p>I integrated a BMP390 barometer and LSM9DS1 IMU over I2C and built the SPI flash logging pipeline to a W25Q128, with sensor compensation applied offline in Python. The system ran at 100+ Hz on the bench, but roughly 21 hours of storage, drive, and pad wait had to fit in 16 MB, so I traded sampling rate for endurance and flew at 4.9 Hz. Logging ran continuously for 24.96 hours across 438,858 samples with no dropped records.</p>
-                                    <p>Post-flight analysis turned up a 1.5&times; count-to-g conversion error, caught by comparing logged pad data against the expected 1 G static acceleration. On the flash logger, the HAL SPI transmit released chip select early and silently truncated writes, so I replaced it with register-level transfers. Debugging across the project also covered I2C addressing, SPI clocking, UART data loss, and power sequencing at both the hardware and firmware layers.</p>
-                                    <p>The flight produced two requirements for the custom STM32G431 flight computer I am building: arm on launch detect with a circular pre-buffer, so a storage budget doesn't dictate flight sample rate so strongly, and a dedicated high-G accelerometer, since the flight exceeded the IMU's specified linear range.</p>
-                                    <div class="project-tags">
-                                        <span class="tag">RP2040</span>
-                                        <span class="tag">Ada</span>
-                                        <span class="tag">I2C</span>
-                                        <span class="tag">SPI</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="expand-toggle">see more...</span>
-                        </div>
-                    </div>
-
-                    <!-- BOBA MACHINE -->
-                    <div class="project-card expandable" id="proj-boba">
-                        <div class="project-thumb">
-                            <img src="images/Boba_Machine_Prototype.png" alt="Boba machine prototype with tea and creamer lines feeding a wooden dispensing mount over a cup, next to the phone ordering instructions sign" class="thumb-img" onerror="this.style.display='none'">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <h3>Boba Machine</h3>
-                                <div class="project-header-meta">
-                                    <span class="badge badge-inprogress">In Progress</span>
-                                </div>
-                            </div>
-                            <p class="project-short">A self-serve milk tea machine friends order from by phone, with a model that learns each person's ideal mix from their ratings.</p>
-                            <div class="project-details">
-                                <div class="project-details-inner">
-                                    <p>Collaborative build of a self-serve milk tea machine for our lounge. Guests join the machine's own Wi-Fi network, order from their phone, and rate each cup 1 to 5 stars. A gradient descent model running in the browser learns a group taste plus each person's own tea and creamer ratio from those ratings. I built the mechanical side, the hardware integration, and the full ordering website, including the live queue, ratings, and recipe model, using AI-assisted development. </p>
-                                    <p>The machine is already serving drinks to real users, and the current build is set up as a modular testbed so new features can be added quickly. Solid topping dispensing is next, starting with aloe and small pearls, followed by tapioca with an agitation mechanism to keep pearls from clumping. A cloud-hosted version of the ordering site is also in development, so guests will be able to order without joining the machine's network.</p>
-                                    <div class="project-tags">
-                                        <span class="tag">CAD</span>
-                                        <span class="tag">Mechanical Design</span>
-                                        <span class="tag">Servo Actuation</span>
-                                        <span class="tag">ESP32</span>
-                                        <span class="tag">MicroPython</span>
-                                        <span class="tag">Power Systems</span>
-                                        <span class="tag">MOSFET Switching</span>
-                                        <span class="tag">Systems Integration</span>
-                                    </div>
-                                    <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" class="btn-secondary">View on GitHub</a>
-                                    <p class="project-link-note">Also on my <a href="https://lambdainstitute.com/projects/margeaux-corrigan" target="_blank" class="inline-link">Lambda Institute project page &#8599;</a></p>
-                                </div>
-                            </div>
-                            <span class="expand-toggle">see more...</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══ SKILLS ═══ -->
-        <section id="skills" class="skills">
-            <div class="container">
-                <h2>Skills</h2>
-                <p class="section-sub">Tools and languages across the full stack, from firmware to fabrication.</p>
-                <div class="skills-grid">
-
-                <div class="skills-group">
-                    <p class="skills-label">LANGUAGES FOR EMBEDDED</p>
-                    <div class="skills-chips">
-                        <span class="skill-chip">C</span>
-                        <span class="skill-chip">Ada</span>
-                    </div>
-                </div>
-
-                <div class="skills-group">
-                    <p class="skills-label">TOOLS &amp; OTHER LANGUAGES</p>
-                    <div class="skills-chips">
-                        <span class="skill-chip">Python</span>
-                        <span class="skill-chip">NumPy</span>
-                        <span class="skill-chip">Pandas</span>
-                        <span class="skill-chip">Matplotlib</span>
-                        <span class="skill-chip">MATLAB</span>
-                        <span class="skill-chip">Java</span>
-                        <span class="skill-chip">OCaml</span>
-                        <span class="skill-chip">Racket</span>
-                    </div>
-                </div>
-
-                <div class="skills-group">
-                    <p class="skills-label">EMBEDDED SYSTEMS</p>
-                    <div class="skills-chips">
-                        <span class="skill-chip">Bare-metal firmware</span>
-                        <span class="skill-chip">Register-level programming</span>
-                        <span class="skill-chip">Device drivers</span>
-                        <span class="skill-chip">Arm Cortex-M0+</span>
-                        <span class="skill-chip">Arm Cortex-M4F</span>
-                        <span class="skill-chip">RP2040</span>
-                        <span class="skill-chip">STM32G4</span>
-                        <span class="skill-chip">I2C</span>
-                        <span class="skill-chip">SPI</span>
-                        <span class="skill-chip">UART</span>
-                        <span class="skill-chip">Interrupt handling</span>
-                        <span class="skill-chip">SPI flash logging</span>
-                        <span class="skill-chip">Sensor data acquisition</span>
-                    </div>
-                </div>
-
-                <div class="skills-group">
-                    <p class="skills-label">TEST &amp; TOOLING</p>
-                    <div class="skills-chips">
-                        <span class="skill-chip">Unity/CTest</span>
-                        <span class="skill-chip">pytest</span>
-                        <span class="skill-chip">GitHub Actions CI</span>
-                        <span class="skill-chip">CMake</span>
-                        <span class="skill-chip">OpenOCD</span>
-                        <span class="skill-chip">SWD</span>
-                        <span class="skill-chip">arm-none-eabi-gcc</span>
-                        <span class="skill-chip">Git/GitHub</span>
-                        <span class="skill-chip">Linux/bash</span>
-                        <span class="skill-chip">Logic analyzer</span>
-                        <span class="skill-chip">Oscilloscope</span>
-                    </div>
-                </div>
-
-                <div class="skills-group">
-                    <p class="skills-label">HARDWARE</p>
-                    <div class="skills-chips">
-                        <span class="skill-chip">KiCad (schematic capture &amp; PCB layout)</span>
-                        <span class="skill-chip">Component selection</span>
-                        <span class="skill-chip">Wiring diagrams</span>
-                        <span class="skill-chip">Soldering</span>
-                        <span class="skill-chip">Digital multimeter</span>
-                        <span class="skill-chip">Bench power supply</span>
-                        <span class="skill-chip">NanoVNA</span>
-                    </div>
-                </div>
-
-                <div class="skills-group">
-                    <p class="skills-label">MECHANICAL &amp; CAD</p>
-                    <div class="skills-chips">
-                        <span class="skill-chip">SolidWorks</span>
-                        <span class="skill-chip">Fusion 360</span>
-                        <span class="skill-chip">FEA (SolidWorks)</span>
-                        <span class="skill-chip">CAM</span>
-                        <span class="skill-chip">3D printing</span>
-                        <span class="skill-chip">Laser cutter</span>
-                        <span class="skill-chip">Sheet metal fabrication</span>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══ EXPERIENCE ═══ -->
-        <section id="experience" class="experience">
-            <div class="container">
-                <h2>Experience</h2>
-                <p class="section-sub">
-                    A quick summary of my technical roles,
-                    <a href="assets/resume.pdf" target="_blank" class="inline-link">full resume here ⤓</a>
-                </p>
-
-                <div class="timeline">
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-date">Fall 2027</div>
-                        <div class="timeline-content">
-                            <h3>GE Aerospace <span class="role">— Incoming Avionics Systems Engineering Co-op</span></h3>
-                            <ul class="timeline-bullets">
-                                <li>Selected for the GE Aerospace LIFT Summit, 61 of 3,800+ applicants</li>
-                                <li>Received a co-op offer following an interview at the summit</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-date">June 2026 — Present</div>
-                        <div class="timeline-content">
-                            <h3>IVL Lab, Brown University <span class="role">— Undergraduate Researcher</span></h3>
-                            <ul class="timeline-bullets">
-                                <li>Co-maintaining the lab's 20-unit multi-camera rig fleet: running status checks, repairing 6+ faulty units, and debugging multi-camera start/stop faults</li>
-                                <li>Assisted with the schematic and KiCad PCB layout for a BJT-driven LED module slated for the next rig revision</li>
-                                <li>Built an egocentric capture unit for a partner lab, from connector and cabling selection to a 3D-printed enclosure and installation</li>
-                                <li>Co-leading the partner lab's data capture project, gathering their requirements and reporting progress at weekly meetings</li>
-                            </ul>
-                            <p class="timeline-note">Advised by Prof. Srinath Sridhar and funded by the Brown UTRA Research Award.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-date">Sep 2025 — Present</div>
-                        <div class="timeline-content">
-                            <h3>Brown Rocketry <span class="role">— Avionics Team Lead (2025), Co-President (2026)</span></h3>
-                            <ul class="timeline-bullets">
-                                <li>Co-lead weekly meetings and avionics workshops for freshmen new to microcontrollers, building toward a fall launch</li>
-                                <li>Designed the IREC wiring diagrams, splitting power into five isolated buses for redundancy and competition rules</li>
-                                <li>Ran SolidWorks FEA on the avionics bay's aluminum ring to cut mass while holding margin under flight loads</li>
-                                <li>Wrote the bare-metal Ada payload that fulfilled a $1K AdaCore sponsorship; it flew on a live high-power launch and logged 25 hours of flight and ground data through a boost past the IMU's 16 G linear range</li>
-                                <li>Arranged the AdaCore engineer's mentorship for club members; a refined version of the payload firmware is in development through that mentorship</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-date">Mar 2026 — Present</div>
-                        <div class="timeline-content">
-                            <h3>Brown Space Engineering <span class="role">— Communications Team Member</span></h3>
-                            <ul class="timeline-bullets">
-                                <li>Laid out the CubeSat antenna board in KiCad from existing dimensions and calibrated a NanoVNA for antenna characterization</li>
-                                <li>Stenciled solder paste and hand-placed SMD components on the comms board in a clean room for reflow soldering</li>
-                                <li>Designed a UHF Nitinol dipole and an S-band copper patch antenna to CubeSat deployment constraints</li>
-                                <li>Corrected the patch resonant length for fringing fields and characterized how sensitive resonance is to fabrication tolerance</li>
-                            </ul>
-                            <p class="timeline-note">Listed on the <a href="https://brownspace.io/members" target="_blank" class="inline-link">Brown Space Engineering members page &#8599;</a></p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-date">Dec 2025 — Present</div>
-                        <div class="timeline-content">
-                            <h3>AdaCore <span class="role">— Technical Mentee</span></h3>
-                            <ul class="timeline-bullets">
-                                <li>Weekly 1-on-1 code reviews from an AdaCore engineer while developing bare-metal Ada firmware</li>
-                                <li>Configured STM32 and RP2040 peripherals at the register level without HAL, building toolchain fundamentals and low-level software safety practices</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-
-                <a href="assets/resume.pdf" target="_blank" class="btn-primary">Download Resume ⤓</a>
-            </div>
-        </section>
-
-        <!-- ═══ ON THE SIDE ═══ -->
-        <section id="interests" class="interests">
-            <div class="container">
-                <h2>On the Side</h2>
-                <p class="section-sub">The projects and pursuits that keep me curious beyond the classroom and lab.</p>
-                    <div class="interests-grid">
-                        <div class="interest-card">
-                        <span class="interest-icon">📻</span>
-                        <h3>Ham Radio</h3>
-                        <p>Licensed as a Technician in 2026. I got into it for the RF theory and antenna design, and it connects directly to the antenna work I do at Brown Space Engineering.</p>
-                    </div>
-                    <div class="interest-card">
-                        <span class="interest-icon">🍞</span>
-                        <h3>Cooking from Scratch</h3>
-                        <p>I like cooking things that take real effort: bread, homemade pasta, anything where the process matters. Recipes are just specs with tolerance ranges.</p>
-                    </div>
-                    <div class="interest-card">
-                        <span class="interest-icon">📚</span>
-                        <h3>Reading</h3>
-                        <p>Translated Korean, Chinese, and Japanese novels: web novels, light novels, whatever's been picked up by a good translator. Always have something in progress.</p>
-                    </div>
-                    <div class="interest-card">
-                        <span class="interest-icon">🤹</span>
-                        <h3>Plate Spinning</h3>
-                        <p>Literally spinning plates on sticks. It's a surprisingly good full-body workout and I find the focus it requires genuinely meditative.</p>
-                    </div>
-                    </div>
-            </div>
-        </section>
-
-        <!-- ═══ CONTACT ═══ -->
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2>Contact</h2>
-                <p class="contact-sub">
-                    I'm interested in embedded software, firmware, and hardware engineering opportunities across industries, and always happy to chat with people building things where code meets hardware.
-                </p>
-                <div class="contact-links">
-                    <a href="mailto:margeauxcorrigan@gmail.com" class="contact-item">
-                        <span class="contact-label">Email</span>
-                        <span class="contact-value">margeauxcorrigan@gmail.com</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" class="contact-item">
-                        <span class="contact-label">LinkedIn</span>
-                        <span class="contact-value">linkedin.com/in/margeaux-corrigan</span>
-                    </a>
-                    <a href="https://github.com/MargXX" target="_blank" class="contact-item">
-                        <span class="contact-label">GitHub</span>
-                        <span class="contact-value">github.com/MargXX</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>Margeaux Corrigan &middot; Brown University EE &middot; 2029</p>
+    <article class="proj">
+      <div class="proj-head">
+        <h3>Bare-Metal Driver Stack<span class="status done">Complete</span></h3>
+        <div class="meta"><span class="when">May 2026 – Sep 2026</span>Independent project</div>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>Wrote no-HAL, register-level C drivers for RP2040 GPIO, SysTick, UART, I2C and the BMP390; verified UART/I2C on a logic analyzer.</li>
+          <li>Split drivers into portable and MCU-specific layers so the BMP390 driver ran unchanged on a HAL-backed STM32 port.</li>
+          <li>Hand-wrote STM32 startup code and a 144 MHz PLL clock tree; measured SYSCLK on a logic analyzer and confirmed the FPU with a fault test.</li>
+          <li>Built a Unity/CTest suite covering every BMP390 function via link-time fakes, with NAK and timeout fault injection, run in CI.</li>
+          <li>Traced a failed sensor init to a BMP390 reset value that contradicts its datasheet; reproduced it on both MCUs to rule out the I2C layer.</li>
+        </ul>
+        <figure class="proj-fig">
+          <img src="images/driver_i2c_uart_output.png" alt="Logic analyzer capture of I2C and UART traffic">
+          <figcaption>FIG 2. I2C/UART capture</figcaption>
+        </figure>
+      </div>
+      <details class="note">
+        <summary>Full write-up · AN-01: design details</summary>
+        <div class="note-body">
+          <h4>RP2040, no vendor HAL</h4>
+          <p>Peripheral and device drivers are written directly against the RP2040 datasheet. The Pico SDK supplies only the second-stage bootloader, the linker script, and the C runtime. Everything was verified on hardware with OpenOCD, CMSIS-DAP, and a logic analyzer, including floating-point temperature and pressure compensation from the Bosch datasheet.</p>
+          <h4>Off-target testing</h4>
+          <p>The host build compiles the BMP390 driver with the native compiler and swaps in software fakes for the I2C and SysTick layers at link time, so NAK handling, error paths, and timeouts can be tested without hardware. GitHub Actions cross-compiles every firmware target for both MCUs and runs the suite on every push.</p>
+          <h4>Datasheet discrepancy</h4>
+          <p>Re-testing on hardware found a BMP390 register whose power-on value doesn't match the published datasheet. The repository documents the discrepancy, the evidence that the error is in the documentation rather than the driver, and why the host test suite couldn't have caught it.</p>
+          <h4>STM32G431 port</h4>
+          <p>The STM32G431RB is the MCU for the flight computer. Its startup path is hand-written at the register level: linker script, vector table, FPU enable, and reset handler, plus a 144 MHz clock tree verified by measuring its frequency directly. The SysTick driver runs unchanged on both the Cortex-M0+ and the Cortex-M4F.</p>
+          <p>The STM32 UART and I2C drivers implement the same public headers as the RP2040 versions, with ST's HAL as the backend. The HAL runs on the project's own clock and SysTick timebase instead of taking them over. The BMP390 driver compiles unchanged on top of them and passes its full on-target suite on the STM32, which is the point of the portable layer. The STM32 run also reproduced the datasheet discrepancy on a second I2C implementation. When UART output didn't arrive, reading the peripheral registers over SWD showed the firmware was transmitting correctly and traced the fault to board-level pin routing.</p>
         </div>
-    </footer>
+      </details>
+      <div class="proj-foot">
+        <span><span class="tag hot">RP2040</span><span class="tag hot">STM32G4</span><span class="tag">C</span><span class="tag">CMake</span><span class="tag">Unity/CTest</span><span class="tag">GitHub Actions</span></span>
+        <a href="https://github.com/MargXX/Bare-Metal-Drivers" target="_blank" rel="noopener">→ Source on GitHub</a>
+      </div>
+    </article>
 
+    <article class="proj">
+      <div class="proj-head">
+        <h3>Rocket Payload Sensor System<span class="status done">Complete</span></h3>
+        <div class="meta"><span class="when">Feb 2026 – Apr 2026</span>Sole developer</div>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>Wrote bare-metal Ada firmware under weekly review by an AdaCore engineer; configured BMP390 and LSM9DS1 registers from their datasheets.</li>
+          <li>Flew on a live high-power launch: logged 377 m AGL apogee, boost past the ±16 G linear range, and descent to recovery.</li>
+          <li>Built a W25Q128 SPI flash logger; sized the sample rate to 16 MB and logged 438,858 samples over 25 h with zero dropped intervals.</li>
+          <li>Found a 1.5× count-to-g conversion error in Python post-flight analysis by checking logged data against static 1 G on the pad.</li>
+          <li>Replaced HAL SPI transmit with register-level transfers after early chip-select release silently truncated flash writes.</li>
+        </ul>
+        <figure class="proj-fig">
+          <img src="images/Rocket_Payload_Final_Programming.jpeg" alt="Rocket payload board connected for final programming">
+          <figcaption>FIG 3. Payload, final programming</figcaption>
+        </figure>
+      </div>
+      <details class="note">
+        <summary>Full write-up · AN-02: flight data &amp; lessons</summary>
+        <div class="note-body">
+          <table style="margin:6px 0 14px">
+            <thead><tr><th>Measurement</th><th style="text-align:right">Value</th><th>Unit</th></tr></thead>
+            <tbody>
+              <tr><td>Apogee</td><td class="val">377</td><td class="unit">m AGL</td></tr>
+              <tr><td>Peak accel, boost (indicative)*</td><td class="val">18.1</td><td class="unit">G</td></tr>
+              <tr><td>Peak accel, ejection (indicative)*</td><td class="val">22</td><td class="unit">G</td></tr>
+              <tr><td>Flight sample rate (bench: 100+)</td><td class="val">4.9</td><td class="unit">Hz</td></tr>
+              <tr><td>Continuous logging</td><td class="val">24.96</td><td class="unit">h</td></tr>
+              <tr><td>Records / dropped</td><td class="val">438,858 / 0</td><td class="unit">samples</td></tr>
+            </tbody>
+          </table>
+          <p>* Above the LSM9DS1's specified ±16 G linear range, so these values are indicative rather than calibrated.</p>
+          <h4>Endurance vs. rate</h4>
+          <p>The BMP390 and LSM9DS1 talk over I2C, and the logging pipeline writes to a W25Q128 SPI flash, with sensor compensation applied offline in Python. The system ran at 100+ Hz on the bench, but about 21 hours of storage, drive, and pad wait had to fit in 16 MB, so I traded sample rate for endurance and flew at 4.9 Hz.</p>
+          <h4>Debugging</h4>
+          <p>Beyond the SPI chip-select truncation and the 1.5× scaling error, debugging covered I2C addressing, SPI clocking, UART data loss, and power sequencing at both the hardware and firmware layers.</p>
+          <h4>Requirements for the next flight computer</h4>
+          <p>The flight set two requirements for the custom STM32G431 flight computer I'm building. First, arm on launch detect with a circular pre-buffer, so the storage budget doesn't dictate the flight sample rate. Second, add a dedicated high-G accelerometer, since the flight exceeded the IMU's linear range.</p>
+        </div>
+      </details>
+      <div class="proj-foot">
+        <span><span class="tag hot">RP2040</span><span class="tag">Ada</span><span class="tag">I2C</span><span class="tag">SPI Flash</span><span class="tag">Python</span><span class="tag">pandas</span></span>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-head">
+        <h3>Boba Machine<span class="status wip">In Progress</span></h3>
+        <div class="meta"><span class="when">Collaborative build</span>Mechanical, hardware &amp; web</div>
+      </div>
+      <div class="proj-body">
+        <ul>
+          <li>A self-serve milk tea machine for our lounge. Guests join the machine's Wi-Fi, order from their phone, and rate each cup from 1 to 5 stars.</li>
+          <li>A gradient descent model running in the browser learns a group taste, plus each person's own tea-to-creamer ratio, from their ratings.</li>
+          <li>I built the mechanical side, the hardware integration, and the full ordering website (live queue, ratings, recipe model), using AI-assisted development.</li>
+          <li>Already serving drinks to real users. The build is a modular testbed: solid topping dispensing (aloe, small pearls, then tapioca with agitation) and a cloud-hosted ordering site are next.</li>
+        </ul>
+        <figure class="proj-fig">
+          <img src="images/Boba_Machine_Prototype.png" alt="Boba machine prototype">
+          <figcaption>FIG 4. Boba machine prototype</figcaption>
+        </figure>
+      </div>
+      <div class="proj-foot">
+        <span><span class="tag hot">ESP32</span><span class="tag">MicroPython</span><span class="tag">CAD</span><span class="tag">Servo Actuation</span><span class="tag">MOSFET Switching</span><span class="tag">Power Systems</span></span>
+        <a href="https://github.com/MargXX/Perfect-Boba" target="_blank" rel="noopener">→ Source on GitHub</a>
+        <a href="https://lambdainstitute.com/projects/margeaux-corrigan" target="_blank" rel="noopener">→ Lambda Institute page</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <h2><span class="n">2</span>Experience</h2>
+
+    <div class="entry">
+      <div class="meta"><span class="when">Fall 2027</span>Incoming</div>
+      <div>
+        <h3>GE Aerospace</h3>
+        <div class="role">Avionics Systems Engineering Co-op</div>
+        <ul>
+          <li>Earned co-op offer by interview at the GE Aerospace LIFT Summit, one of 61 attendees selected from 3,800+ applicants.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="meta"><span class="when">Jun 2026 – Present</span>Providence, RI</div>
+      <div>
+        <h3>Brown Interactive 3D Vision &amp; Learning Lab</h3>
+        <div class="role">Undergraduate Researcher · Advisor: Prof. Srinath Sridhar</div>
+        <ul>
+          <li>Co-maintained a 20-unit camera rig fleet: ran status checks, repaired 6+ faulty units, debugged multi-camera start/stop faults.</li>
+          <li>Assisted with schematic and KiCad PCB layout for a BJT-driven LED module slated for the next camera rig revision.</li>
+          <li>Built an egocentric capture unit for a partner lab: selected connectors and cabling, designed a 3D-printed enclosure, installed hardware.</li>
+          <li>Co-leading the partner lab's data capture project; gather their data requirements and report progress at weekly meetings.</li>
+        </ul>
+        <p class="meta" style="margin-top:8px">Funded by the Brown UTRA Research Award.</p>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="meta"><span class="when">Dec 2025 – Present</span>Remote</div>
+      <div>
+        <h3>AdaCore</h3>
+        <div class="role">Technical Mentee</div>
+        <ul>
+          <li>Weekly one-on-one code reviews from an AdaCore engineer while developing bare-metal Ada firmware.</li>
+          <li>Configured STM32 and RP2040 peripherals at the register level without a HAL, building toolchain fundamentals and low-level software safety practices.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="meta"><span class="when">Jun 2024 – Oct 2024</span>Remote</div>
+      <div>
+        <h3>Persistence Labs Inc.</h3>
+        <div class="role">Strategy Intern</div>
+        <ul>
+          <li>Ran beta testing across 10+ iterations of an AI social media app; presented findings to the founder, informing feature prioritization.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section id="leadership">
+    <h2><span class="n">3</span>Leadership &amp; Activities</h2>
+
+    <div class="entry">
+      <div class="meta"><span class="when">Sep 2025 – Present</span>Providence, RI</div>
+      <div>
+        <h3>Brown Rocketry Club</h3>
+        <div class="role">Avionics Team Lead (2025) · Co-President (2026)</div>
+        <ul>
+          <li>Co-led weekly meetings and avionics workshops for freshmen new to microcontrollers, building toward a fall launch.</li>
+          <li>Designed IREC avionics wiring diagrams; split power into five isolated buses for redundancy and to meet competition rules.</li>
+          <li>Ran SolidWorks FEA on the avionics bay aluminum ring to cut mass while holding margin under expected flight loads.</li>
+          <li>Delivered the Ada payload that fulfilled a $1K AdaCore sponsorship; arranged the engineer's mentorship for club members, through which a refined version of the payload firmware is in development.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="meta"><span class="when">Mar 2026 – Present</span>Providence, RI</div>
+      <div>
+        <h3>Brown Space Engineering</h3>
+        <div class="role">Communications Team Member</div>
+        <ul>
+          <li>Laid out a CubeSat antenna board in KiCad from given dimensions; stenciled and placed SMD parts in a clean room for reflow.</li>
+          <li>Sized UHF Nitinol dipole and S-band patch antennas to CubeSat constraints; corrected patch length for fringing fields.</li>
+          <li>Tested dipole and patch antennas with a calibrated NanoVNA, function generator and spectrum analyzer; characterized how sensitive patch resonance is to fabrication tolerance.</li>
+        </ul>
+        <p class="meta" style="margin-top:8px"><a href="https://brownspace.io/members" target="_blank" rel="noopener">→ Listed on the BSE members page</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2><span class="n">4</span>Technical Skills</h2>
+    <table class="skills">
+      <tbody>
+        <tr><td>Circuit Design &amp; Hardware</td><td>Schematic capture &amp; PCB layout (KiCad), component selection, wiring diagrams, soldering</td></tr>
+        <tr><td>Embedded Systems</td><td>Bare-metal firmware, register-level programming, device drivers, interrupt handling, Arm Cortex-M0+/M4F, RP2040, STM32G4, I2C, SPI, UART, SPI flash logging, sensor data acquisition</td></tr>
+        <tr><td>Debugging &amp; Test</td><td>Oscilloscope, logic analyzer, NanoVNA, multimeter, bench power supply, OpenOCD, SWD, Unity/CTest, pytest</td></tr>
+        <tr><td>Languages</td><td>C, Ada, Python, MATLAB, Java, OCaml, Racket</td></tr>
+        <tr><td>Software &amp; Tools</td><td>Git/GitHub, CMake, GitHub Actions CI, Linux/bash, arm-none-eabi-gcc, NumPy, pandas, Matplotlib</td></tr>
+        <tr><td>Mechanical &amp; CAD</td><td>SolidWorks, Fusion 360, FEA (SolidWorks), CAM, 3D printing, laser cutter, sheet metal fabrication</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Education + Awards -->
+  <div class="twocol">
+    <div>
+      <h2><span class="n">5</span>Education</h2>
+      <h3 style="font-size:17px">Brown University</h3>
+      <p style="color:var(--ink-2);margin-bottom:12px">Sc.B. Electrical Engineering · 4.0/4.0 · Expected Dec 2029</p>
+      <table>
+        <tbody>
+          <tr><td class="unit">COMPLETED</td><td>Data Structures &amp; Algorithms, Statics &amp; Dynamics, Ordinary Differential Equations, Linear Algebra</td></tr>
+          <tr><td class="unit">IN PROGRESS</td><td>Fundamentals of Computer Systems, Electricity &amp; Magnetism, Statistics, PDEs</td></tr>
+          <tr><td class="unit">SPRING 2027</td><td>Electrical Circuits &amp; Signals</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h2><span class="n">6</span>Licenses, Awards &amp; Grants</h2>
+      <table>
+        <thead><tr><th>Item</th><th style="text-align:right">Year</th></tr></thead>
+        <tbody>
+          <tr><td>Amateur Radio Technician License</td><td class="val">2026</td></tr>
+          <tr><td>Brown UTRA Research Award</td><td class="val">2026</td></tr>
+          <tr><td>Taco Bell Ambition Accelerator Grant</td><td class="val">2024</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- On the side -->
+  <section id="side">
+    <h2><span class="n">7</span>On the Side</h2>
+    <p style="color:var(--ink-2);margin:-8px 0 16px">The projects and pursuits that keep me curious outside the classroom and lab.</p>
+    <div class="aux">
+      <div>
+        <div class="pin">AUX1 · RF</div>
+        <h3>Ham Radio</h3>
+        <p>Licensed as a Technician in 2026. I got into it for the RF theory and antenna design, and it ties directly into my antenna work at Brown Space Engineering.</p>
+      </div>
+      <div>
+        <div class="pin">AUX2 · THERMAL</div>
+        <h3>Cooking from Scratch</h3>
+        <p>Bread, homemade pasta, anything where the process matters. Recipes are just specs with tolerance ranges.</p>
+      </div>
+      <div>
+        <div class="pin">AUX3 · INPUT</div>
+        <h3>Reading</h3>
+        <p>Translated Korean, Chinese, and Japanese novels: web novels, light novels, whatever a good translator has picked up. Always something in progress.</p>
+      </div>
+      <div>
+        <div class="pin">AUX4 · BALANCE</div>
+        <h3>Plate Spinning</h3>
+        <p>Literally spinning plates on sticks. A surprisingly good full-body workout, and the focus it takes is genuinely meditative.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2><span class="n">8</span>Contact</h2>
+    <p style="margin-bottom:16px;max-width:65ch">I'm interested in embedded software, firmware, and hardware engineering opportunities across industries, and always happy to chat with people building things where code meets hardware.</p>
+    <table class="contact-table">
+      <tbody>
+        <tr><td>Email</td><td><a href="mailto:margeauxcorrigan@gmail.com">margeauxcorrigan@gmail.com</a></td></tr>
+        <tr><td>LinkedIn</td><td><a href="https://www.linkedin.com/in/margeaux-corrigan/" target="_blank" rel="noopener">linkedin.com/in/margeaux-corrigan</a></td></tr>
+        <tr><td>GitHub</td><td><a href="https://github.com/MargXX" target="_blank" rel="noopener">github.com/MargXX</a></td></tr>
+        <tr><td>Resume</td><td><a href="assets/resume.pdf" target="_blank">resume.pdf ⤓</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <span>MC-EE29 · Rev. 2026.11</span>
+    <span>margeauxcorrigan@gmail.com</span>
+    <span>Page 1 of 1</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement, btn = document.getElementById('theme');
+    try { var saved = localStorage.getItem('theme'); if (saved) root.dataset.theme = saved; } catch (e) {}
+    btn.addEventListener('click', function () {
+      var dark = root.dataset.theme ? root.dataset.theme === 'dark'
+        : matchMedia('(prefers-color-scheme: dark)').matches;
+      root.dataset.theme = dark ? 'light' : 'dark';
+      try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+    });
+  })();
+</script>
 </body>
 </html>
